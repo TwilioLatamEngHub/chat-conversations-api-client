@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
-import ConversationsApp from './ConversationsApp';
-import './assets/App.css';
-import 'antd/dist/antd.css';
-
+import React, { Component } from 'react'
+import ConversationsApp from './pages/ConversationsApp'
+import './assets/App.css'
+import 'antd/dist/antd.css'
 
 class App extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {}
   }
 
@@ -15,4 +14,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App

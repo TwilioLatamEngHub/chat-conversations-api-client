@@ -2,17 +2,21 @@ import React from 'react'
 import { Badge, Icon, Layout, message, Typography } from 'antd'
 import { Client as ConversationsClient } from '@twilio/conversations'
 
-import './assets/Conversation.css'
-import './assets/ConversationSection.css'
-import { ReactComponent as Logo } from './assets/twilio-mark-red.svg'
+import '../assets/Conversation.css'
+import '../assets/ConversationSection.css'
+import { ReactComponent as Logo } from '../assets/twilio-mark-red.svg'
 
-import Conversation from './Conversation'
-import LoginPage from './LoginPage'
-import AddWASMSParticipant from './AddWASMSParticipant'
-import { ConversationsList } from './ConversationsList'
-import { HeaderItem } from './HeaderItem'
-import { WA_BINDING } from './helpers/constants'
-import { addChatParticipant, getToken } from './services/functions'
+import Conversation from '../components/Conversation'
+import LoginPage from '../pages/LoginPage'
+import AddWASMSParticipant from '../components/AddWASMSParticipant'
+import { ConversationsList } from '../components/ConversationsList'
+import { HeaderItem } from '../components/HeaderItem'
+import { WA_BINDING } from '../helpers/constants'
+import {
+  addChatParticipant,
+  deleteParticipants,
+  getToken
+} from '../services/functions'
 
 const { Content, Sider, Header } = Layout
 const { Text } = Typography
@@ -71,6 +75,8 @@ class ConversationsApp extends React.Component {
 
     localStorage.removeItem('name')
     this.conversationsClient.shutdown()
+
+    deleteParticipants()
   }
 
   handleAddChatParticipant = async name => {

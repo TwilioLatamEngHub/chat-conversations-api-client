@@ -1,8 +1,8 @@
 import React from 'react'
 import { message, Modal, Button, Input } from 'antd'
 
-import { addWASMSParticipant } from './services/functions'
-import { WA_BINDING } from './helpers/constants'
+import { addWASMSParticipant } from '../services/functions'
+import { WA_BINDING } from '../helpers/constants'
 
 class AddWASMSParticipant extends React.Component {
   constructor(props) {
