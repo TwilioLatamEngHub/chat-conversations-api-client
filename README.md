@@ -1,10 +1,12 @@
+<h1 align="center">Chat Conversations API Client</h1>
+
 <div align="center">
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/a673d18c-0e51-4428-bd2b-dc80ebf9987e/deploy-status)](https://app.netlify.com/sites/whimsical-cannoli-b5b8ee/deploys)
 
 </div>
 
-# Chat Conversations API Client
+<br/>
 
 This is a lightweight application based on [Twilio Conversations](https://www.twilio.com/docs/conversations).
 
