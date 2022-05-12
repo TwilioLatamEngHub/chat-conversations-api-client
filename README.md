@@ -1,4 +1,4 @@
-# The Demo Conversations App
+# Chat Conversations API Client
 
 This is a lightweight application based on [Twilio Conversations](https://www.twilio.com/docs/conversations).
 
