@@ -14,11 +14,7 @@ import AddWASMSParticipant from '../components/AddWASMSParticipant'
 import { ConversationsList } from '../components/ConversationsList'
 import { HeaderItem } from '../components/HeaderItem'
 import { WA_BINDING } from '../helpers/constants'
-import {
-  addChatParticipant,
-  deleteParticipants,
-  getToken
-} from '../services/functions'
+import { addChatParticipant, getToken } from '../services/functions'
 const { Panel } = Collapse
 
 const { Content, Sider, Header } = Layout
@@ -78,8 +74,6 @@ class ConversationsApp extends React.Component {
 
     localStorage.removeItem('name')
     this.conversationsClient.shutdown()
-
-    deleteParticipants()
   }
 
   handleAddChatParticipant = async name => {
