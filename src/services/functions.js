@@ -2,7 +2,6 @@ const handleFetches = async (url, queries) => {
   return await fetch(`${url}${queries}`)
     .then(res => res.json())
     .then(data => data)
-    .catch(err => err)
 }
 
 export const getToken = async name => {
@@ -20,8 +19,11 @@ export const addChatParticipant = async name => {
 }
 
 export const addWASMSParticipant = async (number, binding) => {
-  const url = 'https://add-participant-6619-dev.twil.io/add-wa-sms-participant'
-  const queries = `?number=${number}&binding=${binding}`
+  const url =
+    binding === 'wa'
+      ? 'https://add-participant-6619-dev.twil.io/add-wa-participant'
+      : 'https://add-participant-6619-dev.twil.io/add-sms-participant'
+  const queries = `?number=${number}`
 
   return await handleFetches(url, queries)
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Badge, Icon, Layout, Typography } from 'antd'
+import { Badge, Icon, Layout, message, Typography } from 'antd'
 import { Client as ConversationsClient } from '@twilio/conversations'
 
 import './assets/Conversation.css'
@@ -12,7 +12,7 @@ import AddWASMSParticipant from './AddWASMSParticipant'
 import { ConversationsList } from './ConversationsList'
 import { HeaderItem } from './HeaderItem'
 import { WA_BINDING } from './helpers/constants'
-import { getToken } from './services/functions'
+import { addChatParticipant, getToken } from './services/functions'
 
 const { Content, Sider, Header } = Layout
 const { Text } = Typography
@@ -21,20 +21,18 @@ class ConversationsApp extends React.Component {
   constructor(props) {
     super(props)
 
-    const name = localStorage.getItem('name') || ''
-    const loggedIn = name !== ''
-
     this.state = {
-      name,
-      loggedIn,
-      token: null,
-      participantSid: null,
-      statusString: null,
+      name: '',
+      loggedIn: false,
+      token: '',
+      participantSid: '',
+      statusString: '',
       conversationsReady: false,
       conversations: [],
-      selectedConversationSid: null,
+      selectedConversationSid: '',
       newMessage: '',
-      tokenErr: false
+      tokenErr: false,
+      messages: []
     }
   }
 
@@ -48,11 +46,10 @@ class ConversationsApp extends React.Component {
       this.setState({ name, loggedIn: true })
 
       try {
-        const token = await getToken(name)
-        this.setState({ token: token }, this.initConversations)
+        const response = await getToken(name)
+        this.setState({ token: response.accessToken }, this.initConversations)
       } catch (error) {
         console.log(error)
-        console.log('Username already exists as a chat participant')
       }
     }
   }
@@ -76,6 +73,16 @@ class ConversationsApp extends React.Component {
     this.conversationsClient.shutdown()
   }
 
+  handleAddChatParticipant = async name => {
+    try {
+      const response = await addChatParticipant(name)
+      this.setState({ participantSid: response.participantSid })
+      message.success('Username added as a chat participant')
+    } catch (error) {
+      message.success('Username already exists as a chat participant')
+    }
+  }
+
   initConversations = async () => {
     try {
       window.conversationsClient = ConversationsClient
@@ -95,7 +102,8 @@ class ConversationsApp extends React.Component {
             statusString: 'You are connected.',
             status: 'success'
           })
-          this.addChatParticipant(this.state.name)
+
+          this.handleAddChatParticipant(this.state.name)
         }
         if (state === 'disconnecting')
           this.setState({
