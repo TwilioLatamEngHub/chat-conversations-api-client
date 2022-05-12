@@ -29,13 +29,14 @@ export const addWASMSParticipant = async (number, binding) => {
 }
 
 export const deleteParticipants = async () => {
-  const participantsURL =
+  const url =
     'https://chat-conversations-api-3104-dev.twil.io/remove-participants'
-  const messagesURL =
-    'https://chat-conversations-api-3104-dev.twil.io/remove-messages'
 
-  const participants = await handleFetches(participantsURL, '')
-  const messages = await handleFetches(messagesURL, '')
+  return await handleFetches(url, '')
+}
 
-  Promise.all([participants, messages]).then(results => console.log(results))
+export const deleteMessages = async () => {
+  const url = 'https://chat-conversations-api-3104-dev.twil.io/remove-messages'
+
+  return await handleFetches(url, '')
 }

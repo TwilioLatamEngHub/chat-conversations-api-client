@@ -1,6 +1,7 @@
 import React from 'react'
-import { Badge, Icon, Layout, message, Typography } from 'antd'
 import { Client as ConversationsClient } from '@twilio/conversations'
+
+import { Badge, Collapse, Icon, Layout, message, Typography } from 'antd'
 
 import '../assets/Conversation.css'
 import '../assets/ConversationSection.css'
@@ -9,6 +10,7 @@ import { ReactComponent as Logo } from '../assets/twilio-mark-red.svg'
 import Conversation from '../components/Conversation'
 import LoginPage from '../pages/LoginPage'
 import AddWASMSParticipant from '../components/AddWASMSParticipant'
+// import RemoveButton from '../components/RemoveButton'
 import { ConversationsList } from '../components/ConversationsList'
 import { HeaderItem } from '../components/HeaderItem'
 import { WA_BINDING } from '../helpers/constants'
@@ -17,6 +19,7 @@ import {
   deleteParticipants,
   getToken
 } from '../services/functions'
+const { Panel } = Collapse
 
 const { Content, Sider, Header } = Layout
 const { Text } = Typography
@@ -149,6 +152,10 @@ class ConversationsApp extends React.Component {
     }
   }
 
+  callback = key => {
+    console.log(key)
+  }
+
   render() {
     const { conversations, selectedConversationSid, status } = this.state
     const selectedConversation = conversations.find(
@@ -233,8 +240,15 @@ class ConversationsApp extends React.Component {
                     this.setState({ selectedConversationSid: item.sid })
                   }}
                 />
-                <AddWASMSParticipant binding={WA_BINDING} />
-                <AddWASMSParticipant binding={''} />
+                <Collapse>
+                  <Panel header='Menu'>
+                    <AddWASMSParticipant binding={WA_BINDING} />
+                    <AddWASMSParticipant binding={''} />
+                    {/* TODO: Add button to remove participants and messages after fixing strange funcions behavior */}
+                    {/* <RemoveButton target={PARTICIPANTS} />
+                    <RemoveButton target={''} /> */}
+                  </Panel>
+                </Collapse>
               </Sider>
               <Content className='conversation-section'>
                 <div id='SelectedConversation'>{conversationContent}</div>
