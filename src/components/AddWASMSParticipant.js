@@ -69,7 +69,7 @@ class AddWASMSParticipant extends React.Component {
         <Button
           type='primary'
           onClick={this.showModal}
-          style={{ width: '100%', marginTop: '50px' }}
+          style={{ width: '100%', marginTop: '10px' }}
         >
           {buttonText}
         </Button>
