@@ -107,7 +107,11 @@ class Media extends PureComponent {
             width: '60%',
             content: (
               <div className={styles.picture_container}>
-                <img style={{ width: '100%', height: '100%' }} src={url} />
+                <img
+                  style={{ width: '100%', height: '100%' }}
+                  src={url}
+                  alt={'an alternative'}
+                />
               </div>
             )
           })
