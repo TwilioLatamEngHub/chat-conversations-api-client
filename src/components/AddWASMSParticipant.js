@@ -98,6 +98,11 @@ class AddWASMSParticipant extends React.Component {
               Submit
             </Button>
           </Input.Group>
+          <p style={{ marginTop: '1em' }}>
+            <strong>IMPORTANT:</strong> After you submit your number, you need
+            to send a WhatsApp message to +5511952130034 in order to participate
+            in the conversation.
+          </p>
         </Modal>
       </>
     )
