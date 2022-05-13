@@ -63,7 +63,8 @@ class AddWASMSParticipant extends React.Component {
   }
 
   render() {
-    const { visible, loading, number, buttonText, modalTitle } = this.state
+    const { visible, loading, number, buttonText, modalTitle, binding } =
+      this.state
     return (
       <>
         <Button
@@ -98,11 +99,13 @@ class AddWASMSParticipant extends React.Component {
               Submit
             </Button>
           </Input.Group>
-          <p style={{ marginTop: '1em' }}>
-            <strong>IMPORTANT:</strong> After you submit your number, you need
-            to send a WhatsApp message to +5511952130034 in order to participate
-            in the conversation.
-          </p>
+          {binding === WA_BINDING && (
+            <p style={{ marginTop: '1em' }}>
+              <strong>IMPORTANT:</strong> After you submit your number, you need
+              to send a WhatsApp message to +5511952130034 in order to
+              participate in the conversation.
+            </p>
+          )}
         </Modal>
       </>
     )
