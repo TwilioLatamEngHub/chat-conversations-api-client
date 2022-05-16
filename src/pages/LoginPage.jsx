@@ -46,7 +46,11 @@ export class LoginPage extends React.Component {
                 </Row>
 
                 <Form onSubmit={this.handleSubmit}>
-                  <Form.Item>
+                  <Form.Item
+                    label={'Identify yourself below'}
+                    required
+                    tooltip={'This is a required field'}
+                  >
                     {usernameFieldDecorator(
                       <Input
                         prefix={
@@ -55,7 +59,7 @@ export class LoginPage extends React.Component {
                             style={{ color: 'rgba(0,0,0,.25)' }}
                           />
                         }
-                        placeholder='Username'
+                        placeholder='Name'
                       />
                     )}
                   </Form.Item>
