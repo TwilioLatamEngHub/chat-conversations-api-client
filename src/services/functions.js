@@ -2,6 +2,7 @@ const handleFetches = async (url, queries) => {
   return await fetch(`${url}${queries}`)
     .then(res => res.json())
     .then(data => data)
+    .catch(err => err)
 }
 
 export const getToken = async name => {
@@ -32,11 +33,19 @@ export const deleteParticipants = async () => {
   const url =
     'https://chat-conversations-api-3104-dev.twil.io/remove-participants'
 
-  return await handleFetches(url, '')
+  try {
+    return await handleFetches(url, '')
+  } catch (error) {
+    return error
+  }
 }
 
 export const deleteMessages = async () => {
   const url = 'https://chat-conversations-api-3104-dev.twil.io/remove-messages'
 
-  return await handleFetches(url, '')
+  try {
+    return await handleFetches(url, '')
+  } catch (error) {
+    return error
+  }
 }

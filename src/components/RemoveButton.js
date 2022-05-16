@@ -27,18 +27,23 @@ class RemoveButton extends React.Component {
     })
   }
 
+  removeButtonResponse = response => {
+    this.setState({ loading: false })
+    this.setState({ response: response })
+    message.success(this.state.alertMessage)
+    window.location.reload(false)
+  }
+
   handleRemoveButton = async () => {
     try {
       this.setState({ loading: true })
 
       const response =
         this.state.target === PARTICIPANTS
-          ? deleteParticipants()
-          : deleteMessages()
+          ? await deleteParticipants()
+          : await deleteMessages()
 
-      this.setState({ loading: false })
-      this.setState({ response: response })
-      message.success(this.state.alertMessage)
+      setTimeout(this.removeButtonResponse(response), 100000)
     } catch (error) {
       console.log(error)
       this.setState({ loading: false })

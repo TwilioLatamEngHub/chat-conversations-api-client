@@ -8,12 +8,12 @@ import '../assets/ConversationSection.css'
 import { ReactComponent as Logo } from '../assets/twilio-mark-red.svg'
 
 import Conversation from '../components/Conversation'
+import RemoveButton from '../components/RemoveButton'
 import LoginPage from '../pages/LoginPage'
 import AddWASMSParticipant from '../components/AddWASMSParticipant'
-// import RemoveButton from '../components/RemoveButton'
 import { ConversationsList } from '../components/ConversationsList'
 import { HeaderItem } from '../components/HeaderItem'
-import { WA_BINDING } from '../helpers/constants'
+import { PARTICIPANTS, WA_BINDING } from '../helpers/constants'
 import { addChatParticipant, getToken } from '../services/functions'
 const { Panel } = Collapse
 
@@ -35,7 +35,8 @@ class ConversationsApp extends React.Component {
       selectedConversationSid: '',
       newMessage: '',
       tokenErr: false,
-      messages: []
+      messages: [],
+      removed: false
     }
   }
 
@@ -77,11 +78,14 @@ class ConversationsApp extends React.Component {
   }
 
   handleAddChatParticipant = async name => {
-    try {
-      const response = await addChatParticipant(name)
+    const response = await addChatParticipant(name)
+    console.log('response')
+    console.log(response)
+
+    if (response.participantSid !== undefined) {
       this.setState({ participantSid: response.participantSid })
       message.success('Username added as a chat participant')
-    } catch (error) {
+    } else {
       message.success('Username already exists as a chat participant')
     }
   }
@@ -141,13 +145,8 @@ class ConversationsApp extends React.Component {
       })
     } catch (err) {
       this.setState({ tokenErr: true })
-      console.log('erro aqui')
       console.error(err)
     }
-  }
-
-  callback = key => {
-    console.log(key)
   }
 
   render() {
@@ -238,9 +237,8 @@ class ConversationsApp extends React.Component {
                   <Panel header='Menu'>
                     <AddWASMSParticipant binding={WA_BINDING} />
                     <AddWASMSParticipant binding={''} />
-                    {/* TODO: Add button to remove participants and messages after fixing strange funcions behavior */}
-                    {/* <RemoveButton target={PARTICIPANTS} />
-                    <RemoveButton target={''} /> */}
+                    <RemoveButton target={PARTICIPANTS} />
+                    <RemoveButton target={''} />
                   </Panel>
                 </Collapse>
               </Sider>
