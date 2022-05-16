@@ -23,7 +23,7 @@ class RemoveButton extends React.Component {
       alertMessage:
         this.state.target === PARTICIPANTS
           ? 'Participants removed!'
-          : 'Messages Removed'
+          : 'Messages removed!'
     })
   }
 

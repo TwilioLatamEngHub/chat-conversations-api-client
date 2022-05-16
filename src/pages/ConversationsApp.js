@@ -79,8 +79,6 @@ class ConversationsApp extends React.Component {
 
   handleAddChatParticipant = async name => {
     const response = await addChatParticipant(name)
-    console.log('response')
-    console.log(response)
 
     if (response.participantSid !== undefined) {
       this.setState({ participantSid: response.participantSid })

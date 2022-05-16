@@ -33,19 +33,11 @@ export const deleteParticipants = async () => {
   const url =
     'https://chat-conversations-api-3104-dev.twil.io/remove-participants'
 
-  try {
-    return await handleFetches(url, '')
-  } catch (error) {
-    return error
-  }
+  return await handleFetches(url, '')
 }
 
 export const deleteMessages = async () => {
   const url = 'https://chat-conversations-api-3104-dev.twil.io/remove-messages'
 
-  try {
-    return await handleFetches(url, '')
-  } catch (error) {
-    return error
-  }
+  return await handleFetches(url, '')
 }
