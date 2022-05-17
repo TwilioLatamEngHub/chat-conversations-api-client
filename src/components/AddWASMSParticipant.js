@@ -45,21 +45,19 @@ class AddWASMSParticipant extends React.Component {
   }
 
   handleAddWASMSParticipant = async number => {
-    try {
-      this.setState({ loading: true })
+    this.setState({ loading: true })
 
-      const response = await addWASMSParticipant(number, this.state.binding)
+    const response = await addWASMSParticipant(number, this.state.binding)
 
-      this.setState({ loading: false })
-      this.setState({ visible: false })
+    if (response.participantSid !== undefined) {
       this.setState({ participantSid: response.participantSid })
       message.success('Participant added!')
-    } catch (error) {
-      console.log(error)
-      this.setState({ loading: false })
-      this.setState({ visible: false })
-      message.error('Participant was already added')
+    } else {
+      message.error('An error has ocurred while adding this number')
     }
+
+    this.setState({ loading: false })
+    this.setState({ visible: false })
   }
 
   render() {
