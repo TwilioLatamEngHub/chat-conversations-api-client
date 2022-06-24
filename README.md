@@ -14,13 +14,18 @@ This is a lightweight application based on [Twilio Conversations](https://www.tw
 
 Test it live on this [website](https://whimsical-cannoli-b5b8ee.netlify.app/)
 
+# Disclaimer
+
+**This software is to be considered "sample code", a Type B Deliverable, and is delivered "as-is" to the user. Twilio bears no responsibility to support the use or implementation of this software.**
+
 # Configuring and getting started
 
-This demo requires a Twilio account and a working Conversations Service SID.
-You'll need to collect some credentials from the [Twilio Console](https://www.twilio.com/console):
+This demo requires a Twilio account where you'll need to collect some credentials from the [Twilio Console](https://www.twilio.com/console):
 
 - Your Account SID (`ACXXX`), Auth Token, API Key and API Secret, all accessible from the [Dashboard](https://twilio.com/console/dashboard)
-- Your Account's Conversations Service Sid `ISXXX` SID which is attached to your Conversations Service
+- Optional: Your Account's Conversations Service Sid `ISXXX` SID which is attached to your Conversations Service
+
+For the backend this app is using Twilio Serverless Functions. [Click here to check the repo.](https://github.com/TwilioLatamEngHub/chat-conversations-api-serverless)
 
 # Testing
 
