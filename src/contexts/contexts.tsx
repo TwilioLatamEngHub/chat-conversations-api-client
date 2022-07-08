@@ -31,7 +31,7 @@ export const ConversationsContentProvider = ({
   const [loggedIn, setLoggedIn] = useState(false)
   const [selectedConversationSid, setSelectedConversationSid] = useState('')
   const [status, setStatus] = useState<badgeStatus>('default')
-  const [statusString, setStatusString] = useState('')
+  const [statusString, setStatusString] = useState('You are not connected.')
   const [conversations, setConversations] = useState<any[]>([])
 
   const conversationsContextDefaultValue = {

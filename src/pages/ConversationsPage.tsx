@@ -1,12 +1,15 @@
-import React, { useContext } from 'react'
-import { Badge, Collapse, Layout, Typography } from 'antd'
+import React, { useContext, useEffect, useState } from 'react'
 import { PoweroffOutlined } from '@ant-design/icons'
+import { Badge, Collapse, Layout, Typography } from 'antd'
 
 import { ReactComponent as Logo } from '../assets/twilio-mark-red.svg'
 import RemoveButton from '../components/RemoveButton'
 import AddWASMSParticipant from '../components/AddWASMSParticipant'
-import { ConversationsList } from '../components/ConversationsList'
-import { HeaderItem } from '../components'
+import {
+  HeaderItem,
+  CreateNewConversation,
+  ConversationsList
+} from '../components'
 import { PARTICIPANTS, WA_BINDING } from '../helpers'
 import { ConversationsContext } from '../contexts'
 import Conversation from '../components/Conversation'
@@ -31,6 +34,13 @@ export const ConversationsPage = (): JSX.Element => {
     selectedConversationSid,
     setSelectedConversationSid
   } = useContext(ConversationsContext)
+  const [showComponent, setShowComponent] = useState(false)
+
+  useEffect(() => {
+    if (conversations.length !== 0) {
+      setShowComponent(true)
+    }
+  }, [conversations.length, setShowComponent])
 
   const logOut = (event: { preventDefault: () => void }) => {
     if (event) {
@@ -49,7 +59,7 @@ export const ConversationsPage = (): JSX.Element => {
     it => it.sid === selectedConversationSid
   )
 
-  let conversationContent: JSX.Element | string
+  let conversationContent: JSX.Element | null
   if (selectedConversation) {
     conversationContent = (
       <Conversation
@@ -57,10 +67,8 @@ export const ConversationsPage = (): JSX.Element => {
         myIdentity={name}
       />
     )
-  } else if (status !== 'success') {
-    conversationContent = 'Loading your conversation!'
   } else {
-    conversationContent = ''
+    conversationContent = null
   }
 
   return (
@@ -85,13 +93,6 @@ export const ConversationsPage = (): JSX.Element => {
             </HeaderItem>
           </div>
           <div style={{ display: 'flex', width: '100%' }}>
-            <HeaderItem>
-              <Text strong style={{ color: 'white' }}>
-                {selectedConversation &&
-                  (selectedConversation.friendlyName ||
-                    selectedConversation.sid)}
-              </Text>
-            </HeaderItem>
             <HeaderItem style={{ float: 'right', marginLeft: 'auto' }}>
               <span style={{ color: 'white' }}>{` ${statusString}`}</span>
               <Badge dot={true} status={status} style={{ marginLeft: '1em' }} />
@@ -110,21 +111,24 @@ export const ConversationsPage = (): JSX.Element => {
         </Header>
         <Layout>
           <Sider theme={'light'} width={250}>
-            <ConversationsList
-              conversations={conversations}
-              selectedConversationSid={selectedConversationSid}
-              onConversationClick={(item: {
-                sid: React.SetStateAction<string>
-              }) => setSelectedConversationSid(item.sid as string)}
-            />
-            <CollapseComponent>
-              <PanelComponent header='Menu'>
-                <AddWASMSParticipant binding={WA_BINDING} />
-                <AddWASMSParticipant binding={''} />
-                <RemoveButton target={PARTICIPANTS} />
-                <RemoveButton target={''} />
-              </PanelComponent>
-            </CollapseComponent>
+            <CreateNewConversation />
+            {showComponent && (
+              <>
+                <ConversationsList
+                  onConversationClick={(item: {
+                    sid: React.SetStateAction<string>
+                  }) => setSelectedConversationSid(item.sid as string)}
+                />
+                <CollapseComponent>
+                  <PanelComponent header='Menu'>
+                    <AddWASMSParticipant binding={WA_BINDING} />
+                    <AddWASMSParticipant binding={''} />
+                    <RemoveButton target={PARTICIPANTS} />
+                    <RemoveButton target={''} />
+                  </PanelComponent>
+                </CollapseComponent>
+              </>
+            )}
           </Sider>
           <Content className='conversation-section'>
             <div id='SelectedConversation'>{conversationContent}</div>
