@@ -1,9 +1,14 @@
-import React, { Component, PureComponent } from 'react'
+import { Component, PureComponent } from 'react'
 import styles from '../assets/MessageBubble.module.css'
 import PropTypes from 'prop-types'
-import { Spin, Modal, Icon } from 'antd'
-import WhatsappIcon from '../icons/WhatsappIcon'
-import ChatIcon from '../icons/ChatIcon'
+import { Spin, Modal } from 'antd'
+import {
+  WhatsAppOutlined,
+  MessageOutlined,
+  MobileOutlined,
+  WarningOutlined,
+  EyeOutlined
+} from '@ant-design/icons'
 
 class MessageBubble extends Component {
   constructor(props) {
@@ -64,12 +69,12 @@ class MessageBubble extends Component {
           <div>
             <strong>
               {type === 'whatsapp' && (
-                <Icon style={{ fontSize: '16px' }} component={WhatsappIcon} />
+                <WhatsAppOutlined style={{ fontSize: '16px' }} />
               )}
               {type === 'chat' && (
-                <Icon style={{ fontSize: '16px' }} component={ChatIcon} />
+                <MessageOutlined style={{ fontSize: '16px' }} />
               )}
-              {type === 'sms' && <Icon type={'mobile'} />}
+              {type === 'sms' && <MobileOutlined />}
               {` ${m.author}`}
             </strong>
 
@@ -121,7 +126,7 @@ class Media extends PureComponent {
 
         {hasFailed && (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Icon type={'warning'} style={{ fontSize: '5em' }} />
+            <WarningOutlined style={{ fontSize: '5em' }} />
             <p>Failed to load media</p>
           </div>
         )}
@@ -129,7 +134,7 @@ class Media extends PureComponent {
         {!hasFailed && url && (
           <div className={styles.media_icon}>
             <div style={{ zIndex: 123, position: 'absolute' }}>
-              <Icon type={'eye'} style={{ fontSize: '5em', opacity: 0.3 }} />
+              <EyeOutlined style={{ fontSize: '5em', opacity: 0.3 }} />
             </div>
             <div
               className={styles.picture_preview}

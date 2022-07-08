@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
-import { Button, Form, Icon, Input } from 'antd'
+import { Button, Form, Input } from 'antd'
+import { CloudUploadOutlined } from '@ant-design/icons'
 import PropTypes from 'prop-types'
 
 import '../assets/Conversation.css'
@@ -127,10 +128,10 @@ class Conversation extends Component {
           >
             {isDragActive && (
               <div className={styles.drop}>
-                <Icon
-                  type={'cloud-upload'}
+                <CloudUploadOutlined
                   style={{ fontSize: '5em', color: '#fefefe' }}
                 />
+
                 <h3 style={{ color: '#fefefe' }}>Release to Upload</h3>
               </div>
             )}
