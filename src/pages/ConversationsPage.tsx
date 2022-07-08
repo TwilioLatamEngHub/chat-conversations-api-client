@@ -3,14 +3,13 @@ import { PoweroffOutlined } from '@ant-design/icons'
 import { Badge, Collapse, Layout, Typography } from 'antd'
 
 import { ReactComponent as Logo } from '../assets/twilio-mark-red.svg'
-import RemoveButton from '../components/RemoveButton'
 import AddWASMSParticipant from '../components/AddWASMSParticipant'
 import {
   HeaderItem,
   CreateNewConversation,
   ConversationsList
 } from '../components'
-import { PARTICIPANTS, WA_BINDING } from '../helpers'
+import { WA_BINDING } from '../helpers'
 import { ConversationsContext } from '../contexts'
 import { Conversation } from '../components'
 
