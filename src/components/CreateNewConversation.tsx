@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { UserOutlined, MessageOutlined } from '@ant-design/icons'
 import { Button, Form, Input, Modal } from 'antd'
 
 import { useInitConversations } from '../hooks'
+import { ConversationsContext } from '../contexts'
 
 export const CreateNewConversation = (): JSX.Element => {
+  const { setName } = useContext(ConversationsContext)
   const { handleInitConversations } = useInitConversations()
   const [visible, setVisible] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -21,6 +23,7 @@ export const CreateNewConversation = (): JSX.Element => {
     try {
       setIsLoading(true)
       await handleInitConversations(username)
+      setName(username)
       setVisible(false)
       setIsLoading(false)
     } catch (error) {
@@ -39,7 +42,7 @@ export const CreateNewConversation = (): JSX.Element => {
     <>
       <Button size='large' block onClick={showModal} style={{ height: '4rem' }}>
         <MessageOutlined />
-        Create a conversation
+        Enter the conversation
       </Button>
       <Modal
         title='New conversation'

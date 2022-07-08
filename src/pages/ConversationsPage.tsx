@@ -12,7 +12,7 @@ import {
 } from '../components'
 import { PARTICIPANTS, WA_BINDING } from '../helpers'
 import { ConversationsContext } from '../contexts'
-import Conversation from '../components/Conversation'
+import { Conversation } from '../components'
 
 const { Content, Sider, Header } = Layout
 const { Text } = Typography
@@ -25,7 +25,6 @@ const PanelComponent = Panel as unknown as React.ElementType
 export const ConversationsPage = (): JSX.Element => {
   const {
     status,
-    name,
     setName,
     setLoggedIn,
     statusString,
@@ -62,10 +61,7 @@ export const ConversationsPage = (): JSX.Element => {
   let conversationContent: JSX.Element | null
   if (selectedConversation) {
     conversationContent = (
-      <Conversation
-        conversationProxy={selectedConversation}
-        myIdentity={name}
-      />
+      <Conversation selectedConversation={selectedConversation} />
     )
   } else {
     conversationContent = null
@@ -123,8 +119,9 @@ export const ConversationsPage = (): JSX.Element => {
                   <PanelComponent header='Menu'>
                     <AddWASMSParticipant binding={WA_BINDING} />
                     <AddWASMSParticipant binding={''} />
-                    <RemoveButton target={PARTICIPANTS} />
-                    <RemoveButton target={''} />
+                    {/* TODO: Fix functions */}
+                    {/* <RemoveButton target={PARTICIPANTS} />
+                    <RemoveButton target={''} /> */}
                   </PanelComponent>
                 </CollapseComponent>
               </>

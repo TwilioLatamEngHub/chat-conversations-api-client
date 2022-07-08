@@ -62,7 +62,6 @@ class MessageBubble extends Component {
       // log media properties
       console.log('Media properties', m.media)
     }
-    console.log(m)
     return (
       <li id={m.sid} className={itemStyle}>
         <div className={divStyle}>

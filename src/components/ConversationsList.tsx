@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import { List, Typography } from 'antd'
 
-import conversationsListStyles from '../assets/ConversationsList.module.css'
 import conversationsItemStyles from '../assets/ConversationsItem.module.css'
 
 import { joinClassNames } from '../utils/class-name'
 import { ConversationsContext } from '../contexts'
+import { COLOR_TWILIO_RED } from '../helpers'
 
 const { Text } = Typography
 
@@ -21,8 +21,7 @@ export const ConversationsList = ({
 
   return (
     <List
-      style={{ cursor: 'pointer', backgroundColor: '#f22e45' }}
-      className={conversationsListStyles['conversations-list']}
+      style={{ cursor: 'pointer', backgroundColor: COLOR_TWILIO_RED }}
       bordered={true}
       loading={conversations.length === 0}
       dataSource={conversations}
