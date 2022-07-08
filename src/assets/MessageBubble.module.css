@@ -24,7 +24,7 @@
   margin: 8px 0 0;
 }
 .received_withd_msg {
-  width: 75%;
+  width: 40%;
 }
 
 .sent_msg > div {
@@ -42,7 +42,7 @@
 }
 .sent_msg {
   float: right;
-  width: 70%;
+  width: 40%;
 }
 .input_msg_write input {
   background: rgba(0, 0, 0, 0) none repeat scroll 0 0;

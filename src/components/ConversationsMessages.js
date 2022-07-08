@@ -6,7 +6,7 @@ class ConversationsMessages extends PureComponent {
   render = () => {
     return (
       <div id='messages'>
-        <ul>
+        <ul style={{ padding: '0 40px' }}>
           {this.props.messages.map(m => {
             if (m.author === this.props.identity)
               return (
