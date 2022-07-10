@@ -1,9 +1,3 @@
-#SelectedConversation {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
 #participants {
   font-family: Monaco;
   size: 12pt;

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { Collapse, Layout, Typography } from 'antd'
+import { Collapse, Layout } from 'antd'
 
 import { ReactComponent as Logo } from '../assets/twilio-mark-red.svg'
 import AddWASMSParticipant from '../components/AddWASMSParticipant'
@@ -8,33 +7,21 @@ import { CreateNewConversation, ConversationsList } from '../components'
 import { WA_BINDING } from '../helpers'
 import { ConversationsContext } from '../contexts'
 import { Conversation } from '../components'
+import {
+  ConversationsWindowContainer,
+  ConversationsWindowWrapper,
+  HeaderItemContainer,
+  SelectedConversation,
+  SyledHeader,
+  SyledText
+} from '../styles'
 
-const { Content, Sider, Header } = Layout
-const { Text } = Typography
+const { Content, Sider } = Layout
 const { Panel } = Collapse
 
 // add React.ElementType to components
 const CollapseComponent = Collapse as unknown as React.ElementType
 const PanelComponent = Panel as unknown as React.ElementType
-
-const SyledHeader = styled(Header)`
-  display: flex;
-  align-items: center;
-  padding: 0;
-`
-
-const HeaderItemContainer = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  margin-left: 1.5rem;
-`
-
-const SyledText = styled(Text)`
-  color: #fff;
-  font-weight: bold;
-  margin-left: 1rem;
-`
 
 export const ConversationsPage = (): JSX.Element => {
   const { conversations, selectedConversationSid, setSelectedConversationSid } =
@@ -76,8 +63,8 @@ export const ConversationsPage = (): JSX.Element => {
   }
 
   return (
-    <div className='conversations-window-wrapper'>
-      <Layout className='conversations-window-container'>
+    <ConversationsWindowWrapper>
+      <ConversationsWindowContainer>
         <SyledHeader>
           <HeaderItemContainer>
             <Logo />
@@ -107,11 +94,11 @@ export const ConversationsPage = (): JSX.Element => {
               </>
             )}
           </Sider>
-          <Content className='conversation-section'>
-            <div id='SelectedConversation'>{conversationContent}</div>
+          <Content>
+            <SelectedConversation>{conversationContent}</SelectedConversation>
           </Content>
         </Layout>
-      </Layout>
-    </div>
+      </ConversationsWindowContainer>
+    </ConversationsWindowWrapper>
   )
 }

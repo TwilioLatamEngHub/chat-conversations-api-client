@@ -6,6 +6,7 @@ import '../assets/Conversation.css'
 import styles from '../assets/Conversation.module.css'
 import ConversationsMessages from './ConversationsMessages'
 import { ConversationsContext } from '../contexts'
+import { COLOR_TWILIO_RED } from '../helpers'
 
 const StyledForm = styled(Form)`
   display: flex;
@@ -13,6 +14,14 @@ const StyledForm = styled(Form)`
   align-items: center;
   height: 5rem;
   background-color: #001528;
+`
+
+const ButtonsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5rem;
+  background-color: ${COLOR_TWILIO_RED};
 `
 
 interface ConversationProps {
@@ -137,6 +146,19 @@ export const Conversation = ({
           </Button>
         </Form.Item>
       </StyledForm>
+      <ButtonsContainer>
+        <Button
+          type='primary'
+          ghost
+          htmlType='submit'
+          style={{ minWidth: '5rem', background: '#fff' }}
+        >
+          Add
+        </Button>
+        <Button danger htmlType='submit' style={{ minWidth: '5rem' }}>
+          Remove
+        </Button>
+      </ButtonsContainer>
     </div>
   )
 }

@@ -20,17 +20,3 @@ code {
 #root {
   height: 100vh;
 }
-
-.conversations-window-wrapper {
-  height: inherit;
-  background-color: #f0f2f5;
-}
-
-.conversations-window-container {
-  position: relative;
-  height: calc(100% - 16px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 auto 8px auto;
-}
