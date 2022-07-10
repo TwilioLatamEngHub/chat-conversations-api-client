@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
+import styled from 'styled-components'
 import { PoweroffOutlined } from '@ant-design/icons'
-import { Badge, Collapse, Layout, Typography } from 'antd'
+import { Collapse, Layout, Typography } from 'antd'
 
 import { ReactComponent as Logo } from '../assets/twilio-mark-red.svg'
 import AddWASMSParticipant from '../components/AddWASMSParticipant'
@@ -21,12 +22,22 @@ const { Panel } = Collapse
 const CollapseComponent = Collapse as unknown as React.ElementType
 const PanelComponent = Panel as unknown as React.ElementType
 
+const SyledHeader = styled(Header)`
+  display: flex;
+  align-items: center;
+  padding: 0;
+`
+
+const HeaderItemContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+`
+
 export const ConversationsPage = (): JSX.Element => {
   const {
-    status,
     setName,
     setLoggedIn,
-    statusString,
     conversations,
     setConversations,
     selectedConversationSid,
@@ -40,6 +51,7 @@ export const ConversationsPage = (): JSX.Element => {
     }
   }, [conversations.length, setShowComponent])
 
+  // TODO: Fix logOut button action bug
   const logOut = (event: { preventDefault: () => void }) => {
     if (event) {
       event.preventDefault()
@@ -57,6 +69,7 @@ export const ConversationsPage = (): JSX.Element => {
     it => it.sid === selectedConversationSid
   )
 
+  // TODO: Fix multiple same conversation bug
   let conversationContent: JSX.Element | null
   if (selectedConversation) {
     conversationContent = (
@@ -69,46 +82,34 @@ export const ConversationsPage = (): JSX.Element => {
   return (
     <div className='conversations-window-wrapper'>
       <Layout className='conversations-window-container'>
-        <Header style={{ display: 'flex', alignItems: 'center', padding: 0 }}>
-          <div
-            style={{
-              maxWidth: '250px',
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center'
-            }}
-          >
+        <SyledHeader>
+          <HeaderItemContainer>
             <HeaderItem style={{ paddingRight: '0', display: 'flex' }}>
               <Logo />
             </HeaderItem>
             <HeaderItem>
               <Text strong style={{ color: 'white' }}>
-                Conversations
+                Twilio Conversations API Demo
               </Text>
             </HeaderItem>
-          </div>
-          <div style={{ display: 'flex', width: '100%' }}>
-            <HeaderItem style={{ float: 'right', marginLeft: 'auto' }}>
-              <span style={{ color: 'white' }}>{` ${statusString}`}</span>
-              <Badge dot={true} status={status} style={{ marginLeft: '1em' }} />
-            </HeaderItem>
-            <HeaderItem>
-              <PoweroffOutlined
-                onClick={logOut}
-                style={{
-                  color: 'white',
-                  fontSize: '20px',
-                  marginLeft: 'auto'
-                }}
-              />
-            </HeaderItem>
-          </div>
-        </Header>
+          </HeaderItemContainer>
+          <HeaderItem>
+            <PoweroffOutlined
+              onClick={logOut}
+              style={{
+                color: 'white',
+                fontSize: '20px',
+                marginLeft: 'auto'
+              }}
+            />
+          </HeaderItem>
+        </SyledHeader>
         <Layout>
           <Sider theme={'light'} width={250}>
             <CreateNewConversation />
             {showComponent && (
               <>
+                {/* TODO: Fix multiple same conversation bug */}
                 <ConversationsList
                   onConversationClick={(item: {
                     sid: React.SetStateAction<string>

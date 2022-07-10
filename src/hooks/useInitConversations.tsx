@@ -30,13 +30,8 @@ const handleAddChatParticipant = async (name: string): Promise<void> => {
 }
 
 export const useInitConversations = (): useInitConversationsReturn => {
-  const {
-    setStatus,
-    setStatusString,
-    setLoggedIn,
-    conversations,
-    setConversations
-  } = useContext(ConversationsContext)
+  const { setLoggedIn, conversations, setConversations } =
+    useContext(ConversationsContext)
 
   const handleInitConversations = async (name: string): Promise<void> => {
     const response = Promise.resolve(getToken(name))
@@ -53,30 +48,9 @@ export const useInitConversations = (): useInitConversationsReturn => {
           window.conversationsClient = await ConversationsClient.create(token)
           const conversationsClient = window.conversationsClient
 
-          setStatusString('Connecting to Twilio…')
-
           conversationsClient.on('connectionStateChanged', (state: string) => {
-            if (state === 'connecting') {
-              setStatusString('Connecting to Twilio…')
-              setStatus('default')
-            }
             if (state === 'connected') {
-              setStatusString('You are connected.')
-              setStatus('success')
-
               handleAddChatParticipant(name)
-            }
-            if (state === 'disconnecting') {
-              setStatusString('Disconnecting from Twilio…')
-              setStatus('default')
-            }
-            if (state === 'disconnected') {
-              setStatusString('Disconnected')
-              setStatus('warning')
-            }
-            if (state === 'denied') {
-              setStatusString('Failed to connect.')
-              setStatus('error')
             }
           })
 

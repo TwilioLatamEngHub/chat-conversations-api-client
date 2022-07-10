@@ -1,5 +1,4 @@
 import React, { createContext, Dispatch, SetStateAction, useState } from 'react'
-import { badgeStatus } from '../types'
 
 export interface ConversationsContextData {
   name: string
@@ -8,10 +7,6 @@ export interface ConversationsContextData {
   setLoggedIn: Dispatch<SetStateAction<boolean>>
   selectedConversationSid: string
   setSelectedConversationSid: Dispatch<SetStateAction<string>>
-  status: badgeStatus
-  setStatus: Dispatch<SetStateAction<badgeStatus>>
-  statusString: string
-  setStatusString: Dispatch<SetStateAction<string>>
   conversations: any[]
   setConversations: Dispatch<SetStateAction<any[]>>
 }
@@ -30,8 +25,6 @@ export const ConversationsContentProvider = ({
   const [name, setName] = useState('')
   const [loggedIn, setLoggedIn] = useState(false)
   const [selectedConversationSid, setSelectedConversationSid] = useState('')
-  const [status, setStatus] = useState<badgeStatus>('default')
-  const [statusString, setStatusString] = useState('You are not connected.')
   const [conversations, setConversations] = useState<any[]>([])
 
   const conversationsContextDefaultValue = {
@@ -41,10 +34,6 @@ export const ConversationsContentProvider = ({
     setLoggedIn,
     selectedConversationSid,
     setSelectedConversationSid,
-    status,
-    setStatus,
-    statusString,
-    setStatusString,
     conversations,
     setConversations
   }
