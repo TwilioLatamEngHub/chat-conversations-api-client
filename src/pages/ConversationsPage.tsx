@@ -1,15 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { PoweroffOutlined } from '@ant-design/icons'
 import { Collapse, Layout, Typography } from 'antd'
 
 import { ReactComponent as Logo } from '../assets/twilio-mark-red.svg'
 import AddWASMSParticipant from '../components/AddWASMSParticipant'
-import {
-  HeaderItem,
-  CreateNewConversation,
-  ConversationsList
-} from '../components'
+import { CreateNewConversation, ConversationsList } from '../components'
 import { WA_BINDING } from '../helpers'
 import { ConversationsContext } from '../contexts'
 import { Conversation } from '../components'
@@ -29,20 +24,21 @@ const SyledHeader = styled(Header)`
 `
 
 const HeaderItemContainer = styled.div`
-  width: 100%;
   display: flex;
   align-items: center;
+  width: 100%;
+  margin-left: 1.5rem;
+`
+
+const SyledText = styled(Text)`
+  color: #fff;
+  font-weight: bold;
+  margin-left: 1rem;
 `
 
 export const ConversationsPage = (): JSX.Element => {
-  const {
-    setName,
-    setLoggedIn,
-    conversations,
-    setConversations,
-    selectedConversationSid,
-    setSelectedConversationSid
-  } = useContext(ConversationsContext)
+  const { conversations, selectedConversationSid, setSelectedConversationSid } =
+    useContext(ConversationsContext)
   const [showComponent, setShowComponent] = useState(false)
 
   useEffect(() => {
@@ -52,18 +48,18 @@ export const ConversationsPage = (): JSX.Element => {
   }, [conversations.length, setShowComponent])
 
   // TODO: Fix logOut button action bug
-  const logOut = (event: { preventDefault: () => void }) => {
-    if (event) {
-      event.preventDefault()
-    }
+  // const logOut = (event: { preventDefault: () => void }) => {
+  //   if (event) {
+  //     event.preventDefault()
+  //   }
 
-    setName('')
-    setLoggedIn(false)
-    setConversations([])
+  //   setName('')
+  //   setLoggedIn(false)
+  //   setConversations([])
 
-    localStorage.removeItem('name')
-    window.conversationsClient.shutdown()
-  }
+  //   localStorage.removeItem('name')
+  //   window.conversationsClient.shutdown()
+  // }
 
   const selectedConversation = conversations.find(
     it => it.sid === selectedConversationSid
@@ -84,25 +80,9 @@ export const ConversationsPage = (): JSX.Element => {
       <Layout className='conversations-window-container'>
         <SyledHeader>
           <HeaderItemContainer>
-            <HeaderItem style={{ paddingRight: '0', display: 'flex' }}>
-              <Logo />
-            </HeaderItem>
-            <HeaderItem>
-              <Text strong style={{ color: 'white' }}>
-                Twilio Conversations API Demo
-              </Text>
-            </HeaderItem>
+            <Logo />
+            <SyledText>Twilio Conversations API Demo</SyledText>
           </HeaderItemContainer>
-          <HeaderItem>
-            <PoweroffOutlined
-              onClick={logOut}
-              style={{
-                color: 'white',
-                fontSize: '20px',
-                marginLeft: 'auto'
-              }}
-            />
-          </HeaderItem>
         </SyledHeader>
         <Layout>
           <Sider theme={'light'} width={250}>

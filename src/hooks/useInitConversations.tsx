@@ -42,8 +42,6 @@ export const useInitConversations = (): useInitConversationsReturn => {
         return res.accessToken
       })
       .then(async token => {
-        console.log('token')
-        console.log(token)
         if (token) {
           window.conversationsClient = await ConversationsClient.create(token)
           const conversationsClient = window.conversationsClient
@@ -65,7 +63,7 @@ export const useInitConversations = (): useInitConversationsReturn => {
           })
         }
       })
-      .catch((err: any) => console.error(err))
+      .catch(console.error)
   }
 
   return { handleInitConversations }
