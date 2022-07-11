@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { List, Typography } from 'antd'
 
 import conversationsItemStyles from '../assets/ConversationsItem.module.css'
@@ -9,15 +9,20 @@ import { COLOR_TWILIO_RED } from '../helpers'
 
 const { Text } = Typography
 
-interface ConversationsListProps {
-  onConversationClick: (item: { sid: React.SetStateAction<string> }) => void
-}
+export const ConversationsList = (): JSX.Element => {
+  const {
+    conversations,
+    setShowModal,
+    setIsNewConversation,
+    selectedConversationSid,
+    setSelectedConversationSid
+  } = useContext(ConversationsContext)
 
-export const ConversationsList = ({
-  onConversationClick
-}: ConversationsListProps): JSX.Element => {
-  const { conversations, selectedConversationSid } =
-    useContext(ConversationsContext)
+  const handleOnClick = (sid: string) => {
+    setShowModal(true)
+    setSelectedConversationSid(sid)
+    setIsNewConversation(false)
+  }
 
   return (
     <List
@@ -33,18 +38,20 @@ export const ConversationsList = ({
         ])
 
         return (
-          <List.Item
-            key={item.sid}
-            onClick={() => onConversationClick(item)}
-            className={conversationItemClassName}
-          >
-            <Text
-              strong
-              className={conversationsItemStyles['conversation-item-text']}
+          <>
+            <List.Item
+              key={item.sid}
+              onClick={() => handleOnClick(item.sid)}
+              className={conversationItemClassName}
             >
-              {item.friendlyName || item.sid}
-            </Text>
-          </List.Item>
+              <Text
+                strong
+                className={conversationsItemStyles['conversation-item-text']}
+              >
+                {item.friendlyName || item.sid}
+              </Text>
+            </List.Item>
+          </>
         )
       }}
     />

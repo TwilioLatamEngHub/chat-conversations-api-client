@@ -1,12 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Collapse, Layout } from 'antd'
+import { useContext, useEffect } from 'react'
+import { Layout } from 'antd'
 
 import { ReactComponent as Logo } from '../assets/twilio-mark-red.svg'
-import AddWASMSParticipant from '../components/AddWASMSParticipant'
-import { CreateNewConversation, ConversationsList } from '../components'
-import { WA_BINDING } from '../helpers'
+import {
+  CreateNewConversation,
+  ConversationsList,
+  ConversationModal
+} from '../components'
 import { ConversationsContext } from '../contexts'
-import { Conversation } from '../components'
 import {
   ConversationsWindowContainer,
   ConversationsWindowWrapper,
@@ -15,52 +16,23 @@ import {
   SyledHeader,
   SyledText
 } from '../styles'
+import { getConversations } from '../services/functions'
 
 const { Content, Sider } = Layout
-const { Panel } = Collapse
-
-// add React.ElementType to components
-const CollapseComponent = Collapse as unknown as React.ElementType
-const PanelComponent = Panel as unknown as React.ElementType
 
 export const ConversationsPage = (): JSX.Element => {
-  const { conversations, selectedConversationSid, setSelectedConversationSid } =
+  const { conversations, setConversations, conversationContent } =
     useContext(ConversationsContext)
-  const [showComponent, setShowComponent] = useState(false)
 
   useEffect(() => {
-    if (conversations.length !== 0) {
-      setShowComponent(true)
+    const getConvos = async () => {
+      const { conversations } = await getConversations()
+      if (conversations.length > 0) {
+        setConversations(conversations)
+      }
     }
-  }, [conversations.length, setShowComponent])
-
-  // TODO: Fix logOut button action bug
-  // const logOut = (event: { preventDefault: () => void }) => {
-  //   if (event) {
-  //     event.preventDefault()
-  //   }
-
-  //   setName('')
-  //   setLoggedIn(false)
-  //   setConversations([])
-
-  //   localStorage.removeItem('name')
-  //   window.conversationsClient.shutdown()
-  // }
-
-  const selectedConversation = conversations.find(
-    it => it.sid === selectedConversationSid
-  )
-
-  // TODO: Fix multiple same conversation bug
-  let conversationContent: JSX.Element | null
-  if (selectedConversation) {
-    conversationContent = (
-      <Conversation selectedConversation={selectedConversation} />
-    )
-  } else {
-    conversationContent = null
-  }
+    getConvos()
+  }, [setConversations])
 
   return (
     <ConversationsWindowWrapper>
@@ -74,25 +46,8 @@ export const ConversationsPage = (): JSX.Element => {
         <Layout>
           <Sider theme={'light'} width={250}>
             <CreateNewConversation />
-            {showComponent && (
-              <>
-                {/* TODO: Fix multiple same conversation bug */}
-                <ConversationsList
-                  onConversationClick={(item: {
-                    sid: React.SetStateAction<string>
-                  }) => setSelectedConversationSid(item.sid as string)}
-                />
-                <CollapseComponent>
-                  <PanelComponent header='Menu'>
-                    <AddWASMSParticipant binding={WA_BINDING} />
-                    <AddWASMSParticipant binding={''} />
-                    {/* TODO: Fix functions */}
-                    {/* <RemoveButton target={PARTICIPANTS} />
-                    <RemoveButton target={''} /> */}
-                  </PanelComponent>
-                </CollapseComponent>
-              </>
-            )}
+            {conversations.length > 0 && <ConversationsList />}
+            <ConversationModal />
           </Sider>
           <Content>
             <SelectedConversation>{conversationContent}</SelectedConversation>

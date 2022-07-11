@@ -1,14 +1,20 @@
 import React, { createContext, Dispatch, SetStateAction, useState } from 'react'
 
 export interface ConversationsContextData {
-  name: string
-  setName: Dispatch<SetStateAction<string>>
+  identity: string
+  setIdentity: Dispatch<SetStateAction<string>>
   loggedIn: boolean
   setLoggedIn: Dispatch<SetStateAction<boolean>>
   selectedConversationSid: string
   setSelectedConversationSid: Dispatch<SetStateAction<string>>
   conversations: any[]
   setConversations: Dispatch<SetStateAction<any[]>>
+  showModal: boolean
+  setShowModal: Dispatch<SetStateAction<boolean>>
+  isNewConversation: boolean
+  setIsNewConversation: Dispatch<SetStateAction<boolean>>
+  conversationContent: JSX.Element | null
+  setConversationContent: Dispatch<SetStateAction<JSX.Element | null>>
 }
 
 interface ConversationsContentProviderProps {
@@ -22,20 +28,31 @@ export const ConversationsContext = createContext(
 export const ConversationsContentProvider = ({
   children
 }: ConversationsContentProviderProps) => {
-  const [name, setName] = useState('')
-  const [loggedIn, setLoggedIn] = useState(false)
-  const [selectedConversationSid, setSelectedConversationSid] = useState('')
+  const [identity, setIdentity] = useState<string>('')
+  const [loggedIn, setLoggedIn] = useState<boolean>(false)
+  const [selectedConversationSid, setSelectedConversationSid] =
+    useState<string>('')
   const [conversations, setConversations] = useState<any[]>([])
+  const [showModal, setShowModal] = useState<boolean>(false)
+  const [isNewConversation, setIsNewConversation] = useState<boolean>(false)
+  const [conversationContent, setConversationContent] =
+    useState<JSX.Element | null>(null)
 
   const conversationsContextDefaultValue = {
-    name,
-    setName,
+    identity,
+    setIdentity,
     loggedIn,
     setLoggedIn,
     selectedConversationSid,
     setSelectedConversationSid,
     conversations,
-    setConversations
+    setConversations,
+    showModal,
+    setShowModal,
+    isNewConversation,
+    setIsNewConversation,
+    conversationContent,
+    setConversationContent
   }
 
   return (
