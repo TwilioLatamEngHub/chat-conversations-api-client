@@ -13,7 +13,7 @@ const StyledUl = styled.ul`
   max-height: 95%;
 `
 
-export const ConversationsMessages = ({
+export const ConversationMessages = ({
   conversation
 }: ConversationProps): JSX.Element => {
   const { identity, showModal } = useContext(ConversationsContext)

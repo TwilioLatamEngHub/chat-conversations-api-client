@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import '../assets/Conversation.css'
 import styles from '../assets/Conversation.module.css'
-import { ConversationsMessages } from './ConversationsMessages'
+import { ConversationMessages } from './ConversationMessages'
 import { COLOR_TWILIO_RED, WA_BINDING } from '../helpers'
 import AddWASMSParticipant from './AddWASMSParticipant'
 import { Conversation as ConversationType } from '@twilio/conversations'
@@ -62,7 +62,7 @@ export const Conversation = ({
 
   return (
     <div className={styles.messages} style={{ overflowY: 'scroll' }}>
-      <ConversationsMessages conversation={conversation} />
+      <ConversationMessages conversation={conversation} />
       <StyledForm size='large' layout='inline' onFinish={sendMessage}>
         <Form.Item>
           <Input

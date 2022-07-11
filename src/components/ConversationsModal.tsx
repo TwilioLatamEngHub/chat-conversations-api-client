@@ -7,7 +7,7 @@ import { ConversationsContext } from '../contexts'
 import { getToken } from '../services/functions'
 import { Conversation } from './Conversation'
 
-export const ConversationModal = (): JSX.Element => {
+export const ConversationsModal = (): JSX.Element => {
   const {
     showModal,
     setShowModal,

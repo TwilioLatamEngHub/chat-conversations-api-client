@@ -5,7 +5,7 @@ import { ReactComponent as Logo } from '../assets/twilio-mark-red.svg'
 import {
   CreateNewConversation,
   ConversationsList,
-  ConversationModal
+  ConversationsModal
 } from '../components'
 import { ConversationsContext } from '../contexts'
 import {
@@ -47,7 +47,7 @@ export const ConversationsPage = (): JSX.Element => {
           <Sider theme={'light'} width={250}>
             <CreateNewConversation />
             {conversations.length > 0 && <ConversationsList />}
-            <ConversationModal />
+            <ConversationsModal />
           </Sider>
           <Content>
             <SelectedConversation>{conversationContent}</SelectedConversation>
