@@ -1,9 +1,0 @@
-.conversation-item:hover {
-  cursor: pointer;
-  margin-right: -2px;
-  margin-left: -1px;
-}
-
-.conversation-item-text {
-  color: white !important;
-}

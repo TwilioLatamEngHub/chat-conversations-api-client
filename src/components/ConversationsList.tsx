@@ -1,20 +1,22 @@
 import { useContext } from 'react'
 import { List, Typography } from 'antd'
+import styled from 'styled-components'
 
-import conversationsItemStyles from '../assets/ConversationsItem.module.css'
-
-import { joinClassNames } from '../utils/class-name'
 import { ConversationsContext } from '../contexts'
 import { COLOR_TWILIO_RED } from '../helpers'
+import { ConversationsListItem } from '../styles'
 
 const { Text } = Typography
+
+const StyledText = styled(Text)`
+  color: #fff;
+`
 
 export const ConversationsList = (): JSX.Element => {
   const {
     conversations,
     setShowModal,
     setIsNewConversation,
-    selectedConversationSid,
     setSelectedConversationSid
   } = useContext(ConversationsContext)
 
@@ -30,30 +32,14 @@ export const ConversationsList = (): JSX.Element => {
       bordered={true}
       loading={conversations.length === 0}
       dataSource={conversations}
-      renderItem={item => {
-        const activeChannel = item.sid === selectedConversationSid
-        const conversationItemClassName = joinClassNames([
-          conversationsItemStyles['conversation-item'],
-          activeChannel && conversationsItemStyles['conversation-item--active']
-        ])
-
-        return (
-          <>
-            <List.Item
-              key={item.sid}
-              onClick={() => handleOnClick(item.sid)}
-              className={conversationItemClassName}
-            >
-              <Text
-                strong
-                className={conversationsItemStyles['conversation-item-text']}
-              >
-                {item.friendlyName || item.sid}
-              </Text>
-            </List.Item>
-          </>
-        )
-      }}
+      renderItem={item => (
+        <ConversationsListItem
+          key={item.sid}
+          onClick={() => handleOnClick(item.sid)}
+        >
+          <StyledText strong>{item.friendlyName || item.sid}</StyledText>
+        </ConversationsListItem>
+      )}
     />
   )
 }
