@@ -67,8 +67,10 @@ class AddWASMSParticipant extends React.Component {
       <>
         <Button
           type='primary'
+          ghost
+          htmlType='submit'
+          style={{ minWidth: '5rem', background: '#fff' }}
           onClick={this.showModal}
-          style={{ width: '100%', marginTop: '10px' }}
         >
           {buttonText}
         </Button>

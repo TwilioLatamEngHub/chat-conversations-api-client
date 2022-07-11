@@ -6,7 +6,8 @@ import '../assets/Conversation.css'
 import styles from '../assets/Conversation.module.css'
 import ConversationsMessages from './ConversationsMessages'
 import { ConversationsContext } from '../contexts'
-import { COLOR_TWILIO_RED } from '../helpers'
+import { COLOR_TWILIO_RED, WA_BINDING } from '../helpers'
+import AddWASMSParticipant from './AddWASMSParticipant'
 
 const StyledForm = styled(Form)`
   display: flex;
@@ -18,7 +19,7 @@ const StyledForm = styled(Form)`
 
 const ButtonsContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   height: 5rem;
   background-color: ${COLOR_TWILIO_RED};
@@ -147,14 +148,8 @@ export const Conversation = ({
         </Form.Item>
       </StyledForm>
       <ButtonsContainer>
-        <Button
-          type='primary'
-          ghost
-          htmlType='submit'
-          style={{ minWidth: '5rem', background: '#fff' }}
-        >
-          Add
-        </Button>
+        <AddWASMSParticipant binding={WA_BINDING} />
+        <AddWASMSParticipant binding={''} />
         <Button danger htmlType='submit' style={{ minWidth: '5rem' }}>
           Remove
         </Button>
