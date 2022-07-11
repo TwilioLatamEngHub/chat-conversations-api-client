@@ -3,8 +3,6 @@ import React, { createContext, Dispatch, SetStateAction, useState } from 'react'
 export interface ConversationsContextData {
   identity: string
   setIdentity: Dispatch<SetStateAction<string>>
-  loggedIn: boolean
-  setLoggedIn: Dispatch<SetStateAction<boolean>>
   selectedConversationSid: string
   setSelectedConversationSid: Dispatch<SetStateAction<string>>
   conversations: any[]
@@ -29,7 +27,6 @@ export const ConversationsContentProvider = ({
   children
 }: ConversationsContentProviderProps) => {
   const [identity, setIdentity] = useState<string>('')
-  const [loggedIn, setLoggedIn] = useState<boolean>(false)
   const [selectedConversationSid, setSelectedConversationSid] =
     useState<string>('')
   const [conversations, setConversations] = useState<any[]>([])
@@ -41,8 +38,6 @@ export const ConversationsContentProvider = ({
   const conversationsContextDefaultValue = {
     identity,
     setIdentity,
-    loggedIn,
-    setLoggedIn,
     selectedConversationSid,
     setSelectedConversationSid,
     conversations,
