@@ -5,7 +5,7 @@
   "proxy": "http://localhost:3001",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
-    "@twilio/conversations": "1.2.0",
+    "@twilio/conversations": "2.1.0",
     "@types/jest": "^28.1.4",
     "@types/node": "^18.0.3",
     "@types/react": "^18.0.15",
