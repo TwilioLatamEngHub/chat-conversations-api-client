@@ -3,13 +3,6 @@
   size: 12pt;
 }
 
-#participants,
-#messages {
-  margin: 0.5rem;
-  height: 100%;
-  overflow-y: scroll;
-}
-
 #OpenChannel {
   display: flex;
   flex-basis: 100%;

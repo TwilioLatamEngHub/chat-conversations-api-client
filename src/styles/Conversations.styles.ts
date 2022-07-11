@@ -35,3 +35,12 @@ export const SelectedConversation = styled.div`
   display: flex;
   flex-direction: column;
 `
+
+export const ParicipantsMessagesContainer = styled.div`
+  margin: 0.5rem;
+  height: 100%;
+  overflow-y: scroll;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
