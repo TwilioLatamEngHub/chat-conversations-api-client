@@ -1,8 +1,8 @@
 import { Spin } from 'antd'
 import { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { ConversationsContext } from '../contexts'
 
+import { ConversationsContext } from '../contexts'
 import { ParicipantsMessagesContainer } from '../styles'
 import { ConversationProps } from './Conversation'
 import MessageBubble from './MessageBubble'

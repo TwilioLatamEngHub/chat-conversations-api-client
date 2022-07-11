@@ -1,14 +1,18 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useState } from 'react'
 import { Button, Form, Input } from 'antd'
 import styled from 'styled-components'
 
-import '../assets/Conversation.css'
-import styles from '../assets/Conversation.module.css'
 import { ConversationMessages } from './ConversationMessages'
 import { COLOR_TWILIO_RED, WA_BINDING } from '../helpers'
 import AddWASMSParticipant from './AddWASMSParticipant'
 import { Conversation as ConversationType } from '@twilio/conversations'
+
+const ConversationContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  overflow-y: scroll;
+`
 
 const StyledForm = styled(Form)`
   display: flex;
@@ -16,6 +20,11 @@ const StyledForm = styled(Form)`
   align-items: center;
   height: 5rem;
   background-color: #001528;
+`
+
+const StyledInput = styled(Input)`
+  width: 40rem;
+  font-size: 14px;
 `
 
 const ButtonsContainer = styled.div`
@@ -61,15 +70,14 @@ export const Conversation = ({
   // }
 
   return (
-    <div className={styles.messages} style={{ overflowY: 'scroll' }}>
+    <ConversationContainer>
       <ConversationMessages conversation={conversation} />
       <StyledForm size='large' layout='inline' onFinish={sendMessage}>
         <Form.Item>
-          <Input
+          <StyledInput
             placeholder={'Type your message here...'}
             type={'text'}
             name={'message'}
-            id={styles['type-a-message']}
             autoComplete={'off'}
             onChange={onMessageChanged}
             value={newMessage}
@@ -79,7 +87,7 @@ export const Conversation = ({
         <Form.Item>
           <Button
             htmlType='submit'
-            style={{ minWidth: '5rem' }}
+            style={{ minWidth: '5rem', fontSize: '14px' }}
             loading={isLoading}
           >
             Enter
@@ -93,6 +101,6 @@ export const Conversation = ({
           Remove
         </Button>
       </ButtonsContainer>
-    </div>
+    </ConversationContainer>
   )
 }
