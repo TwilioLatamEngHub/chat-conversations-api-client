@@ -14,14 +14,20 @@ export const ConversationsWindowContainer = styled(Layout)`
 `
 
 export const SyledHeader = styled(Header)`
+  display: flex;
   padding: 0;
 `
 
-export const HeaderItemContainer = styled.div`
+export const HeaderItemLeftContainer = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
   margin-left: 1.5rem;
+`
+
+export const BadgeSpan = styled.span`
+  margin: 0 2rem 0 1rem;
+  color: #fff;
 `
 
 export const SyledText = styled(Text)`
