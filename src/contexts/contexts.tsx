@@ -3,16 +3,16 @@ import React, { createContext, Dispatch, SetStateAction, useState } from 'react'
 export interface ConversationsContextData {
   identity: string
   setIdentity: Dispatch<SetStateAction<string>>
-  selectedConversationSid: string
-  setSelectedConversationSid: Dispatch<SetStateAction<string>>
+  loggedIn: boolean
+  setLoggedIn: Dispatch<SetStateAction<boolean>>
   conversations: any[]
   setConversations: Dispatch<SetStateAction<any[]>>
   showModal: boolean
   setShowModal: Dispatch<SetStateAction<boolean>>
-  isNewConversation: boolean
-  setIsNewConversation: Dispatch<SetStateAction<boolean>>
   conversationContent: JSX.Element | null
   setConversationContent: Dispatch<SetStateAction<JSX.Element | null>>
+  isLoading: boolean
+  setIsLoading: Dispatch<SetStateAction<boolean>>
 }
 
 interface ConversationsContentProviderProps {
@@ -27,27 +27,26 @@ export const ConversationsContentProvider = ({
   children
 }: ConversationsContentProviderProps) => {
   const [identity, setIdentity] = useState<string>('')
-  const [selectedConversationSid, setSelectedConversationSid] =
-    useState<string>('')
+  const [loggedIn, setLoggedIn] = useState<boolean>(false)
   const [conversations, setConversations] = useState<any[]>([])
   const [showModal, setShowModal] = useState<boolean>(false)
-  const [isNewConversation, setIsNewConversation] = useState<boolean>(false)
   const [conversationContent, setConversationContent] =
     useState<JSX.Element | null>(null)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const conversationsContextDefaultValue = {
     identity,
     setIdentity,
-    selectedConversationSid,
-    setSelectedConversationSid,
+    loggedIn,
+    setLoggedIn,
     conversations,
     setConversations,
     showModal,
     setShowModal,
-    isNewConversation,
-    setIsNewConversation,
     conversationContent,
-    setConversationContent
+    setConversationContent,
+    isLoading,
+    setIsLoading
   }
 
   return (
