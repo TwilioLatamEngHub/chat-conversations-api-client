@@ -3,9 +3,17 @@ import { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import { ConversationsContext } from '../contexts'
-import { ParicipantsMessagesContainer } from '../styles'
 import { ConversationProps } from './Conversation'
 import MessageBubble from './MessageBubble'
+
+const ConversationMessagesContainer = styled.div`
+  margin: 0.5rem;
+  height: 100%;
+  overflow-y: scroll;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
 const StyledUl = styled.ul`
   padding: 0 40px;
@@ -28,7 +36,7 @@ export const ConversationMessages = ({
   }, [conversation, messages, setMessages])
 
   return (
-    <ParicipantsMessagesContainer>
+    <ConversationMessagesContainer>
       {showModal || !messages ? (
         <Spin tip='Loading conversation messages' size='large' />
       ) : (
@@ -43,6 +51,6 @@ export const ConversationMessages = ({
             )}
         </StyledUl>
       )}
-    </ParicipantsMessagesContainer>
+    </ConversationMessagesContainer>
   )
 }

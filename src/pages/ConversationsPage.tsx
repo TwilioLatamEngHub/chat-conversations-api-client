@@ -15,7 +15,7 @@ import {
   SelectedConversation,
   SyledHeader,
   SyledText
-} from '../styles'
+} from './ConversationsPage.styles'
 import { getConversations } from '../services/functions'
 
 const { Content, Sider } = Layout
@@ -44,7 +44,7 @@ export const ConversationsPage = (): JSX.Element => {
           </HeaderItemContainer>
         </SyledHeader>
         <Layout>
-          <Sider theme={'light'} width={250}>
+          <Sider theme={'light'} width={270}>
             <CreateNewConversation />
             {conversations.length > 0 && <ConversationsList />}
             <ConversationsModal />

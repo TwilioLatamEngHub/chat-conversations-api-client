@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Layout, List, Typography } from 'antd'
+import { Layout, Typography } from 'antd'
 
 const { Header } = Layout
 const { Text } = Typography
@@ -34,21 +34,4 @@ export const SelectedConversation = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-`
-
-export const ParicipantsMessagesContainer = styled.div`
-  margin: 0.5rem;
-  height: 100%;
-  overflow-y: scroll;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-
-export const ConversationsListItem = styled(List.Item)`
-  &:hover {
-    cursor: pointer;
-    margin-right: -2px;
-    margin-left: -1px;
-  }
 `

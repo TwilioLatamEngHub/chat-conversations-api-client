@@ -23,7 +23,7 @@ export const CreateNewConversation = (): JSX.Element => {
         style={{ height: '4rem' }}
       >
         <MessageOutlined />
-        Enter the conversation
+        Create a new conversation
       </Button>
     </>
   )

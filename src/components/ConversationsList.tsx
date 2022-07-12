@@ -4,9 +4,16 @@ import styled from 'styled-components'
 
 import { ConversationsContext } from '../contexts'
 import { COLOR_TWILIO_RED } from '../helpers'
-import { ConversationsListItem } from '../styles'
 
 const { Text } = Typography
+
+export const ConversationsListItem = styled(List.Item)`
+  &:hover {
+    cursor: pointer;
+    margin-right: -2px;
+    margin-left: -1px;
+  }
+`
 
 const StyledText = styled(Text)`
   color: #fff;
