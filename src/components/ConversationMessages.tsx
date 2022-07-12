@@ -1,9 +1,10 @@
 import { Spin } from 'antd'
-import { useContext, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useContext, useEffect } from 'react'
 import styled from 'styled-components'
+import { Conversation as ConversationType } from '@twilio/conversations'
 
 import { ConversationsContext } from '../contexts'
-import { ConversationProps } from './Conversation'
+import { getMessages } from '../services/functions'
 import MessageBubble from './MessageBubble'
 
 const ConversationMessagesContainer = styled.div`
@@ -21,24 +22,36 @@ const StyledUl = styled.ul`
   max-height: 95%;
 `
 
+interface ConversationMessagesProps {
+  conversation: ConversationType
+  messages: any[]
+  setMessages: Dispatch<SetStateAction<any[]>>
+}
+
 export const ConversationMessages = ({
-  conversation
-}: ConversationProps): JSX.Element => {
-  const { identity, showModal } = useContext(ConversationsContext)
-  const [messages, setMessages] = useState<any>(null)
+  conversation,
+  messages,
+  setMessages
+}: ConversationMessagesProps): JSX.Element => {
+  const { identity, showModal, isLoading } = useContext(ConversationsContext)
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const { items } = await conversation.getMessages()
-      setMessages(items)
+      // Create Get Messages function
+      const { messages } = await getMessages(conversation.sid)
+      console.log('getMessages response')
+      console.log(messages)
+      setMessages(messages)
     }
     fetchMessages()
-  }, [conversation, messages, setMessages])
+  }, [])
+
+  const hasSpinner = showModal || !messages || isLoading
 
   return (
     <ConversationMessagesContainer>
-      {showModal || !messages ? (
-        <Spin tip='Loading conversation messages' size='large' />
+      {hasSpinner ? (
+        <Spin tip='Loading' size='large' />
       ) : (
         <StyledUl>
           {messages &&

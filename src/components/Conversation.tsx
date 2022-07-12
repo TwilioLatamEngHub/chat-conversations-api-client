@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Button, Form, Input } from 'antd'
 import styled from 'styled-components'
+import { Conversation as ConversationType } from '@twilio/conversations'
 
 import { ConversationMessages } from './ConversationMessages'
 import { COLOR_TWILIO_RED, WA_BINDING } from '../helpers'
 import AddWASMSParticipant from './AddWASMSParticipant'
-import { Conversation as ConversationType } from '@twilio/conversations'
+import { createMessage } from '../services/functions'
+import { ConversationsContext } from '../contexts'
 
 const ConversationContainer = styled.div`
   display: flex;
@@ -42,18 +44,25 @@ export interface ConversationProps {
 export const Conversation = ({
   conversation
 }: ConversationProps): JSX.Element => {
+  const { identity } = useContext(ConversationsContext)
   const [newMessage, setNewMessage] = useState<string>('')
+  const [messages, setMessages] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const onMessageChanged = (event: { target: { value: any } }) => {
+  const onMessageChanged = (event: any) => {
     setNewMessage(event.target.value)
+    setMessages(oldMessages => [...oldMessages, newMessage])
   }
 
   const sendMessage = async () => {
     setIsLoading(true)
 
     try {
-      await conversation.sendMessage(newMessage)
+      await createMessage({
+        conversationSid: conversation.sid,
+        author: identity,
+        body: newMessage
+      })
       setNewMessage('')
       setIsLoading(false)
     } catch (error) {
@@ -71,7 +80,11 @@ export const Conversation = ({
 
   return (
     <ConversationContainer>
-      <ConversationMessages conversation={conversation} />
+      <ConversationMessages
+        conversation={conversation}
+        messages={messages}
+        setMessages={setMessages}
+      />
       <StyledForm size='large' layout='inline' onFinish={sendMessage}>
         <Form.Item>
           <StyledInput
