@@ -6,36 +6,105 @@ const handleFetches = async (url: string, queries?: string) => {
     .catch(err => err)
 }
 
-interface GetToken {
-  accessToken: string
+type ParticipantType = 'whatsapp' | 'sms' | 'chat'
+
+export interface AddParticipantParams {
+  participantType: ParticipantType
+  conversationSid: string
+  identity?: string
+  number?: string
 }
 
-interface GetConversations {
+interface AddParticipantReturn {
+  participantSid: string
+}
+
+interface CreateConversationReturn {
+  conversation: any
+}
+
+interface CreateMessageParams {
+  conversationSid: string
+  author: string
+  body: string
+}
+
+interface CreateMessageReturn {
+  message: any
+}
+
+interface GetConversationsReturn {
   conversations: any[]
 }
 
-export const getToken = async (name: string): Promise<GetToken> => {
-  const url = 'https://chat-conversations-api-3104-dev.twil.io/get-token'
-  const queries = `?identity=${name}`
+interface GetMessagesReturn {
+  messages: any[]
+}
+
+interface GetTokenReturn {
+  accessToken: string
+}
+
+export const addParticipant = async ({
+  participantType,
+  conversationSid,
+  identity,
+  number
+}: AddParticipantParams): Promise<AddParticipantReturn> => {
+  const url = 'https://chat-conversations-api-1918-dev.twil.io/add-participant'
+  let queries = `?participantType=${participantType}&conversationSid=${conversationSid}`
+
+  if (number) {
+    queries += `&number=${number}`
+  }
+
+  if (identity) {
+    queries += `&identity=${identity}`
+  }
 
   return await handleFetches(url, queries)
 }
 
-export const getConversations = async (): Promise<GetConversations> => {
+export const createConversation = async (
+  friendlyName: string
+): Promise<CreateConversationReturn> => {
   const url =
-    'https://chat-conversations-api-3104-dev.twil.io/get-conversations'
+    'https://chat-conversations-api-1918-dev.twil.io/create-conversation'
+  const queries = `?friendlyName=${friendlyName}`
+
+  return await handleFetches(url, queries)
+}
+
+export const createMessage = async ({
+  conversationSid,
+  author,
+  body
+}: CreateMessageParams): Promise<CreateMessageReturn> => {
+  const url = 'https://chat-conversations-api-1918-dev.twil.io/create-message'
+  const queries = `?conversationSid=${conversationSid}&author=${author}&body=${body}`
+
+  return await handleFetches(url, queries)
+}
+
+export const getConversations = async (): Promise<GetConversationsReturn> => {
+  const url =
+    'https://chat-conversations-api-1918-dev.twil.io/get-conversations'
+
   return await handleFetches(url)
 }
 
-export const addWASMSParticipant = async (
-  number: string,
-  binding: string
-): Promise<any> => {
-  const url =
-    binding === 'wa'
-      ? 'https://chat-conversations-api-3104-dev.twil.io/add-wa-participant'
-      : 'https://chat-conversations-api-3104-dev.twil.io/add-sms-participant'
-  const queries = `?number=${number}`
+export const getMessages = async (
+  conversationSid: string
+): Promise<GetMessagesReturn> => {
+  const url = 'https://chat-conversations-api-1918-dev.twil.io/get-messages'
+  const queries = `?conversationSid=${conversationSid}`
+
+  return await handleFetches(url, queries)
+}
+
+export const getToken = async (name: string): Promise<GetTokenReturn> => {
+  const url = 'https://chat-conversations-api-1918-dev.twil.io/get-token'
+  const queries = `?identity=${name}`
 
   return await handleFetches(url, queries)
 }
