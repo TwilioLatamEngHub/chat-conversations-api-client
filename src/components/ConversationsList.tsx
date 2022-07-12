@@ -1,9 +1,11 @@
-import { useContext } from 'react'
+import { useCallback, useContext } from 'react'
 import { List, Typography } from 'antd'
 import styled from 'styled-components'
 
 import { ConversationsContext } from '../contexts'
 import { COLOR_TWILIO_RED } from '../helpers'
+import { Conversation } from './Conversation'
+import { addParticipant } from '../services/functions'
 
 const { Text } = Typography
 
@@ -20,18 +22,31 @@ const StyledText = styled(Text)`
 `
 
 export const ConversationsList = (): JSX.Element => {
-  const {
-    conversations,
-    setShowModal,
-    setIsNewConversation,
-    setSelectedConversationSid
-  } = useContext(ConversationsContext)
+  const { conversations, setConversationContent, identity, setIsLoading } =
+    useContext(ConversationsContext)
 
-  const handleOnClick = (sid: string) => {
-    setShowModal(true)
-    setSelectedConversationSid(sid)
-    setIsNewConversation(false)
-  }
+  const handleOnClick = useCallback(async (sid: string) => {
+    setIsLoading(true)
+
+    try {
+      const { participantSid } = await addParticipant({
+        participantType: 'chat',
+        conversationSid: sid,
+        identity
+      })
+      console.log('Participant added. SID:')
+      console.log(participantSid)
+
+      const selectedConversation = conversations.find(it => it.sid === sid)
+      setConversationContent(
+        <Conversation conversation={selectedConversation} />
+      )
+      setIsLoading(false)
+    } catch (error) {
+      setIsLoading(false)
+      console.log(error)
+    }
+  }, [])
 
   return (
     <List
