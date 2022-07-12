@@ -5,13 +5,12 @@ import { Button } from 'antd'
 import { ConversationsContext } from '../contexts'
 
 export const CreateNewConversation = (): JSX.Element => {
-  const { setShowModal, setIsNewConversation, setConversationContent } =
+  const { setShowModal, setConversationContent } =
     useContext(ConversationsContext)
 
   const handleOnClick = () => {
     setShowModal(true)
     setConversationContent(null)
-    setIsNewConversation(true)
   }
 
   return (
