@@ -1,12 +1,13 @@
-import { FC } from 'react'
+import { FC, useContext } from 'react'
 
 import './assets/App.css'
 import 'antd/dist/antd.css'
 import { ConversationsPage } from './pages/ConversationsPage'
-import { ConversationsContentProvider } from './contexts'
+import { LoginPage } from './pages/LoginPage'
+import { ConversationsContext } from './contexts'
 
-export const App: FC = () => (
-  <ConversationsContentProvider>
-    <ConversationsPage />
-  </ConversationsContentProvider>
-)
+export const App: FC = () => {
+  const { loggedIn } = useContext(ConversationsContext)
+
+  return loggedIn ? <ConversationsPage /> : <LoginPage />
+}
