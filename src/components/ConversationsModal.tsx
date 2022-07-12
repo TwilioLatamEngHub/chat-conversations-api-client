@@ -55,9 +55,6 @@ export const ConversationsModal = (): JSX.Element => {
     //   conversation.add(identity)
     //   setConversationContent(<Conversation conversation={conversation} />)
     // }
-
-    // Need to run only once, so empty deps
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleCancel = () => {
