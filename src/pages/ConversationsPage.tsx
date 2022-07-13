@@ -3,11 +3,7 @@ import { Badge, Layout } from 'antd'
 import { PresetStatusColorType } from 'antd/lib/_util/colors'
 
 import { ReactComponent as Logo } from '../assets/twilio-mark-red.svg'
-import {
-  CreateNewConversation,
-  ConversationsList,
-  ConversationsModal
-} from '../components'
+import { CreateNewConversation, ConversationsList } from '../components'
 import { ConversationsContext } from '../contexts'
 import {
   BadgeSpan,
@@ -67,7 +63,6 @@ export const ConversationsPage = (): JSX.Element => {
           <Sider theme={'light'} width={270}>
             <CreateNewConversation />
             {conversations.length > 0 && <ConversationsList />}
-            <ConversationsModal />
           </Sider>
           <Content>
             <SelectedConversation>{conversationContent}</SelectedConversation>
