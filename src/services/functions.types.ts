@@ -1,4 +1,4 @@
-type ParticipantType = 'whatsapp' | 'sms' | 'chat'
+import { ParticipantType } from '@twilio/conversations'
 
 export interface AddParticipantParams {
   participantType: ParticipantType
@@ -27,10 +27,6 @@ export interface CreateMessageReturn {
 
 export interface GetConversationsReturn {
   conversations: any[]
-}
-
-export interface GetMessagesReturn {
-  messages: any[]
 }
 
 export interface GetTokenReturn {

@@ -5,7 +5,6 @@ import {
   CreateMessageParams,
   CreateMessageReturn,
   GetConversationsReturn,
-  GetMessagesReturn,
   GetTokenReturn
 } from './functions.types'
 
@@ -65,18 +64,9 @@ export const getConversations = async (): Promise<GetConversationsReturn> => {
   return await handleFetches(url)
 }
 
-export const getMessages = async (
-  conversationSid: string
-): Promise<GetMessagesReturn> => {
-  const url = 'https://chat-conversations-api-1918-dev.twil.io/get-messages'
-  const queries = `?conversationSid=${conversationSid}`
-
-  return await handleFetches(url, queries)
-}
-
-export const getToken = async (name: string): Promise<GetTokenReturn> => {
+export const getToken = async (identity: string): Promise<GetTokenReturn> => {
   const url = 'https://chat-conversations-api-1918-dev.twil.io/get-token'
-  const queries = `?identity=${name}`
+  const queries = `?identity=${identity}`
 
   return await handleFetches(url, queries)
 }
