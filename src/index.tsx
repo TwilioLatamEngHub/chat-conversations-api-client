@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom'
 
 import './assets/style.css'
 import { App } from './App'
+import GlobalStyles from './styles'
 import { ConversationsContentProvider } from './contexts'
 
 const MainComponent: FC = () => (
   <ConversationsContentProvider>
+    <GlobalStyles />
     <App />
   </ConversationsContentProvider>
 )
