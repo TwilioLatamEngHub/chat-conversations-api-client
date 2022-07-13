@@ -14,30 +14,43 @@ import {
   SyledHeader,
   SyledText
 } from './ConversationsPage.styles'
-import { getConversations } from '../../services/functions'
+import { getConversations, getToken } from '../../services/functions'
 
 const { Content, Sider } = Layout
 
 export const ConversationsPage = (): JSX.Element => {
-  const { conversations, setConversations, conversationContent } =
-    useContext(ConversationsContext)
+  const {
+    conversations,
+    setConversations,
+    conversationContent,
+    identity,
+    setToken
+  } = useContext(ConversationsContext)
   const [badgeStatus, setBadgeStatus] =
     useState<PresetStatusColorType>('warning')
   const [badgeText, setBadgeText] = useState<string>('Disconnected')
 
-  // Fix conversations list to highlight selected conversation
   useEffect(() => {
     const getConvos = async () => {
-      setBadgeStatus('warning')
-      setBadgeText('Loading')
+      try {
+        setBadgeStatus('warning')
+        setBadgeText('Loading')
 
-      const { conversations } = await getConversations()
+        const { conversations } = await getConversations()
+        const { accessToken } = await getToken(identity)
 
-      setBadgeStatus('success')
-      setBadgeText('Connected')
+        setBadgeStatus('success')
+        setBadgeText('Connected')
 
-      if (conversations.length > 0) {
-        setConversations(conversations)
+        if (conversations.length > 0) {
+          setConversations(conversations)
+        }
+
+        setToken(accessToken)
+      } catch (error) {
+        console.log(error)
+        setBadgeStatus('error')
+        setBadgeText('An error has occurred')
       }
     }
     getConvos()

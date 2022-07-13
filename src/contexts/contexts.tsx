@@ -1,3 +1,4 @@
+import { ParticipantType } from '@twilio/conversations'
 import React, { createContext, Dispatch, SetStateAction, useState } from 'react'
 
 export interface ConversationsContextData {
@@ -13,6 +14,10 @@ export interface ConversationsContextData {
   setConversationContent: Dispatch<SetStateAction<JSX.Element | null>>
   isLoading: boolean
   setIsLoading: Dispatch<SetStateAction<boolean>>
+  messages: any[]
+  setMessages: Dispatch<SetStateAction<any[]>>
+  token: string
+  setToken: Dispatch<SetStateAction<string>>
 }
 
 interface ConversationsContentProviderProps {
@@ -33,6 +38,8 @@ export const ConversationsContentProvider = ({
   const [conversationContent, setConversationContent] =
     useState<JSX.Element | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [messages, setMessages] = useState<any[]>([])
+  const [token, setToken] = useState<string>('')
 
   const conversationsContextDefaultValue = {
     identity,
@@ -46,7 +53,11 @@ export const ConversationsContentProvider = ({
     conversationContent,
     setConversationContent,
     isLoading,
-    setIsLoading
+    setIsLoading,
+    messages,
+    setMessages,
+    token,
+    setToken
   }
 
   return (
