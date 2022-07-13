@@ -1,26 +1,14 @@
 import { Spin } from 'antd'
 import { Dispatch, SetStateAction, useContext, useEffect } from 'react'
-import styled from 'styled-components'
 import { Conversation as ConversationType } from '@twilio/conversations'
 
-import { ConversationsContext } from '../contexts'
-import { getMessages } from '../services/functions'
-import MessageBubble from './MessageBubble'
-
-const ConversationMessagesContainer = styled.div`
-  margin: 0.5rem;
-  height: 100%;
-  overflow-y: scroll;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-
-const StyledUl = styled.ul`
-  padding: 0 40px;
-  width: 100%;
-  max-height: 95%;
-`
+import { ConversationsContext } from '../../contexts'
+import { getMessages } from '../../services/functions'
+import MessageBubble from '../MessageBubble'
+import {
+  ConversationMessagesContainer,
+  StyledUl
+} from './ConversationMessages.styles'
 
 interface ConversationMessagesProps {
   conversation: ConversationType
@@ -37,7 +25,6 @@ export const ConversationMessages = ({
 
   useEffect(() => {
     const fetchMessages = async () => {
-      // Create Get Messages function
       const { messages } = await getMessages(conversation.sid)
       console.log('getMessages response')
       console.log(messages)
