@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 import { Button, Form } from 'antd'
 import { Conversation as ConversationType } from '@twilio/conversations'
 
@@ -30,7 +30,7 @@ export const Conversation = ({
     setNewMessage(event.target.value)
   }
 
-  const sendMessage = async () => {
+  const sendMessage = useCallback(async () => {
     setIsLoading(true)
 
     try {
@@ -46,7 +46,7 @@ export const Conversation = ({
       console.log(error)
       setIsLoading(false)
     }
-  }
+  }, [])
 
   // const onDrop = (acceptedFiles: any[]) => {
   //   conversationProxy.sendMessage({
