@@ -4,7 +4,7 @@ import { Conversation as ConversationType } from '@twilio/conversations'
 
 import { ConversationsContext } from '../../contexts'
 import { getMessages } from '../../services/functions'
-import MessageBubble from '../MessageBubble'
+import { MessageBubble } from '../MessageBubble'
 import {
   ConversationMessagesContainer,
   StyledUl
@@ -33,20 +33,23 @@ export const ConversationMessages = ({
 
   const hasSpinner = showModal || !messages || isLoading
 
+  console.log('messages')
+  console.log(messages)
+
   return (
     <ConversationMessagesContainer>
       {hasSpinner ? (
         <Spin tip='Loading' size='large' />
       ) : (
         <StyledUl>
-          {messages &&
+          {/* {messages &&
             messages.map((m: any) =>
               m.author === identity ? (
                 <MessageBubble key={m.index} direction='outgoing' message={m} />
               ) : (
                 <MessageBubble key={m.index} direction='incoming' message={m} />
               )
-            )}
+            )} */}
         </StyledUl>
       )}
     </ConversationMessagesContainer>

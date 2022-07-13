@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from 'react'
 import { Badge, Layout } from 'antd'
 import { PresetStatusColorType } from 'antd/lib/_util/colors'
 
-import { ReactComponent as Logo } from '../assets/twilio-mark-red.svg'
+import { ReactComponent as Logo } from '../../assets/twilio-mark-red.svg'
 import { CreateNewConversation, ConversationsList } from '../../components'
 import { ConversationsContext } from '../../contexts'
 import {

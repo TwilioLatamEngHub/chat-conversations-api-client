@@ -1,7 +1,6 @@
 import { FC } from 'react'
 import ReactDOM from 'react-dom'
 
-import './assets/style.css'
 import { App } from './App'
 import GlobalStyles from './styles'
 import { ConversationsContentProvider } from './contexts'
