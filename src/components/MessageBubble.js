@@ -34,15 +34,13 @@ class MessageBubble extends Component {
         })
         .catch(e => this.setState({ mediaDownloadFailed: true }))
     }
-    document
-      .getElementById(this.props.message.sid)
-      .scrollIntoView({ behavior: 'smooth' })
+    document.getElementById(this.props.message.sid)
+    // .scrollIntoView({ behavior: 'smooth' })
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    document
-      .getElementById(this.props.message.sid)
-      .scrollIntoView({ behavior: 'smooth' })
+    document.getElementById(this.props.message.sid)
+    // .scrollIntoView({ behavior: 'smooth' })
   }
 
   render = () => {

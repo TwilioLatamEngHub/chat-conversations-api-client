@@ -1,25 +1,13 @@
 import { useCallback, useContext } from 'react'
-import { List, Typography } from 'antd'
-import styled from 'styled-components'
 
-import { ConversationsContext } from '../contexts'
-import { COLOR_TWILIO_RED } from '../helpers'
-import { Conversation } from './Conversation/Conversation'
-import { addParticipant } from '../services/functions'
-
-const { Text } = Typography
-
-export const ConversationsListItem = styled(List.Item)`
-  &:hover {
-    cursor: pointer;
-    margin-right: -2px;
-    margin-left: -1px;
-  }
-`
-
-const StyledText = styled(Text)`
-  color: #fff;
-`
+import { ConversationsContext } from '../../contexts'
+import { Conversation } from '../Conversation/Conversation'
+import { addParticipant } from '../../services/functions'
+import {
+  StyledList,
+  ConversationsListItem,
+  StyledText
+} from './ConversationsList.styles'
 
 export const ConversationsList = (): JSX.Element => {
   const { conversations, setConversationContent, identity, setIsLoading } =
@@ -29,13 +17,11 @@ export const ConversationsList = (): JSX.Element => {
     setIsLoading(true)
 
     try {
-      const { participantSid } = await addParticipant({
+      await addParticipant({
         participantType: 'chat',
         conversationSid: sid,
         identity
       })
-      console.log('Participant added. SID:')
-      console.log(participantSid)
 
       const selectedConversation = conversations.find(it => it.sid === sid)
       setConversationContent(
@@ -49,12 +35,11 @@ export const ConversationsList = (): JSX.Element => {
   }, [])
 
   return (
-    <List
-      style={{ cursor: 'pointer', backgroundColor: COLOR_TWILIO_RED }}
+    <StyledList
       bordered={true}
       loading={conversations.length === 0}
       dataSource={conversations}
-      renderItem={item => (
+      renderItem={(item: any) => (
         <ConversationsListItem
           key={item.sid}
           onClick={() => handleOnClick(item.sid)}

@@ -26,8 +26,6 @@ export const ConversationMessages = ({
   useEffect(() => {
     const fetchMessages = async () => {
       const { messages } = await getMessages(conversation.sid)
-      console.log('getMessages response')
-      console.log(messages)
       setMessages(messages)
     }
     fetchMessages()

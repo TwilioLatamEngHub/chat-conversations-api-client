@@ -1,7 +1,7 @@
 import React from 'react'
 import { message, Modal, Button, Input } from 'antd'
 
-import { addWASMSParticipant } from '../services/functions'
+// import { addWASMSParticipant } from '../services/functions'
 import { WA_BINDING } from '../helpers/constants'
 
 class AddWASMSParticipant extends React.Component {
@@ -45,19 +45,16 @@ class AddWASMSParticipant extends React.Component {
   }
 
   handleAddWASMSParticipant = async number => {
-    this.setState({ loading: true })
-
-    const response = await addWASMSParticipant(number, this.state.binding)
-
-    if (response.participantSid !== undefined) {
-      this.setState({ participantSid: response.participantSid })
-      message.success('Participant added!')
-    } else {
-      message.error('An error has ocurred while adding this number')
-    }
-
-    this.setState({ loading: false })
-    this.setState({ visible: false })
+    // this.setState({ loading: true })
+    // const response = await addWASMSParticipant(number, this.state.binding)
+    // if (response.participantSid !== undefined) {
+    //   this.setState({ participantSid: response.participantSid })
+    //   message.success('Participant added!')
+    // } else {
+    //   message.error('An error has ocurred while adding this number')
+    // }
+    // this.setState({ loading: false })
+    // this.setState({ visible: false })
   }
 
   render() {
