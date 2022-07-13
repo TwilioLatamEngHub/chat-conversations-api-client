@@ -1,57 +1,83 @@
 import { Spin } from 'antd'
-import { Dispatch, SetStateAction, useContext, useEffect } from 'react'
-import { Conversation as ConversationType } from '@twilio/conversations'
+import { useContext, useEffect } from 'react'
+import { Message } from '@twilio/conversations'
 
 import { ConversationsContext } from '../../contexts'
-import { getMessages } from '../../services/functions'
 import { MessageBubble } from '../MessageBubble'
 import {
   ConversationMessagesContainer,
+  SpinnerContainer,
   StyledUl
 } from './ConversationMessages.styles'
-
-interface ConversationMessagesProps {
-  conversation: ConversationType
-  messages: any[]
-  setMessages: Dispatch<SetStateAction<any[]>>
-}
+import { ConversationProps } from '../Conversation/'
 
 export const ConversationMessages = ({
   conversation,
-  messages,
-  setMessages
-}: ConversationMessagesProps): JSX.Element => {
-  const { identity, showModal, isLoading } = useContext(ConversationsContext)
+  setLocalSid
+}: ConversationProps): JSX.Element => {
+  const {
+    messages,
+    setMessages,
+    identity,
+    showModal,
+    isLoading,
+    setIsLoading
+  } = useContext(ConversationsContext)
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const { messages } = await getMessages(conversation.sid)
-      setMessages(messages)
+      try {
+        const result = await conversation.getMessages()
+        console.log('messages')
+        console.log(result)
+        setMessages(result.items)
+        if (setLocalSid) {
+          setLocalSid(conversation.sid)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+      setIsLoading(false)
     }
     fetchMessages()
+  }, [conversation])
+
+  useEffect(() => {
+    conversation.on('messageAdded', message => {
+      setIsLoading(true)
+      setMessages(oldMessages => [...oldMessages, message])
+      setIsLoading(false)
+    })
   }, [])
 
-  const hasSpinner = showModal || !messages || isLoading
-
-  console.log('messages')
-  console.log(messages)
+  const hasMessages = messages.length > 0
+  const hasSpinner = showModal || !hasMessages || isLoading
 
   return (
-    <ConversationMessagesContainer>
+    <>
       {hasSpinner ? (
-        <Spin tip='Loading' size='large' />
+        <SpinnerContainer>
+          <Spin tip='Loading' size='large' />
+        </SpinnerContainer>
       ) : (
-        <StyledUl>
-          {/* {messages &&
-            messages.map((m: any) =>
-              m.author === identity ? (
-                <MessageBubble key={m.index} direction='outgoing' message={m} />
-              ) : (
-                <MessageBubble key={m.index} direction='incoming' message={m} />
-              )
-            )} */}
-        </StyledUl>
+        <ConversationMessagesContainer>
+          <StyledUl>
+            {hasMessages &&
+              messages.map((m: Message) => {
+                const direction =
+                  m.author === identity ? 'outgoing' : 'incoming'
+
+                return (
+                  <MessageBubble
+                    key={m.sid}
+                    message={m}
+                    messageDirection={direction}
+                  />
+                )
+              })}
+          </StyledUl>
+        </ConversationMessagesContainer>
       )}
-    </ConversationMessagesContainer>
+    </>
   )
 }
