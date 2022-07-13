@@ -2,11 +2,11 @@ import { useCallback, useContext } from 'react'
 import { Button, Form, Input, Modal } from 'antd'
 import { UserOutlined, MessageOutlined } from '@ant-design/icons'
 
-import { ConversationsContext } from '../contexts'
-import { addParticipant, createConversation } from '../services/functions'
-import { Conversation } from './Conversation'
+import { ConversationsContext } from '../../contexts'
+import { addParticipant, createConversation } from '../../services/functions'
+import { Conversation } from '../Conversation/Conversation'
 
-export const ConversationsModal = (): JSX.Element => {
+export const CreateNewConversationModal = (): JSX.Element => {
   const {
     showModal,
     setShowModal,
