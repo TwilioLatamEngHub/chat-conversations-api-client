@@ -1,4 +1,10 @@
-import { useCallback, useContext, useState } from 'react'
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useContext,
+  useState
+} from 'react'
 import { Button, Form } from 'antd'
 import { Conversation as ConversationType } from '@twilio/conversations'
 
@@ -16,14 +22,15 @@ import {
 
 export interface ConversationProps {
   conversation: ConversationType
+  setLocalSid?: Dispatch<SetStateAction<string>>
 }
 
 export const Conversation = ({
-  conversation
+  conversation,
+  setLocalSid
 }: ConversationProps): JSX.Element => {
-  const { identity } = useContext(ConversationsContext)
+  const { identity, setMessages } = useContext(ConversationsContext)
   const [newMessage, setNewMessage] = useState<string>('')
-  const [messages, setMessages] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const onMessageChanged = (event: any) => {
@@ -33,6 +40,7 @@ export const Conversation = ({
   const sendMessage = useCallback(async () => {
     setIsLoading(true)
 
+    // TODO: Create message via SDK and delete function
     try {
       await createMessage({
         conversationSid: conversation.sid,
@@ -46,21 +54,13 @@ export const Conversation = ({
       console.log(error)
       setIsLoading(false)
     }
-  }, [])
-
-  // const onDrop = (acceptedFiles: any[]) => {
-  //   conversationProxy.sendMessage({
-  //     contentType: acceptedFiles[0].type,
-  //     media: acceptedFiles[0]
-  //   })
-  // }
+  }, [newMessage, setNewMessage])
 
   return (
     <ConversationContainer>
       <ConversationMessages
         conversation={conversation}
-        messages={messages}
-        setMessages={setMessages}
+        setLocalSid={setLocalSid}
       />
       <StyledForm size='large' layout='inline' onFinish={sendMessage}>
         <Form.Item>
