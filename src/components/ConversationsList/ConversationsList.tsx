@@ -1,8 +1,8 @@
-import { useCallback, useContext } from 'react'
+import { useContext, useState } from 'react'
+import { Client } from '@twilio/conversations'
 
 import { ConversationsContext } from '../../contexts'
 import { Conversation } from '../Conversation/Conversation'
-import { addParticipant } from '../../services/functions'
 import {
   StyledList,
   ConversationsListItem,
@@ -10,39 +10,51 @@ import {
 } from './ConversationsList.styles'
 
 export const ConversationsList = (): JSX.Element => {
-  const { conversations, setConversationContent, identity, setIsLoading } =
-    useContext(ConversationsContext)
+  const {
+    token,
+    isLoading,
+    setMessages,
+    conversations,
+    setConversationContent,
+    identity,
+    setIsLoading
+  } = useContext(ConversationsContext)
+  const [localSid, setLocalSid] = useState<string>('')
 
-  const handleOnClick = useCallback(async (sid: string) => {
+  const handleOnClick = async (sid: string) => {
+    setMessages([])
     setIsLoading(true)
 
     try {
-      await addParticipant({
-        participantType: 'chat',
-        conversationSid: sid,
-        identity
-      })
+      const client = new Client(token)
+      const convo = await client.getConversationBySid(sid)
+      const convoParticipant = await convo.getParticipants()
 
-      const selectedConversation = conversations.find(it => it.sid === sid)
-      setConversationContent(
-        <Conversation conversation={selectedConversation} />
+      const isAlreadyParticipant = convoParticipant.find(
+        p => p.identity === identity
       )
-      setIsLoading(false)
+
+      if (!isAlreadyParticipant) await convo.add(identity)
+
+      setConversationContent(
+        <Conversation conversation={convo} setLocalSid={setLocalSid} />
+      )
     } catch (error) {
       setIsLoading(false)
       console.log(error)
     }
-  }, [])
+  }
 
   return (
     <StyledList
       bordered={true}
-      loading={conversations.length === 0}
+      loading={isLoading}
       dataSource={conversations}
       renderItem={(item: any) => (
         <ConversationsListItem
           key={item.sid}
           onClick={() => handleOnClick(item.sid)}
+          $isItemActive={item.sid === localSid}
         >
           <StyledText strong>{item.friendlyName || item.sid}</StyledText>
         </ConversationsListItem>
