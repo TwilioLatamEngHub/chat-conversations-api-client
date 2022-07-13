@@ -4,7 +4,7 @@ import { UserOutlined, MessageOutlined } from '@ant-design/icons'
 
 import { ConversationsContext } from '../../contexts'
 import { addParticipant, createConversation } from '../../services/functions'
-import { Conversation } from '../Conversation/Conversation'
+import { Conversation } from '../Conversation'
 
 export const CreateNewConversationModal = (): JSX.Element => {
   const {

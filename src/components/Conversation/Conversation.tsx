@@ -2,7 +2,7 @@ import { useCallback, useContext, useState } from 'react'
 import { Button, Form } from 'antd'
 import { Conversation as ConversationType } from '@twilio/conversations'
 
-import { ConversationMessages } from '../ConversationMessages'
+import { ConversationMessages } from '../ConversationMessages/ConversationMessages'
 import { WA_BINDING } from '../../helpers'
 import AddWASMSParticipant from '../AddWASMSParticipant'
 import { createMessage } from '../../services/functions'

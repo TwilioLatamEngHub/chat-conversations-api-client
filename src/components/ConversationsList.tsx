@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { ConversationsContext } from '../contexts'
 import { COLOR_TWILIO_RED } from '../helpers'
-import { Conversation } from './Conversation'
+import { Conversation } from './Conversation/Conversation'
 import { addParticipant } from '../services/functions'
 
 const { Text } = Typography
