@@ -3,8 +3,8 @@ import { Badge, Layout } from 'antd'
 import { PresetStatusColorType } from 'antd/lib/_util/colors'
 
 import { ReactComponent as Logo } from '../assets/twilio-mark-red.svg'
-import { CreateNewConversation, ConversationsList } from '../components'
-import { ConversationsContext } from '../contexts'
+import { CreateNewConversation, ConversationsList } from '../../components'
+import { ConversationsContext } from '../../contexts'
 import {
   BadgeSpan,
   ConversationsWindowContainer,
@@ -14,7 +14,7 @@ import {
   SyledHeader,
   SyledText
 } from './ConversationsPage.styles'
-import { getConversations } from '../services/functions'
+import { getConversations } from '../../services/functions'
 
 const { Content, Sider } = Layout
 
@@ -30,20 +30,17 @@ export const ConversationsPage = (): JSX.Element => {
     const getConvos = async () => {
       setBadgeStatus('warning')
       setBadgeText('Loading')
+
       const { conversations } = await getConversations()
+
       setBadgeStatus('success')
       setBadgeText('Connected')
-      console.log('getConversations response')
-      console.log(conversations)
 
       if (conversations.length > 0) {
         setConversations(conversations)
       }
     }
     getConvos()
-
-    // Need to run only once, so empty deps
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
