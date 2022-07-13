@@ -1,48 +1,20 @@
+import {
+  AddParticipantParams,
+  AddParticipantReturn,
+  CreateConversationReturn,
+  CreateMessageParams,
+  CreateMessageReturn,
+  GetConversationsReturn,
+  GetMessagesReturn,
+  GetTokenReturn
+} from './functions.types'
+
 const handleFetches = async (url: string, queries?: string) => {
   const fetchUrl = queries ? `${url}${queries}` : url
   return await fetch(fetchUrl)
     .then(res => res.json())
     .then(data => data)
     .catch(err => err)
-}
-
-type ParticipantType = 'whatsapp' | 'sms' | 'chat'
-
-export interface AddParticipantParams {
-  participantType: ParticipantType
-  conversationSid: string
-  identity?: string
-  number?: string
-}
-
-interface AddParticipantReturn {
-  participantSid: string
-}
-
-interface CreateConversationReturn {
-  conversation: any
-}
-
-interface CreateMessageParams {
-  conversationSid: string
-  author: string
-  body: string
-}
-
-interface CreateMessageReturn {
-  message: any
-}
-
-interface GetConversationsReturn {
-  conversations: any[]
-}
-
-interface GetMessagesReturn {
-  messages: any[]
-}
-
-interface GetTokenReturn {
-  accessToken: string
 }
 
 export const addParticipant = async ({
