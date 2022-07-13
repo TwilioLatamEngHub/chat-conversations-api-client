@@ -1,4 +1,3 @@
-import { ParticipantType } from '@twilio/conversations'
 import React, { createContext, Dispatch, SetStateAction, useState } from 'react'
 
 export interface ConversationsContextData {
