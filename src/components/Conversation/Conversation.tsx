@@ -1,41 +1,18 @@
 import { useContext, useState } from 'react'
-import { Button, Form, Input } from 'antd'
-import styled from 'styled-components'
+import { Button, Form } from 'antd'
 import { Conversation as ConversationType } from '@twilio/conversations'
 
-import { ConversationMessages } from './ConversationMessages'
-import { COLOR_TWILIO_RED, WA_BINDING } from '../helpers'
-import AddWASMSParticipant from './AddWASMSParticipant'
-import { createMessage } from '../services/functions'
-import { ConversationsContext } from '../contexts'
-
-const ConversationContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-basis: 100%;
-  overflow-y: scroll;
-`
-
-const StyledForm = styled(Form)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 5rem;
-  background-color: #001528;
-`
-
-const StyledInput = styled(Input)`
-  width: 40rem;
-  font-size: 14px;
-`
-
-const ButtonsContainer = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  height: 5rem;
-  background-color: ${COLOR_TWILIO_RED};
-`
+import { ConversationMessages } from '../ConversationMessages'
+import { WA_BINDING } from '../../helpers'
+import AddWASMSParticipant from '../AddWASMSParticipant'
+import { createMessage } from '../../services/functions'
+import { ConversationsContext } from '../../contexts'
+import {
+  ButtonsContainer,
+  ConversationContainer,
+  StyledForm,
+  StyledInput
+} from './Conversation.styles'
 
 export interface ConversationProps {
   conversation: ConversationType
@@ -51,7 +28,6 @@ export const Conversation = ({
 
   const onMessageChanged = (event: any) => {
     setNewMessage(event.target.value)
-    setMessages(oldMessages => [...oldMessages, newMessage])
   }
 
   const sendMessage = async () => {
@@ -63,6 +39,7 @@ export const Conversation = ({
         author: identity,
         body: newMessage
       })
+      setMessages(oldMessages => [...oldMessages, newMessage])
       setNewMessage('')
       setIsLoading(false)
     } catch (error) {

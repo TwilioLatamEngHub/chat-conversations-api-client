@@ -20,41 +20,17 @@ export const ConversationsModal = (): JSX.Element => {
   const initConversation = useCallback(async (friendlyName: string) => {
     try {
       const { conversation } = await createConversation(friendlyName)
-      console.log('New conversation created:')
-      console.log(conversation)
 
-      const { participantSid } = await addParticipant({
+      await addParticipant({
         participantType: 'chat',
         conversationSid: conversation.sid,
         identity
       })
-      console.log('Participant added. SID or exists:')
-      console.log(participantSid)
 
       setConversationContent(<Conversation conversation={conversation} />)
     } catch (error) {
       console.log(error)
     }
-
-    // const { accessToken } = await getToken('gus')
-
-    // if (accessToken) {
-    //   const client = new Client(accessToken)
-    //   let conversation: ConversationType
-
-    //   if (isNewConversation && friendlyName) {
-    //     conversation = await client.createConversation({
-    //       friendlyName: friendlyName
-    //     })
-    //   } else {
-    //     conversation = await client.getConversationBySid(
-    //       selectedConversationSid
-    //     )
-    //   }
-    //   // Fix conversation add
-    //   conversation.add(identity)
-    //   setConversationContent(<Conversation conversation={conversation} />)
-    // }
   }, [])
 
   const handleCancel = () => {
