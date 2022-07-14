@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Form, Input } from 'antd'
 
-import { COLOR_TWILIO_RED } from '../../helpers'
+import { COLOR_TWILIO_RED, COLOR_NAVY_BLUE } from '../../helpers'
 
 export const ConversationContainer = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ export const StyledForm = styled(Form)`
   justify-content: center;
   align-items: center;
   height: 5rem;
-  background-color: #001528;
+  background-color: ${COLOR_TWILIO_RED};
 `
 
 export const StyledInput = styled(Input)`
@@ -28,5 +28,5 @@ export const ButtonsContainer = styled.div`
   justify-content: space-evenly;
   align-items: center;
   height: 5rem;
-  background-color: ${COLOR_TWILIO_RED};
+  background-color: ${COLOR_NAVY_BLUE};
 `

@@ -28,8 +28,6 @@ export const ConversationMessages = ({
     const fetchMessages = async () => {
       try {
         const result = await conversation.getMessages()
-        console.log('messages')
-        console.log(result)
         setMessages(result.items)
         setLocalSid(conversation.sid)
       } catch (error) {
@@ -38,14 +36,6 @@ export const ConversationMessages = ({
       setIsLoading(false)
     }
     fetchMessages()
-  }, [conversation])
-
-  useEffect(() => {
-    conversation.on('messageAdded', message => {
-      setIsLoading(true)
-      setMessages(oldMessages => [...oldMessages, message])
-      setIsLoading(false)
-    })
   }, [])
 
   const hasMessages = messages.length > 0

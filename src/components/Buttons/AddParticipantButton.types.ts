@@ -1,3 +1,5 @@
+import { Conversation as ConversationType } from '@twilio/conversations'
+
 export const WA_BINDING = 'wa'
 export const SMS_BINDING = 'sms'
 export const CHAT_BINDING = 'chat'
@@ -9,4 +11,5 @@ export type Bindings =
 
 export interface AddParticipantButtonProps {
   binding: Bindings
+  conversation: ConversationType
 }

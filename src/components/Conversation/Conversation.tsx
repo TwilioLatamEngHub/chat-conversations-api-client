@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { Button, Form } from 'antd'
 import { Conversation as ConversationType } from '@twilio/conversations'
 
@@ -15,6 +15,7 @@ import {
   StyledForm,
   StyledInput
 } from './Conversation.styles'
+import { ConversationsContext } from '../../contexts'
 
 export interface ConversationProps {
   conversation: ConversationType
@@ -23,24 +24,33 @@ export interface ConversationProps {
 export const Conversation = ({
   conversation
 }: ConversationProps): JSX.Element => {
+  const { setIsLoading, setMessages } = useContext(ConversationsContext)
   const [newMessage, setNewMessage] = useState<string>('')
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [buttonIsLoading, setButtonIsLoading] = useState<boolean>(false)
+
+  useEffect(() => {
+    conversation.on('messageAdded', message => {
+      setIsLoading(true)
+      setMessages(oldMessages => [...oldMessages, message])
+      setIsLoading(false)
+    })
+  }, [conversation])
 
   const onMessageChanged = (event: any) => {
     setNewMessage(event.target.value)
   }
 
   const sendMessage = useCallback(async () => {
-    setIsLoading(true)
+    setButtonIsLoading(true)
 
     try {
       await conversation.sendMessage(newMessage)
 
       setNewMessage('')
-      setIsLoading(false)
+      setButtonIsLoading(false)
     } catch (error) {
       console.log(error)
-      setIsLoading(false)
+      setButtonIsLoading(false)
     }
   }, [newMessage, setNewMessage])
 
@@ -56,23 +66,32 @@ export const Conversation = ({
             autoComplete={'off'}
             onChange={onMessageChanged}
             value={newMessage}
-            disabled={isLoading}
+            disabled={buttonIsLoading}
           />
         </Form.Item>
         <Form.Item>
           <Button
             htmlType='submit'
             style={{ minWidth: '5rem', fontSize: '14px' }}
-            loading={isLoading}
+            loading={buttonIsLoading}
           >
             Enter
           </Button>
         </Form.Item>
       </StyledForm>
       <ButtonsContainer>
-        <AddParticipantButton binding={WA_BINDING} />
-        <AddParticipantButton binding={SMS_BINDING} />
-        <AddParticipantButton binding={CHAT_BINDING} />
+        <AddParticipantButton
+          conversation={conversation}
+          binding={CHAT_BINDING}
+        />
+        <AddParticipantButton
+          conversation={conversation}
+          binding={WA_BINDING}
+        />
+        <AddParticipantButton
+          conversation={conversation}
+          binding={SMS_BINDING}
+        />
         <Button danger htmlType='submit' style={{ minWidth: '5rem' }}>
           Remove
         </Button>

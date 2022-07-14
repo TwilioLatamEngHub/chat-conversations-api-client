@@ -1,5 +1,11 @@
 import { useContext, useEffect, useState } from 'react'
 import { Modal, Button, Input } from 'antd'
+import {
+  WhatsAppOutlined,
+  MessageOutlined,
+  MobileOutlined
+} from '@ant-design/icons'
+import styled from 'styled-components'
 
 import {
   AddParticipantButtonProps,
@@ -8,28 +14,42 @@ import {
   WA_BINDING
 } from './AddParticipantButton.types'
 import { ConversationsContext } from '../../contexts'
+import { COLOR_NAVY_BLUE } from '../../helpers'
+
+const StyledButton = styled(Button)`
+  color: ${COLOR_NAVY_BLUE} !important;
+  border-color: ${COLOR_NAVY_BLUE} !important;
+`
+
+const TWILIO_NUMBER = '+5511952130034'
 
 export const AddParticipantButton = ({
-  binding
+  binding,
+  conversation
 }: AddParticipantButtonProps): JSX.Element => {
-  const { isLoading } = useContext(ConversationsContext)
+  const { isLoading, setIsLoading, setBadgeStatus, setBadgeText } =
+    useContext(ConversationsContext)
   const [isVisible, setIsVisible] = useState<boolean>(false)
-  const [number, setNumber] = useState<string>('')
+  const [participant, setParticipant] = useState<string>('')
   const [buttonText, setButtonText] = useState<string>('')
+  const [buttonIcon, setButtonIcon] = useState<JSX.Element>(<div />)
   const [modalTitle, setModalTitle] = useState<string>('')
 
   useEffect(() => {
     switch (binding) {
       case WA_BINDING:
-        setButtonText('+ Add WhatsApp Participant')
+        setButtonText('Add WhatsApp Participant')
+        setButtonIcon(<WhatsAppOutlined />)
         setModalTitle('Add WhatsApp Participant')
         break
       case SMS_BINDING:
-        setButtonText('+ Add SMS Participant')
+        setButtonText('Add SMS Participant')
+        setButtonIcon(<MobileOutlined />)
         setModalTitle('Add SMS Participant')
         break
       case CHAT_BINDING:
-        setButtonText('+ Add Chat Participant')
+        setButtonText('Add Chat Participant')
+        setButtonIcon(<MessageOutlined />)
         setModalTitle('Add Chat Participant')
         break
       default:
@@ -46,22 +66,53 @@ export const AddParticipantButton = ({
   }
 
   const handleChange = (event: any) => {
-    setNumber(event.target.value)
+    setParticipant(event.target.value)
   }
 
-  const handleAddParticipant = () => {}
+  const handleAddParticipant = async () => {
+    setIsLoading(true)
+    setBadgeStatus('warning')
+    setBadgeText('Adding participant')
+    setIsVisible(false)
+
+    try {
+      if (binding === CHAT_BINDING) {
+        await conversation.add(participant)
+      }
+      if (binding === WA_BINDING) {
+        const proxy = `whatsapp:${TWILIO_NUMBER}`
+        const address = `whatsapp:${participant}`
+        await conversation.addNonChatParticipant(proxy, address)
+      }
+      if (binding === SMS_BINDING) {
+        const proxy = TWILIO_NUMBER
+        const address = participant
+        await conversation.addNonChatParticipant(proxy, address)
+      }
+
+      setIsLoading(false)
+      setBadgeStatus('success')
+      setBadgeText('Participant added')
+    } catch (error) {
+      console.log(error)
+      setIsLoading(false)
+      setBadgeStatus('error')
+      setBadgeText('Unable to add participant')
+    }
+  }
 
   return (
     <>
-      <Button
+      <StyledButton
         type='primary'
         ghost
         htmlType='submit'
         style={{ minWidth: '5rem', background: '#fff' }}
         onClick={showModal}
       >
+        {buttonIcon}
         {buttonText}
-      </Button>
+      </StyledButton>
       <Modal
         visible={isVisible}
         title={modalTitle}
@@ -76,9 +127,9 @@ export const AddParticipantButton = ({
           <Input
             style={{ width: 'calc(100% - 200px)' }}
             placeholder={
-              binding === CHAT_BINDING ? 'Chat identity' : 'E.164 Number Format'
+              binding === CHAT_BINDING ? 'Chat Identity' : 'E.164 Number Format'
             }
-            value={number}
+            value={participant}
             onChange={handleChange}
           />
           <Button

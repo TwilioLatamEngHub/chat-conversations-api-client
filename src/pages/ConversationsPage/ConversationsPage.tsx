@@ -68,6 +68,8 @@ export const ConversationsPage = (): JSX.Element => {
 
   const handlePowerOff = () => {
     setIsLoading(true)
+    setBadgeStatus('warning')
+    setBadgeText('Disconnecting')
     setClient(null)
     setIdentity('')
     window.location.reload()
