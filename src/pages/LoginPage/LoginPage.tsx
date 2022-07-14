@@ -35,13 +35,13 @@ export const LoginPage = (): JSX.Element => {
               </StyledRowWrapper>
               <Form layout='vertical' onFinish={onFinish}>
                 <Form.Item
-                  label='Please input your identity below:'
+                  label='Please input your chat identity below:'
                   name='identity'
                   rules={[{ required: true }]}
                 >
                   <Input
                     prefix={<StyledUserOutlined />}
-                    placeholder='Chat identity'
+                    placeholder='Chat Identity'
                   />
                 </Form.Item>
                 <Form.Item>
