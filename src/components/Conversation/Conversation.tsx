@@ -2,9 +2,13 @@ import { useCallback, useState } from 'react'
 import { Button, Form } from 'antd'
 import { Conversation as ConversationType } from '@twilio/conversations'
 
-import { ConversationMessages } from '../ConversationMessages/ConversationMessages'
-import { WA_BINDING } from '../../helpers'
-import AddWASMSParticipant from '../AddWASMSParticipant'
+import { ConversationMessages } from '../ConversationMessages'
+import {
+  AddParticipantButton,
+  WA_BINDING,
+  SMS_BINDING,
+  CHAT_BINDING
+} from '../Buttons'
 import {
   ButtonsContainer,
   ConversationContainer,
@@ -66,8 +70,9 @@ export const Conversation = ({
         </Form.Item>
       </StyledForm>
       <ButtonsContainer>
-        <AddWASMSParticipant binding={WA_BINDING} />
-        <AddWASMSParticipant binding={''} />
+        <AddParticipantButton binding={WA_BINDING} />
+        <AddParticipantButton binding={SMS_BINDING} />
+        <AddParticipantButton binding={CHAT_BINDING} />
         <Button danger htmlType='submit' style={{ minWidth: '5rem' }}>
           Remove
         </Button>

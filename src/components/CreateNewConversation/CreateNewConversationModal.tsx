@@ -1,6 +1,6 @@
-import { useCallback, useContext } from 'react'
+import { useCallback, useContext, useState } from 'react'
 import { Button, Form, Input, Modal } from 'antd'
-import { UserOutlined, MessageOutlined } from '@ant-design/icons'
+import { MessageOutlined } from '@ant-design/icons'
 
 import { ConversationsContext } from '../../contexts'
 import { Conversation } from '../Conversation'
@@ -11,8 +11,6 @@ export const CreateNewConversationModal = (): JSX.Element => {
     setShowModal,
     setConversationContent,
     identity,
-    setIdentity,
-    isLoading,
     setIsLoading,
     setConversations,
     setLocalSid,
@@ -20,6 +18,7 @@ export const CreateNewConversationModal = (): JSX.Element => {
     setBadgeText,
     client
   } = useContext(ConversationsContext)
+  const [isModalLoading, setIsModalLoading] = useState<boolean>(false)
 
   const initConversation = useCallback(async (friendlyName: string) => {
     setBadgeStatus('warning')
@@ -46,24 +45,32 @@ export const CreateNewConversationModal = (): JSX.Element => {
       }
     } catch (error) {
       console.log(error)
+      setBadgeStatus('error')
+      setBadgeText('Unable to create a new conversation')
+      setShowModal(false)
+      setIsLoading(false)
+      setIsModalLoading(false)
     }
   }, [])
 
   const handleCancel = () => {
     setShowModal(false)
+    setIsLoading(false)
+    setIsModalLoading(false)
   }
 
   const onFinish = async (values: any) => {
-    const { identity, friendlyName } = values
+    const { friendlyName } = values
 
     try {
       setIsLoading(true)
-      setIdentity(identity)
+      setIsModalLoading(true)
 
       await initConversation(friendlyName)
 
       setShowModal(false)
       setIsLoading(false)
+      setIsModalLoading(false)
     } catch (error) {
       console.error(error)
       setShowModal(false)
@@ -89,18 +96,13 @@ export const CreateNewConversationModal = (): JSX.Element => {
             placeholder='Conversation name'
           />
         </Form.Item>
-        <Form.Item
-          label='Please input your identity below:'
-          name='identity'
-          rules={[{ required: true }]}
-        >
-          <Input
-            prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder='Chat identity'
-          />
-        </Form.Item>
         <Form.Item>
-          <Button block type='primary' htmlType='submit' loading={isLoading}>
+          <Button
+            block
+            type='primary'
+            htmlType='submit'
+            loading={isModalLoading}
+          >
             Enter
           </Button>
         </Form.Item>

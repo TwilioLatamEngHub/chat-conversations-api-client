@@ -1,4 +1,4 @@
-export * from './AddWASMSParticipant'
+export * from './Buttons'
 export * from './Conversation'
 export * from './ConversationsList'
 export * from './ConversationMessages'
