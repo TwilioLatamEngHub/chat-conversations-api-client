@@ -1,3 +1,4 @@
+import { PresetStatusColorType } from 'antd/lib/_util/colors'
 import React, { createContext, Dispatch, SetStateAction, useState } from 'react'
 
 export interface ConversationsContextData {
@@ -15,8 +16,12 @@ export interface ConversationsContextData {
   setIsLoading: Dispatch<SetStateAction<boolean>>
   messages: any[]
   setMessages: Dispatch<SetStateAction<any[]>>
-  token: string
-  setToken: Dispatch<SetStateAction<string>>
+  localSid: string
+  setLocalSid: Dispatch<SetStateAction<string>>
+  badgeStatus: PresetStatusColorType
+  setBadgeStatus: Dispatch<SetStateAction<PresetStatusColorType>>
+  badgeText: string
+  setBadgeText: Dispatch<SetStateAction<string>>
 }
 
 interface ConversationsContentProviderProps {
@@ -38,7 +43,10 @@ export const ConversationsContentProvider = ({
     useState<JSX.Element | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [messages, setMessages] = useState<any[]>([])
-  const [token, setToken] = useState<string>('')
+  const [localSid, setLocalSid] = useState<string>('')
+  const [badgeStatus, setBadgeStatus] =
+    useState<PresetStatusColorType>('warning')
+  const [badgeText, setBadgeText] = useState<string>('Disconnected')
 
   const conversationsContextDefaultValue = {
     identity,
@@ -55,8 +63,12 @@ export const ConversationsContentProvider = ({
     setIsLoading,
     messages,
     setMessages,
-    token,
-    setToken
+    localSid,
+    setLocalSid,
+    badgeStatus,
+    setBadgeStatus,
+    badgeText,
+    setBadgeText
   }
 
   return (
