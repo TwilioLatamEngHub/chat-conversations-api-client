@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Button, Form } from 'antd'
 import { Conversation as ConversationType } from '@twilio/conversations'
 
@@ -14,12 +14,10 @@ import {
 
 export interface ConversationProps {
   conversation: ConversationType
-  setLocalSid?: Dispatch<SetStateAction<string>>
 }
 
 export const Conversation = ({
-  conversation,
-  setLocalSid
+  conversation
 }: ConversationProps): JSX.Element => {
   const [newMessage, setNewMessage] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -44,10 +42,7 @@ export const Conversation = ({
 
   return (
     <ConversationContainer>
-      <ConversationMessages
-        conversation={conversation}
-        setLocalSid={setLocalSid}
-      />
+      <ConversationMessages conversation={conversation} />
       <StyledForm size='large' layout='inline' onFinish={sendMessage}>
         <Form.Item>
           <StyledInput

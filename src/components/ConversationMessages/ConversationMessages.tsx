@@ -12,8 +12,7 @@ import {
 import { ConversationProps } from '../Conversation/'
 
 export const ConversationMessages = ({
-  conversation,
-  setLocalSid
+  conversation
 }: ConversationProps): JSX.Element => {
   const {
     messages,
@@ -21,7 +20,8 @@ export const ConversationMessages = ({
     identity,
     showModal,
     isLoading,
-    setIsLoading
+    setIsLoading,
+    setLocalSid
   } = useContext(ConversationsContext)
 
   useEffect(() => {
@@ -31,9 +31,7 @@ export const ConversationMessages = ({
         console.log('messages')
         console.log(result)
         setMessages(result.items)
-        if (setLocalSid) {
-          setLocalSid(conversation.sid)
-        }
+        setLocalSid(conversation.sid)
       } catch (error) {
         console.log(error)
       }
@@ -51,7 +49,7 @@ export const ConversationMessages = ({
   }, [])
 
   const hasMessages = messages.length > 0
-  const hasSpinner = showModal || !hasMessages || isLoading
+  const hasSpinner = showModal || isLoading
 
   return (
     <>
