@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Client } from '@twilio/conversations'
 
 import { ConversationsContext } from '../../contexts'
@@ -9,24 +9,36 @@ import {
   StyledText
 } from './ConversationsList.styles'
 
-export const ConversationsList = (): JSX.Element => {
+interface ConversationsListProps {
+  client: Client
+}
+
+export const ConversationsList = ({
+  client
+}: ConversationsListProps): JSX.Element => {
   const {
-    token,
     isLoading,
     setMessages,
     conversations,
     setConversationContent,
     identity,
-    setIsLoading
+    setIsLoading,
+    localSid
   } = useContext(ConversationsContext)
-  const [localSid, setLocalSid] = useState<string>('')
+  const [sortedConvos, setSortedConvos] = useState<any[]>(conversations)
+
+  useEffect(() => {
+    const sortedArr = conversations.sort((a, b) => {
+      return a.dateCreated < b.dateCreated ? 1 : -1
+    })
+    setSortedConvos(sortedArr)
+  }, [setSortedConvos, conversations])
 
   const handleOnClick = async (sid: string) => {
     setMessages([])
     setIsLoading(true)
 
     try {
-      const client = new Client(token)
       const convo = await client.getConversationBySid(sid)
       const convoParticipant = await convo.getParticipants()
 
@@ -36,9 +48,7 @@ export const ConversationsList = (): JSX.Element => {
 
       if (!isAlreadyParticipant) await convo.add(identity)
 
-      setConversationContent(
-        <Conversation conversation={convo} setLocalSid={setLocalSid} />
-      )
+      setConversationContent(<Conversation conversation={convo} />)
     } catch (error) {
       setIsLoading(false)
       console.log(error)
@@ -49,7 +59,7 @@ export const ConversationsList = (): JSX.Element => {
     <StyledList
       bordered={true}
       loading={isLoading}
-      dataSource={conversations}
+      dataSource={sortedConvos}
       renderItem={(item: any) => (
         <ConversationsListItem
           key={item.sid}
