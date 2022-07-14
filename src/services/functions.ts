@@ -2,8 +2,6 @@ import {
   AddParticipantParams,
   AddParticipantReturn,
   CreateConversationReturn,
-  CreateMessageParams,
-  CreateMessageReturn,
   GetConversationsReturn,
   GetTokenReturn
 } from './functions.types'
@@ -42,17 +40,6 @@ export const createConversation = async (
   const url =
     'https://chat-conversations-api-1918-dev.twil.io/create-conversation'
   const queries = `?friendlyName=${friendlyName}`
-
-  return await handleFetches(url, queries)
-}
-
-export const createMessage = async ({
-  conversationSid,
-  author,
-  body
-}: CreateMessageParams): Promise<CreateMessageReturn> => {
-  const url = 'https://chat-conversations-api-1918-dev.twil.io/create-message'
-  const queries = `?conversationSid=${conversationSid}&author=${author}&body=${body}`
 
   return await handleFetches(url, queries)
 }

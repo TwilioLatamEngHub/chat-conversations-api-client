@@ -15,16 +15,6 @@ export interface CreateConversationReturn {
   conversation: any
 }
 
-export interface CreateMessageParams {
-  conversationSid: string
-  author: string
-  body: string
-}
-
-export interface CreateMessageReturn {
-  message: any
-}
-
 export interface GetConversationsReturn {
   conversations: any[]
 }

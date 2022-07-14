@@ -1,18 +1,10 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useContext,
-  useState
-} from 'react'
+import { Dispatch, SetStateAction, useCallback, useState } from 'react'
 import { Button, Form } from 'antd'
 import { Conversation as ConversationType } from '@twilio/conversations'
 
 import { ConversationMessages } from '../ConversationMessages/ConversationMessages'
 import { WA_BINDING } from '../../helpers'
 import AddWASMSParticipant from '../AddWASMSParticipant'
-import { createMessage } from '../../services/functions'
-import { ConversationsContext } from '../../contexts'
 import {
   ButtonsContainer,
   ConversationContainer,
@@ -29,7 +21,6 @@ export const Conversation = ({
   conversation,
   setLocalSid
 }: ConversationProps): JSX.Element => {
-  const { identity, setMessages } = useContext(ConversationsContext)
   const [newMessage, setNewMessage] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -40,14 +31,9 @@ export const Conversation = ({
   const sendMessage = useCallback(async () => {
     setIsLoading(true)
 
-    // TODO: Create message via SDK and delete function
     try {
-      await createMessage({
-        conversationSid: conversation.sid,
-        author: identity,
-        body: newMessage
-      })
-      setMessages(oldMessages => [...oldMessages, newMessage])
+      await conversation.sendMessage(newMessage)
+
       setNewMessage('')
       setIsLoading(false)
     } catch (error) {
