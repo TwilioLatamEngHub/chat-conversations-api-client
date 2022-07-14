@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from 'react'
-import { Client } from '@twilio/conversations'
 
 import { ConversationsContext } from '../../contexts'
 import { Conversation } from '../Conversation/Conversation'
@@ -9,13 +8,7 @@ import {
   StyledText
 } from './ConversationsList.styles'
 
-interface ConversationsListProps {
-  client: Client
-}
-
-export const ConversationsList = ({
-  client
-}: ConversationsListProps): JSX.Element => {
+export const ConversationsList = (): JSX.Element => {
   const {
     isLoading,
     setMessages,
@@ -23,7 +16,10 @@ export const ConversationsList = ({
     setConversationContent,
     identity,
     setIsLoading,
-    localSid
+    localSid,
+    client,
+    setBadgeStatus,
+    setBadgeText
   } = useContext(ConversationsContext)
   const [sortedConvos, setSortedConvos] = useState<any[]>(conversations)
 
@@ -39,19 +35,28 @@ export const ConversationsList = ({
     setIsLoading(true)
 
     try {
-      const convo = await client.getConversationBySid(sid)
-      const convoParticipant = await convo.getParticipants()
+      setBadgeStatus('warning')
+      setBadgeText('Entering conversation')
 
-      const isAlreadyParticipant = convoParticipant.find(
-        p => p.identity === identity
-      )
+      if (client) {
+        const convo = await client.getConversationBySid(sid)
+        const convoParticipant = await convo.getParticipants()
+        const isAlreadyParticipant = convoParticipant.find(
+          p => p.identity === identity
+        )
+        if (!isAlreadyParticipant) await convo.add(identity)
 
-      if (!isAlreadyParticipant) await convo.add(identity)
-
-      setConversationContent(<Conversation conversation={convo} />)
+        setConversationContent(<Conversation conversation={convo} />)
+        setBadgeStatus('success')
+        setBadgeText('Connected')
+        setIsLoading(false)
+      }
     } catch (error) {
+      setConversationContent(null)
       setIsLoading(false)
       console.log(error)
+      setBadgeStatus('error')
+      setBadgeText('You are not allowed to enter this conversation')
     }
   }
 

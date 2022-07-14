@@ -4,11 +4,8 @@ import { UserOutlined, MessageOutlined } from '@ant-design/icons'
 
 import { ConversationsContext } from '../../contexts'
 import { Conversation } from '../Conversation'
-import { CreateNewConversationProps } from './CreateNewConversation'
 
-export const CreateNewConversationModal = ({
-  client
-}: CreateNewConversationProps): JSX.Element => {
+export const CreateNewConversationModal = (): JSX.Element => {
   const {
     showModal,
     setShowModal,
@@ -20,7 +17,8 @@ export const CreateNewConversationModal = ({
     setConversations,
     setLocalSid,
     setBadgeStatus,
-    setBadgeText
+    setBadgeText,
+    client
   } = useContext(ConversationsContext)
 
   const initConversation = useCallback(async (friendlyName: string) => {
@@ -28,21 +26,24 @@ export const CreateNewConversationModal = ({
     setBadgeText('Creating new conversation')
 
     try {
-      const newConversation = await client.createConversation({
-        friendlyName: friendlyName
-      })
-      await newConversation.add(identity)
+      if (client) {
+        const newConversation = await client.createConversation({
+          attributes: { createdBy: identity },
+          friendlyName: friendlyName
+        })
+        await newConversation.add(identity)
 
-      setConversations(oldConversations => [
-        ...oldConversations,
-        newConversation
-      ])
+        setConversations(oldConversations => [
+          ...oldConversations,
+          newConversation
+        ])
 
-      setConversationContent(<Conversation conversation={newConversation} />)
-      setLocalSid(newConversation.sid)
+        setConversationContent(<Conversation conversation={newConversation} />)
+        setLocalSid(newConversation.sid)
 
-      setBadgeStatus('success')
-      setBadgeText('Connected')
+        setBadgeStatus('success')
+        setBadgeText('Connected')
+      }
     } catch (error) {
       console.log(error)
     }
