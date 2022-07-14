@@ -1,3 +1,4 @@
+import { Client } from '@twilio/conversations'
 import { PresetStatusColorType } from 'antd/lib/_util/colors'
 import React, { createContext, Dispatch, SetStateAction, useState } from 'react'
 
@@ -22,6 +23,8 @@ export interface ConversationsContextData {
   setBadgeStatus: Dispatch<SetStateAction<PresetStatusColorType>>
   badgeText: string
   setBadgeText: Dispatch<SetStateAction<string>>
+  client: Client | null
+  setClient: Dispatch<SetStateAction<Client | null>>
 }
 
 interface ConversationsContentProviderProps {
@@ -47,6 +50,7 @@ export const ConversationsContentProvider = ({
   const [badgeStatus, setBadgeStatus] =
     useState<PresetStatusColorType>('warning')
   const [badgeText, setBadgeText] = useState<string>('Disconnected')
+  const [client, setClient] = useState<Client | null>(null)
 
   const conversationsContextDefaultValue = {
     identity,
@@ -68,7 +72,9 @@ export const ConversationsContentProvider = ({
     badgeStatus,
     setBadgeStatus,
     badgeText,
-    setBadgeText
+    setBadgeText,
+    client,
+    setClient
   }
 
   return (
