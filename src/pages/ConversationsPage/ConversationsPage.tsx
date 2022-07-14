@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { Badge, Layout } from 'antd'
 import { Client } from '@twilio/conversations'
 
@@ -6,11 +6,14 @@ import { ReactComponent as Logo } from '../../assets/twilio-mark-red.svg'
 import { CreateNewConversation, ConversationsList } from '../../components'
 import { ConversationsContext } from '../../contexts'
 import {
+  BadgeContainer,
   BadgeSpan,
   ConversationsWindowContainer,
   ConversationsWindowWrapper,
   HeaderItemLeftContainer,
+  PowerOffContainer,
   SelectedConversation,
+  StyledPoweroffOutlined,
   SyledHeader,
   SyledText
 } from './ConversationsPage.styles'
@@ -27,33 +30,48 @@ export const ConversationsPage = (): JSX.Element => {
     badgeStatus,
     setBadgeStatus,
     badgeText,
-    setBadgeText
+    setBadgeText,
+    setIsLoading,
+    client,
+    setClient,
+    setIdentity
   } = useContext(ConversationsContext)
-  const [client, setClient] = useState<Client | null>(null)
 
   useEffect(() => {
-    setBadgeStatus('warning')
-    setBadgeText('Loading conversations list')
+    try {
+      const fetchConversations = async () => {
+        setBadgeStatus('warning')
+        setBadgeText('Loading conversations list')
 
-    const fetchConversations = async () => {
-      const { conversations } = await getConversations()
+        const { accessToken } = await getToken(identity)
+        const client = new Client(accessToken)
+        setClient(client)
 
-      const { accessToken } = await getToken(identity)
-      const client = new Client(accessToken)
-      setClient(client)
+        const { conversations } = await getConversations()
+        if (conversations.length > 0) {
+          const sortedArr = conversations.sort((a, b) => {
+            return a.dateCreated < b.dateCreated ? 1 : -1
+          })
+          setConversations(sortedArr)
+        }
 
-      if (conversations.length > 0) {
-        const sortedArr = conversations.sort((a, b) => {
-          return a.dateCreated < b.dateCreated ? 1 : -1
-        })
-        setConversations(sortedArr)
+        setBadgeStatus('success')
+        setBadgeText('Connected')
       }
+      fetchConversations()
+    } catch (error) {
+      console.log(error)
+      setBadgeStatus('error')
+      setBadgeText('An error has occured')
     }
-    fetchConversations()
-
-    setBadgeStatus('success')
-    setBadgeText('Connected')
   }, [])
+
+  const handlePowerOff = () => {
+    setIsLoading(true)
+    setClient(null)
+    setIdentity('')
+    window.location.reload()
+  }
 
   const hasConversations = conversations.length > 0
 
@@ -65,17 +83,20 @@ export const ConversationsPage = (): JSX.Element => {
             <Logo />
             <SyledText>Twilio Conversations API Demo</SyledText>
           </HeaderItemLeftContainer>
-          <>
+          <BadgeContainer>
             <Badge dot={true} status={badgeStatus} />
             <BadgeSpan>{`${badgeText}`}</BadgeSpan>
-          </>
+          </BadgeContainer>
+          <PowerOffContainer onClick={handlePowerOff}>
+            <StyledPoweroffOutlined />
+          </PowerOffContainer>
         </SyledHeader>
         <Layout>
           <Sider theme={'light'} width={270}>
             {client && (
               <>
-                <CreateNewConversation client={client} />
-                {hasConversations && <ConversationsList client={client} />}
+                <CreateNewConversation />
+                {hasConversations && <ConversationsList />}
               </>
             )}
           </Sider>
