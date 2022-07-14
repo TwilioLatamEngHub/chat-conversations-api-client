@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from 'react'
 import { Badge, Layout } from 'antd'
-import { PresetStatusColorType } from 'antd/lib/_util/colors'
+import { Client } from '@twilio/conversations'
 
 import { ReactComponent as Logo } from '../../assets/twilio-mark-red.svg'
 import { CreateNewConversation, ConversationsList } from '../../components'
@@ -20,41 +20,42 @@ const { Content, Sider } = Layout
 
 export const ConversationsPage = (): JSX.Element => {
   const {
+    identity,
     conversations,
     setConversations,
     conversationContent,
-    identity,
-    setToken
+    badgeStatus,
+    setBadgeStatus,
+    badgeText,
+    setBadgeText
   } = useContext(ConversationsContext)
-  const [badgeStatus, setBadgeStatus] =
-    useState<PresetStatusColorType>('warning')
-  const [badgeText, setBadgeText] = useState<string>('Disconnected')
+  const [client, setClient] = useState<Client | null>(null)
 
   useEffect(() => {
-    const getConvos = async () => {
-      try {
-        setBadgeStatus('warning')
-        setBadgeText('Loading')
+    setBadgeStatus('warning')
+    setBadgeText('Loading conversations list')
 
-        const { conversations } = await getConversations()
-        const { accessToken } = await getToken(identity)
+    const fetchConversations = async () => {
+      const { conversations } = await getConversations()
 
-        setBadgeStatus('success')
-        setBadgeText('Connected')
+      const { accessToken } = await getToken(identity)
+      const client = new Client(accessToken)
+      setClient(client)
 
-        if (conversations.length > 0) {
-          setConversations(conversations)
-        }
-
-        setToken(accessToken)
-      } catch (error) {
-        console.log(error)
-        setBadgeStatus('error')
-        setBadgeText('An error has occurred')
+      if (conversations.length > 0) {
+        const sortedArr = conversations.sort((a, b) => {
+          return a.dateCreated < b.dateCreated ? 1 : -1
+        })
+        setConversations(sortedArr)
       }
     }
-    getConvos()
+    fetchConversations()
+
+    setBadgeStatus('success')
+    setBadgeText('Connected')
   }, [])
+
+  const hasConversations = conversations.length > 0
 
   return (
     <ConversationsWindowWrapper>
@@ -71,8 +72,12 @@ export const ConversationsPage = (): JSX.Element => {
         </SyledHeader>
         <Layout>
           <Sider theme={'light'} width={270}>
-            <CreateNewConversation />
-            {conversations.length > 0 && <ConversationsList />}
+            {client && (
+              <>
+                <CreateNewConversation client={client} />
+                {hasConversations && <ConversationsList client={client} />}
+              </>
+            )}
           </Sider>
           <Content>
             <SelectedConversation>{conversationContent}</SelectedConversation>
