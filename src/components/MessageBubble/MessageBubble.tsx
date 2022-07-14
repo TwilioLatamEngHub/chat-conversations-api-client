@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Spin, Modal } from 'antd'
 import {
   WhatsAppOutlined,
@@ -106,6 +106,8 @@ export const MessageBubble = ({
       }
     }
     fetchType()
+
+    document.getElementById(message.sid)?.scrollIntoView({ behavior: 'smooth' })
   }, [])
 
   // componentDidMount = async () => {
@@ -137,7 +139,7 @@ export const MessageBubble = ({
   //   }
 
   return (
-    <StyledLi>
+    <StyledLi id={message.sid}>
       <StyledDiv messageDirection={messageDirection}>
         <BubbleHeader>
           <BubbleIconWrapper>
