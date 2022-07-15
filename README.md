@@ -1,4 +1,4 @@
-<h1 align="center">Chat Conversations API Client</h1>
+<h1 align="center">Twilio Conversations API Demo Client</h1>
 
 <div align="center">
 
@@ -14,23 +14,12 @@ This is a lightweight application based on [Twilio Conversations](https://www.tw
 
 Test it live on this [website](https://whimsical-cannoli-b5b8ee.netlify.app/) -->
 
-# Disclaimer
+## Configuring and getting started
 
-**This software is to be considered "sample code", a Type B Deliverable, and is delivered "as-is" to the user. Twilio bears no responsibility to support the use or implementation of this software.**
+You will need a backend service for this app to work.
 
-# Configuring and getting started
+[Click here to check the backend repo for this app which is using Twilio Serverless Functions](https://github.com/TwilioLatamEngHub/chat-conversations-api-serverless).
 
-This demo requires a Twilio account where you'll need to collect some credentials from the [Twilio Console](https://www.twilio.com/console):
+There you can find more details on how to set it up correctly.
 
-- Your Account SID (`ACXXX`), Auth Token, API Key and API Secret, all accessible from the [Dashboard](https://twilio.com/console/dashboard)
-- Optional: Your Account's Conversations Service Sid `ISXXX` SID which is attached to your Conversations Service
-
-For the backend this app is using Twilio Serverless Functions. [Click here to check the repo.](https://github.com/TwilioLatamEngHub/chat-conversations-api-serverless)
-
-# Testing
-
-The demo application can be configured as such:
-
-- Cloning this repo and running locally
-  - Remember to copy the `.env.example` file to `.env` and replace the variables values with
-    the ones from your account. By default `NODE_ENV` is set to `production`.
+After setting up the backend, you just need to clone this repo, `npm install` and `npm start` to run it.
