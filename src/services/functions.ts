@@ -1,3 +1,5 @@
+import { Conversation } from '@twilio/conversations'
+
 const handleFetches = async (url: string, queries?: string) => {
   const fetchUrl = queries ? `${url}${queries}` : url
   return await fetch(fetchUrl)
@@ -7,7 +9,7 @@ const handleFetches = async (url: string, queries?: string) => {
 }
 
 interface GetConversationsReturn {
-  conversations: any[]
+  conversations: Conversation[]
 }
 
 interface GetTokenReturn {
