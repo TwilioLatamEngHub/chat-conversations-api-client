@@ -77,7 +77,9 @@ export const Conversation = (): JSX.Element => {
     } catch (error) {
       console.log(error)
       setBadgeStatus('error')
-      setBadgeText('Unable to remove the conversation')
+      setBadgeText(
+        'You cannot delete this conversation, please ask the conversation creator'
+      )
       setIsLoading(false)
     }
   }
