@@ -1,5 +1,5 @@
 import { Spin } from 'antd'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { Message } from '@twilio/conversations'
 import { v4 } from 'uuid'
 
@@ -10,34 +10,10 @@ import {
   SpinnerContainer,
   StyledUl
 } from './ConversationMessages.styles'
-import { ConversationProps } from '../Conversation/'
 
-export const ConversationMessages = ({
-  conversation
-}: ConversationProps): JSX.Element => {
-  const {
-    messages,
-    setMessages,
-    identity,
-    showModal,
-    isLoading,
-    setIsLoading,
-    setLocalSid
-  } = useContext(ConversationsContext)
-
-  useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        const result = await conversation.getMessages()
-        setMessages(result.items)
-        setLocalSid(conversation.sid)
-      } catch (error) {
-        console.log(error)
-      }
-      setIsLoading(false)
-    }
-    fetchMessages()
-  }, [])
+export const ConversationMessages = (): JSX.Element => {
+  const { messages, identity, showModal, isLoading } =
+    useContext(ConversationsContext)
 
   const hasMessages = messages.length > 0
   const hasSpinner = showModal || isLoading

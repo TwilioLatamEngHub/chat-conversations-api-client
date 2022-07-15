@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Button, Form } from 'antd'
 import { Conversation as ConversationType } from '@twilio/conversations'
 
@@ -15,7 +15,6 @@ import {
   StyledForm,
   StyledInput
 } from './Conversation.styles'
-import { ConversationsContext } from '../../contexts'
 
 export interface ConversationProps {
   conversation: ConversationType
@@ -24,17 +23,8 @@ export interface ConversationProps {
 export const Conversation = ({
   conversation
 }: ConversationProps): JSX.Element => {
-  const { setIsLoading, setMessages } = useContext(ConversationsContext)
   const [newMessage, setNewMessage] = useState<string>('')
   const [buttonIsLoading, setButtonIsLoading] = useState<boolean>(false)
-
-  useEffect(() => {
-    conversation.on('messageAdded', message => {
-      setIsLoading(true)
-      setMessages(oldMessages => [...oldMessages, message])
-      setIsLoading(false)
-    })
-  }, [conversation])
 
   const onMessageChanged = (event: any) => {
     setNewMessage(event.target.value)
@@ -56,7 +46,7 @@ export const Conversation = ({
 
   return (
     <ConversationContainer>
-      <ConversationMessages conversation={conversation} />
+      <ConversationMessages />
       <StyledForm size='large' layout='inline' onFinish={sendMessage}>
         <Form.Item>
           <StyledInput

@@ -17,6 +17,7 @@ export const ConversationsList = (): JSX.Element => {
     identity,
     setIsLoading,
     localSid,
+    setLocalSid,
     client,
     setBadgeStatus,
     setBadgeText
@@ -31,7 +32,6 @@ export const ConversationsList = (): JSX.Element => {
   }, [setSortedConvos, conversations])
 
   const handleOnClick = async (sid: string) => {
-    setMessages([])
     setIsLoading(true)
 
     try {
@@ -41,12 +41,23 @@ export const ConversationsList = (): JSX.Element => {
       if (client) {
         const convo = await client.getConversationBySid(sid)
         const convoParticipant = await convo.getParticipants()
+        const convoMessages = await convo.getMessages()
+        setMessages(convoMessages.items)
+        setLocalSid(sid)
+
         const isAlreadyParticipant = convoParticipant.find(
           p => p.identity === identity
         )
         if (!isAlreadyParticipant) await convo.add(identity)
 
         setConversationContent(<Conversation conversation={convo} />)
+
+        convo.on('messageAdded', message => {
+          setIsLoading(true)
+          setMessages(oldMessages => [...oldMessages, message])
+          setIsLoading(false)
+        })
+
         setBadgeStatus('success')
         setBadgeText('Connected')
         setIsLoading(false)
