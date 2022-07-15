@@ -3,13 +3,12 @@ import { Button, Form, Input, Modal } from 'antd'
 import { MessageOutlined } from '@ant-design/icons'
 
 import { ConversationsContext } from '../../contexts'
-import { Conversation } from '../Conversation'
 
 export const CreateNewConversationModal = (): JSX.Element => {
   const {
     showModal,
     setShowModal,
-    setConversationContent,
+    setConversation,
     identity,
     setIsLoading,
     setConversations,
@@ -37,7 +36,7 @@ export const CreateNewConversationModal = (): JSX.Element => {
           newConversation
         ])
 
-        setConversationContent(<Conversation conversation={newConversation} />)
+        setConversation(newConversation)
         setLocalSid(newConversation.sid)
 
         setBadgeStatus('success')

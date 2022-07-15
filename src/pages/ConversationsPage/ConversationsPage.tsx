@@ -3,7 +3,11 @@ import { Badge, Layout } from 'antd'
 import { Client } from '@twilio/conversations'
 
 import { ReactComponent as Logo } from '../../assets/twilio-mark-red.svg'
-import { CreateNewConversation, ConversationsList } from '../../components'
+import {
+  CreateNewConversation,
+  ConversationsList,
+  Conversation
+} from '../../components'
 import { ConversationsContext } from '../../contexts'
 import {
   BadgeContainer,
@@ -26,7 +30,6 @@ export const ConversationsPage = (): JSX.Element => {
     identity,
     conversations,
     setConversations,
-    conversationContent,
     badgeStatus,
     setBadgeStatus,
     badgeText,
@@ -103,7 +106,9 @@ export const ConversationsPage = (): JSX.Element => {
             )}
           </Sider>
           <Content>
-            <SelectedConversation>{conversationContent}</SelectedConversation>
+            <SelectedConversation>
+              <Conversation />
+            </SelectedConversation>
           </Content>
         </Layout>
       </ConversationsWindowContainer>

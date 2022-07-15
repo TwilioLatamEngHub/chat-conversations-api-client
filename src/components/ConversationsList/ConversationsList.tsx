@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 
 import { ConversationsContext } from '../../contexts'
-import { Conversation } from '../Conversation/Conversation'
 import {
   StyledList,
   ConversationsListItem,
@@ -13,7 +12,7 @@ export const ConversationsList = (): JSX.Element => {
     isLoading,
     setMessages,
     conversations,
-    setConversationContent,
+    setConversation,
     identity,
     setIsLoading,
     localSid,
@@ -25,8 +24,23 @@ export const ConversationsList = (): JSX.Element => {
   const [sortedConvos, setSortedConvos] = useState<any[]>(conversations)
 
   useEffect(() => {
+    const convo = conversations.find(c => c.sid === localSid)
+
+    if (convo) {
+      convo.on('messageAdded', message => {
+        setIsLoading(true)
+        setMessages(oldMessages => [...oldMessages, message])
+        setIsLoading(false)
+      })
+    }
+  }, [])
+
+  useEffect(() => {
     const sortedArr = conversations.sort((a, b) => {
-      return a.dateCreated < b.dateCreated ? 1 : -1
+      if (a.dateCreated && b.dateCreated) {
+        return a.dateCreated < b.dateCreated ? 1 : -1
+      }
+      return 0
     })
     setSortedConvos(sortedArr)
   }, [setSortedConvos, conversations])
@@ -50,20 +64,14 @@ export const ConversationsList = (): JSX.Element => {
         )
         if (!isAlreadyParticipant) await convo.add(identity)
 
-        setConversationContent(<Conversation conversation={convo} />)
-
-        convo.on('messageAdded', message => {
-          setIsLoading(true)
-          setMessages(oldMessages => [...oldMessages, message])
-          setIsLoading(false)
-        })
+        setConversation(convo)
 
         setBadgeStatus('success')
         setBadgeText('Connected')
         setIsLoading(false)
       }
     } catch (error) {
-      setConversationContent(null)
+      setConversation(null)
       setIsLoading(false)
       console.log(error)
       setBadgeStatus('error')

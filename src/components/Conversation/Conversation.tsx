@@ -1,6 +1,5 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 import { Button, Form } from 'antd'
-import { Conversation as ConversationType } from '@twilio/conversations'
 
 import { ConversationMessages } from '../ConversationMessages'
 import {
@@ -15,14 +14,10 @@ import {
   StyledForm,
   StyledInput
 } from './Conversation.styles'
+import { ConversationsContext } from '../../contexts'
 
-export interface ConversationProps {
-  conversation: ConversationType
-}
-
-export const Conversation = ({
-  conversation
-}: ConversationProps): JSX.Element => {
+export const Conversation = (): JSX.Element => {
+  const { conversation } = useContext(ConversationsContext)
   const [newMessage, setNewMessage] = useState<string>('')
   const [buttonIsLoading, setButtonIsLoading] = useState<boolean>(false)
 
@@ -34,17 +29,19 @@ export const Conversation = ({
     setButtonIsLoading(true)
 
     try {
-      await conversation.sendMessage(newMessage)
+      if (conversation) {
+        await conversation.sendMessage(newMessage)
 
-      setNewMessage('')
-      setButtonIsLoading(false)
+        setNewMessage('')
+        setButtonIsLoading(false)
+      }
     } catch (error) {
       console.log(error)
       setButtonIsLoading(false)
     }
   }, [newMessage, setNewMessage])
 
-  return (
+  return conversation ? (
     <ConversationContainer>
       <ConversationMessages />
       <StyledForm size='large' layout='inline' onFinish={sendMessage}>
@@ -87,5 +84,7 @@ export const Conversation = ({
         </Button>
       </ButtonsContainer>
     </ConversationContainer>
+  ) : (
+    <div />
   )
 }
