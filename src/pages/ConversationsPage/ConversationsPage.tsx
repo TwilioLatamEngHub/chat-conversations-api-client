@@ -22,6 +22,7 @@ import {
   SyledText
 } from './ConversationsPage.styles'
 import { getConversations, getToken } from '../../services/functions'
+import { sortArray } from '../../helpers'
 
 const { Content, Sider } = Layout
 
@@ -52,9 +53,7 @@ export const ConversationsPage = (): JSX.Element => {
 
         const { conversations } = await getConversations()
         if (conversations.length > 0) {
-          const sortedArr = conversations.sort((a, b) => {
-            return a.dateCreated < b.dateCreated ? 1 : -1
-          })
+          const sortedArr = sortArray(conversations)
           setConversations(sortedArr)
         }
 

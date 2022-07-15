@@ -1,6 +1,8 @@
+import { Conversation } from '@twilio/conversations'
 import { useContext, useEffect, useState } from 'react'
 
 import { ConversationsContext } from '../../contexts'
+import { sortArray } from '../../helpers'
 import {
   StyledList,
   ConversationsListItem,
@@ -21,27 +23,11 @@ export const ConversationsList = (): JSX.Element => {
     setBadgeStatus,
     setBadgeText
   } = useContext(ConversationsContext)
-  const [sortedConvos, setSortedConvos] = useState<any[]>(conversations)
+  const [sortedConvos, setSortedConvos] =
+    useState<Conversation[]>(conversations)
 
   useEffect(() => {
-    const convo = conversations.find(c => c.sid === localSid)
-
-    if (convo) {
-      convo.on('messageAdded', message => {
-        setIsLoading(true)
-        setMessages(oldMessages => [...oldMessages, message])
-        setIsLoading(false)
-      })
-    }
-  }, [])
-
-  useEffect(() => {
-    const sortedArr = conversations.sort((a, b) => {
-      if (a.dateCreated && b.dateCreated) {
-        return a.dateCreated < b.dateCreated ? 1 : -1
-      }
-      return 0
-    })
+    const sortedArr = sortArray(conversations)
     setSortedConvos(sortedArr)
   }, [setSortedConvos, conversations])
 

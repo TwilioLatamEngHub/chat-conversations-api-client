@@ -3,6 +3,7 @@ import { Button, Form, Input, Modal } from 'antd'
 import { MessageOutlined } from '@ant-design/icons'
 
 import { ConversationsContext } from '../../contexts'
+import { useMessageChange } from '../../hooks'
 
 export const CreateNewConversationModal = (): JSX.Element => {
   const {
@@ -17,6 +18,7 @@ export const CreateNewConversationModal = (): JSX.Element => {
     setBadgeText,
     client
   } = useContext(ConversationsContext)
+  const { newMessage, onMessageChanged } = useMessageChange()
   const [isModalLoading, setIsModalLoading] = useState<boolean>(false)
 
   const initConversation = useCallback(async (friendlyName: string) => {
@@ -93,6 +95,9 @@ export const CreateNewConversationModal = (): JSX.Element => {
           <Input
             prefix={<MessageOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder='Conversation name'
+            onChange={onMessageChanged}
+            value={newMessage}
+            disabled={isModalLoading}
           />
         </Form.Item>
         <Form.Item>
