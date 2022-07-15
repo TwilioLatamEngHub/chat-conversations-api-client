@@ -1,6 +1,7 @@
 import { Spin } from 'antd'
 import { useContext, useEffect } from 'react'
 import { Message } from '@twilio/conversations'
+import { v4 } from 'uuid'
 
 import { ConversationsContext } from '../../contexts'
 import { MessageBubble } from '../MessageBubble'
@@ -52,12 +53,13 @@ export const ConversationMessages = ({
           <StyledUl>
             {hasMessages &&
               messages.map((m: Message) => {
+                const key = v4()
                 const direction =
                   m.author === identity ? 'outgoing' : 'incoming'
 
                 return (
                   <MessageBubble
-                    key={m.sid}
+                    key={key}
                     message={m}
                     messageDirection={direction}
                   />
