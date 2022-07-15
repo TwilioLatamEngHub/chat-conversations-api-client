@@ -97,7 +97,9 @@ export const AddParticipantButton = ({
       console.log(error)
       setIsLoading(false)
       setBadgeStatus('error')
-      setBadgeText('Unable to add participant')
+      setBadgeText(
+        'You cannot add participants, please ask the conversation creator'
+      )
     }
   }
 
