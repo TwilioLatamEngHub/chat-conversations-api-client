@@ -1,5 +1,5 @@
 import { Spin } from 'antd'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { Message } from '@twilio/conversations'
 import { v4 } from 'uuid'
 
@@ -12,8 +12,25 @@ import {
 } from './ConversationMessages.styles'
 
 export const ConversationMessages = (): JSX.Element => {
-  const { messages, identity, showModal, isLoading } =
-    useContext(ConversationsContext)
+  const {
+    conversation,
+    setIsLoading,
+    setMessages,
+    messages,
+    identity,
+    showModal,
+    isLoading
+  } = useContext(ConversationsContext)
+
+  useEffect(() => {
+    if (conversation) {
+      conversation.on('messageAdded', message => {
+        setIsLoading(true)
+        setMessages(oldMessages => [...oldMessages, message])
+        setIsLoading(false)
+      })
+    }
+  }, [conversation])
 
   const hasMessages = messages.length > 0
   const hasSpinner = showModal || isLoading
