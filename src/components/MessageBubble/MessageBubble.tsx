@@ -1,68 +1,21 @@
-import { useEffect, useRef, useState } from 'react'
-import { Spin, Modal } from 'antd'
+import { useEffect, useState } from 'react'
 import {
   WhatsAppOutlined,
   MessageOutlined,
-  MobileOutlined,
-  WarningOutlined,
-  EyeOutlined
+  MobileOutlined
 } from '@ant-design/icons'
-import styled, { css } from 'styled-components'
-
 import { ParticipantType, Message } from '@twilio/conversations'
-import { COLOR_TWILIO_RED, COLOR_NAVY_BLUE, COLOR_WHITE } from '../../helpers'
 
-type MessageDirection = 'outgoing' | 'incoming'
-
-export const BubbleIconWrapper = styled.div`
-  margin-right: 0.5rem;
-`
-
-export const BubbleHeader = styled.div`
-  display: flex;
-`
-
-export const StyledLi = styled.li`
-  display: inline-block;
-  padding: 0 0 0 10px;
-  vertical-align: top;
-  width: 92%;
-  margin: 1rem 0 1rem;
-`
-
-export const StyledDiv = styled.div<{
-  messageDirection: MessageDirection
-}>`
-  ${({ messageDirection }) =>
-    messageDirection === 'incoming'
-      ? css`
-          background: ${COLOR_NAVY_BLUE} none repeat scroll 0 0;
-          float: right;
-        `
-      : css`
-          background: ${COLOR_TWILIO_RED} none repeat scroll 0 0;
-        `};
-  border-radius: 3px;
-  color: ${COLOR_WHITE};
-  font-size: 14px;
-  margin: 0;
-  padding: 5px 10px 5px 12px;
-  width: 100%;
-  width: 40%;
-`
-
-export const BodyAuthorSpan = styled.span`
-  display: block;
-  color: ${COLOR_WHITE};
-  font-size: 14px;
-`
-
-export const DateSpan = styled.span`
-  color: ${COLOR_WHITE};
-  display: block;
-  font-size: 10px;
-  margin: 8px 0 0;
-`
+import {
+  BodyAuthorSpan,
+  BubbleHeader,
+  BubbleIconWrapper,
+  DateSpan,
+  MediaWrapper,
+  StyledDiv,
+  StyledLi
+} from './MessageBubble.styles'
+import { Media } from './Media'
 
 const handleBubbleIcon = (type: ParticipantType) => {
   if (type) {
@@ -78,6 +31,8 @@ const handleBubbleIcon = (type: ParticipantType) => {
     }
   }
 }
+
+export type MessageDirection = 'outgoing' | 'incoming'
 
 interface MessageBubbleProps {
   messageDirection: MessageDirection
@@ -105,22 +60,26 @@ export const MessageBubble = ({
         console.log(error)
       }
     }
+
+    const fetchMedia = async () => {
+      try {
+        const mediaArr = message.attachedMedia
+        if (mediaArr && mediaArr[0]) {
+          setHasMedia(true)
+          const url = await mediaArr[0].getContentTemporaryUrl()
+          setMediaUrl(url)
+        }
+      } catch (error) {
+        console.log(error)
+        setMediaDownloadFailed(true)
+      }
+    }
+
     fetchType()
+    fetchMedia()
 
     document.getElementById(message.sid)?.scrollIntoView({ behavior: 'smooth' })
   }, [])
-
-  // componentDidMount = async () => {
-  //   if (this.state.hasMedia) {
-  //     this.props.message.media
-  //       .getContentTemporaryUrl()
-  //       .then(url => {
-  //         this.setState({ mediaUrl: url })
-  //       })
-  //       .catch(e => this.setState({ mediaDownloadFailed: true }))
-  //   }
-  //   document.getElementById(this.props.message.sid)
-  // }
 
   // render = () => {
   //   const { itemStyle, divStyle } =
@@ -148,62 +107,11 @@ export const MessageBubble = ({
           <BodyAuthorSpan>{` ${message.author}`}</BodyAuthorSpan>
         </BubbleHeader>
         <BodyAuthorSpan>{message.body}</BodyAuthorSpan>
-        {/* <div className={styles.medias}>
-          {this.state.hasMedia && (
-            <Media
-              hasFailed={this.state.mediaDownloadFailed}
-              url={this.state.mediaUrl}
-            />
-          )}
-        </div> */}
+        <MediaWrapper>
+          {hasMedia && <Media hasFailed={mediaDownloadFailed} url={mediaUrl} />}
+        </MediaWrapper>
         <DateSpan>{messageDateCreated}</DateSpan>
       </StyledDiv>
     </StyledLi>
   )
 }
-// class Media extends PureComponent {
-//   render = () => {
-//     const { hasFailed, url } = this.props
-//     return (
-//       <div
-//         className={`${styles.media}${!url ? ' ' + styles.placeholder : ''}`}
-//         onClick={() => {
-//           Modal.info({
-//             centered: true,
-//             icon: null,
-//             okText: 'Close',
-//             width: '60%',
-//             content: (
-//               <div className={styles.picture_container}>
-//                 <img
-//                   style={{ width: '100%', height: '100%' }}
-//                   src={url}
-//                   alt={'an alternative'}
-//                 />
-//               </div>
-//             )
-//           })
-//         }}
-//       >
-//         {!url && !hasFailed && <Spin />}
-//         {hasFailed && (
-//           <div style={{ display: 'flex', flexDirection: 'column' }}>
-//             <WarningOutlined style={{ fontSize: '5em' }} />
-//             <p>Failed to load media</p>
-//           </div>
-//         )}
-//         {!hasFailed && url && (
-//           <div className={styles.media_icon}>
-//             <div style={{ zIndex: 123, position: 'absolute' }}>
-//               <EyeOutlined style={{ fontSize: '5em', opacity: 0.3 }} />
-//             </div>
-//             <div
-//               className={styles.picture_preview}
-//               style={{ backgroundImage: `url(${url})`, zIndex: 122 }}
-//             ></div>
-//           </div>
-//         )}
-//       </div>
-//     )
-//   }
-// }
