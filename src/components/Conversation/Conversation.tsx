@@ -1,5 +1,6 @@
-import { useCallback, useContext, useState } from 'react'
-import { Button, Form } from 'antd'
+import { useContext, useState } from 'react'
+import { Button, Form, Modal } from 'antd'
+import styled from 'styled-components'
 
 import { ConversationMessages } from '../ConversationMessages'
 import {
@@ -15,17 +16,30 @@ import {
   StyledInput
 } from './Conversation.styles'
 import { ConversationsContext } from '../../contexts'
+import { useMessageChange } from '../../hooks'
+import { getConversations } from '../../services/functions'
+import { sortArray } from '../../helpers'
+
+export const RemoveButton = styled(Button)`
+  min-width: 5rem;
+`
+
+const { confirm } = Modal
 
 export const Conversation = (): JSX.Element => {
-  const { conversation } = useContext(ConversationsContext)
-  const [newMessage, setNewMessage] = useState<string>('')
+  const {
+    conversation,
+    setConversation,
+    setIsLoading,
+    setBadgeStatus,
+    setBadgeText,
+    setLocalSid,
+    setConversations
+  } = useContext(ConversationsContext)
+  const { newMessage, setNewMessage, onMessageChanged } = useMessageChange()
   const [buttonIsLoading, setButtonIsLoading] = useState<boolean>(false)
 
-  const onMessageChanged = (event: any) => {
-    setNewMessage(event.target.value)
-  }
-
-  const sendMessage = useCallback(async () => {
+  const sendMessage = async () => {
     setButtonIsLoading(true)
 
     try {
@@ -39,7 +53,46 @@ export const Conversation = (): JSX.Element => {
       console.log(error)
       setButtonIsLoading(false)
     }
-  }, [newMessage, setNewMessage])
+  }
+
+  const handleRemove = async () => {
+    setBadgeStatus('warning')
+    setBadgeText('Removing conversation')
+    setIsLoading(true)
+
+    try {
+      if (conversation) {
+        await conversation.delete()
+        const { conversations } = await getConversations()
+
+        setConversation(null)
+        setLocalSid('')
+        const sortedArr = sortArray(conversations)
+        setConversations(sortedArr)
+
+        setBadgeStatus('success')
+        setBadgeText('Conversation removed')
+        setIsLoading(false)
+      }
+    } catch (error) {
+      console.log(error)
+      setBadgeStatus('error')
+      setBadgeText('Unable to remove the conversation')
+      setIsLoading(false)
+    }
+  }
+
+  const showDeleteConfirm = () => {
+    confirm({
+      title: 'Are you sure you want to delete this conversation?',
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk() {
+        handleRemove()
+      }
+    })
+  }
 
   return conversation ? (
     <ConversationContainer>
@@ -79,9 +132,9 @@ export const Conversation = (): JSX.Element => {
           conversation={conversation}
           binding={SMS_BINDING}
         />
-        <Button danger htmlType='submit' style={{ minWidth: '5rem' }}>
-          Remove
-        </Button>
+        <RemoveButton danger htmlType='submit' onClick={showDeleteConfirm}>
+          Delete Conversation
+        </RemoveButton>
       </ButtonsContainer>
     </ConversationContainer>
   ) : (
