@@ -16,15 +16,16 @@ import {
   StyledLi
 } from './MessageBubble.styles'
 import { Media } from './Media'
+import { CHAT_BINDING, SMS_BINDING, WA_BINDING } from '../Buttons'
 
 const handleBubbleIcon = (type: ParticipantType) => {
   if (type) {
     switch (type) {
-      case 'chat':
+      case CHAT_BINDING:
         return <MessageOutlined style={{ fontSize: '16px' }} />
-      case 'whatsapp':
+      case WA_BINDING:
         return <WhatsAppOutlined style={{ fontSize: '16px' }} />
-      case 'sms':
+      case SMS_BINDING:
         return <MobileOutlined />
       default:
         break
