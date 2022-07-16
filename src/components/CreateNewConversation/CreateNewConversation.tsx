@@ -10,7 +10,6 @@ export const CreateNewConversation = (): JSX.Element => {
 
   const handleOnClick = () => {
     setShowModal(true)
-    setIsLoading(true)
   }
 
   return (

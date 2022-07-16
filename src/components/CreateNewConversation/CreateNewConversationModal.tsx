@@ -4,6 +4,7 @@ import { MessageOutlined } from '@ant-design/icons'
 
 import { ConversationsContext } from '../../contexts'
 import { useMessageChange } from '../../hooks'
+import { sortArray } from '../../helpers'
 
 export const CreateNewConversationModal = (): JSX.Element => {
   const {
@@ -16,9 +17,10 @@ export const CreateNewConversationModal = (): JSX.Element => {
     setLocalSid,
     setBadgeStatus,
     setBadgeText,
-    client
+    client,
+    setMessages
   } = useContext(ConversationsContext)
-  const { newMessage, onMessageChanged } = useMessageChange()
+  const { newMessage, setNewMessage, onMessageChanged } = useMessageChange()
   const [isModalLoading, setIsModalLoading] = useState<boolean>(false)
 
   const initConversation = useCallback(async (friendlyName: string) => {
@@ -33,12 +35,15 @@ export const CreateNewConversationModal = (): JSX.Element => {
         })
         await newConversation.add(identity)
 
-        setConversations(oldConversations => [
-          ...oldConversations,
-          newConversation
-        ])
+        setConversations(oldConversations => {
+          const convos = [...oldConversations, newConversation]
+          return sortArray(convos)
+        })
 
+        setConversation(null)
         setConversation(newConversation)
+        setNewMessage('')
+        setMessages([])
         setLocalSid(newConversation.sid)
 
         setBadgeStatus('success')
@@ -55,8 +60,8 @@ export const CreateNewConversationModal = (): JSX.Element => {
   }, [])
 
   const handleCancel = () => {
+    setNewMessage('')
     setShowModal(false)
-    setIsLoading(false)
     setIsModalLoading(false)
   }
 
@@ -69,6 +74,7 @@ export const CreateNewConversationModal = (): JSX.Element => {
 
       await initConversation(friendlyName)
 
+      setNewMessage('')
       setShowModal(false)
       setIsLoading(false)
       setIsModalLoading(false)
