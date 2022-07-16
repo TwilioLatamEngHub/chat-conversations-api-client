@@ -1,5 +1,8 @@
 import { Conversation } from '@twilio/conversations'
 
+const URL_GET_CONVERSATIONS = process.env.REACT_APP_GET_CONVERSATIONS_URL
+const URL_GET_TOKEN = process.env.REACT_APP_GET_TOKEN
+
 const handleFetches = async (url: string, queries?: string) => {
   const fetchUrl = queries ? `${url}${queries}` : url
   return await fetch(fetchUrl)
@@ -16,16 +19,11 @@ interface GetTokenReturn {
   accessToken: string
 }
 
-export const getConversations = async (): Promise<GetConversationsReturn> => {
-  const url =
-    'https://chat-conversations-api-2099-dev.twil.io/get-conversations'
-
-  return await handleFetches(url)
-}
+export const getConversations = async (): Promise<GetConversationsReturn> =>
+  URL_GET_CONVERSATIONS && (await handleFetches(URL_GET_CONVERSATIONS))
 
 export const getToken = async (identity: string): Promise<GetTokenReturn> => {
-  const url = 'https://chat-conversations-api-2099-dev.twil.io/get-token'
   const queries = `?identity=${identity}`
 
-  return await handleFetches(url, queries)
+  return URL_GET_TOKEN && (await handleFetches(URL_GET_TOKEN, queries))
 }
