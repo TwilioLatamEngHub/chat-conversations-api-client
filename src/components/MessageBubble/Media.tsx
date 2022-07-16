@@ -1,8 +1,8 @@
+import { useEffect } from 'react'
 import { Spin, Modal } from 'antd'
 import { WarningOutlined } from '@ant-design/icons'
 import { Message } from '@twilio/conversations'
 
-import { useEffect } from 'react'
 import {
   MediaWrapper,
   PictureContainer,
@@ -11,14 +11,21 @@ import {
   StyledImage,
   WarningWrapper
 } from './Media.styles'
+import { MessageDirection } from './MessageBubble'
 
 interface MediaProps {
   hasFailed: boolean
   url: string | null
   message: Message
+  messageDirection: MessageDirection
 }
 
-export const Media = ({ hasFailed, url, message }: MediaProps): JSX.Element => {
+export const Media = ({
+  hasFailed,
+  url,
+  message,
+  messageDirection
+}: MediaProps): JSX.Element => {
   useEffect(() => {
     document.getElementById(message.sid)?.scrollIntoView({ behavior: 'smooth' })
   }, [])
@@ -47,7 +54,7 @@ export const Media = ({ hasFailed, url, message }: MediaProps): JSX.Element => {
         </WarningWrapper>
       )}
       {!hasFailed && url && (
-        <PicturePreviewContainer>
+        <PicturePreviewContainer messageDirection={messageDirection}>
           <StyledEyeOutlined />
           <p>Click here to see the media</p>
         </PicturePreviewContainer>

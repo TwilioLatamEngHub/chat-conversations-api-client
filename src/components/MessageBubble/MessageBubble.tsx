@@ -105,6 +105,7 @@ export const MessageBubble = ({
             hasFailed={mediaDownloadFailed}
             url={mediaUrl}
             message={message}
+            messageDirection={messageDirection}
           />
         )}
         <DateSpan>{messageDateCreated}</DateSpan>

@@ -96,12 +96,36 @@ export const Conversation = (): JSX.Element => {
     })
   }
 
+  // TODO: Add feature to send Media
+
+  // const handleUpload = async () => {
+  //   if (formData) {
+  //     setButtonIsLoading(true)
+  //     await conversation?.sendMessage(formData)
+  //     setButtonIsLoading(false)
+  //   }
+  // }
+
+  // const props: UploadProps = {
+  //   showUploadList: false,
+  //   onChange(info) {
+  //     const formData = new FormData()
+  //     formData.append('file', info.file.originFileObj)
+  //     setFormData(formData)
+  //   }
+  // }
+
   return conversation ? (
     <ConversationContainer>
       <ConversationMessages />
       <StyledForm size='large' layout='inline' onFinish={sendMessage}>
         <Form.Item>
           <StyledInput
+            // prefix={
+            //   <Upload {...props}>
+            //     <FileImageOutlined style={{ cursor: 'pointer' }} />
+            //   </Upload>
+            // }
             placeholder={'Type your message here...'}
             type={'text'}
             name={'message'}

@@ -1,7 +1,8 @@
 import { EyeOutlined } from '@ant-design/icons'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-import { COLOR_TWILIO_RED } from '../../helpers'
+import { COLOR_NAVY_BLUE, COLOR_TWILIO_RED } from '../../helpers'
+import { MessageDirection } from './MessageBubble'
 
 export const MediaWrapper = styled.div`
   display: flex;
@@ -32,7 +33,9 @@ export const StyledEyeOutlined = styled(EyeOutlined)`
   font-size: 3rem;
 `
 
-export const PicturePreviewContainer = styled.div`
+export const PicturePreviewContainer = styled.div<{
+  messageDirection: MessageDirection
+}>`
   display: flex;
   flex-direction: column;
   -webkit-transition: color 0.5s ease-out !important;
@@ -40,7 +43,16 @@ export const PicturePreviewContainer = styled.div`
   -o-transition: color 0.5s ease-out !important;
   transition: color 0.5s ease-out !important;
 
-  &:hover {
-    color: ${COLOR_TWILIO_RED} !important;
-  }
+  ${({ messageDirection }) =>
+    messageDirection === 'incoming'
+      ? css`
+          &:hover {
+            color: ${COLOR_TWILIO_RED} !important;
+          }
+        `
+      : css`
+          &:hover {
+            color: ${COLOR_NAVY_BLUE} !important;
+          }
+        `};
 `

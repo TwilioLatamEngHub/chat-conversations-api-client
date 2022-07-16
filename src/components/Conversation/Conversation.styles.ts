@@ -19,6 +19,8 @@ export const StyledForm = styled(Form)`
 `
 
 export const StyledInput = styled(Input)`
+  display: flex;
+  flex-direction: row-reverse;
   width: 40rem;
   font-size: 14px;
 `
