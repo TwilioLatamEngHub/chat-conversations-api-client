@@ -19,10 +19,16 @@ export const StyledLi = styled.li`
   margin: 1rem 0 1rem;
 `
 
-export const BodyAuthorSpan = styled.span`
+export const BubbleHeaderSpan = styled.span`
   display: block;
   color: ${COLOR_WHITE};
   font-size: 14px;
+`
+
+export const BodySpan = styled.span`
+  display: block;
+  color: ${COLOR_WHITE};
+  font-size: 18px;
 `
 
 export const DateSpan = styled.span`
@@ -30,13 +36,6 @@ export const DateSpan = styled.span`
   display: block;
   font-size: 10px;
   margin: 8px 0 0;
-`
-
-export const MediaWrapper = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-content: center;
-  flex-flow: wrap;
 `
 
 export const StyledDiv = styled.div<{
@@ -51,6 +50,8 @@ export const StyledDiv = styled.div<{
       : css`
           background: ${COLOR_TWILIO_RED} none repeat scroll 0 0;
         `};
+  display: flex;
+  flex-direction: column;
   border-radius: 3px;
   color: ${COLOR_WHITE};
   font-size: 14px;

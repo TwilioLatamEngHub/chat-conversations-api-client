@@ -7,11 +7,11 @@ import {
 import { ParticipantType, Message } from '@twilio/conversations'
 
 import {
-  BodyAuthorSpan,
+  BodySpan,
   BubbleHeader,
+  BubbleHeaderSpan,
   BubbleIconWrapper,
   DateSpan,
-  MediaWrapper,
   StyledDiv,
   StyledLi
 } from './MessageBubble.styles'
@@ -49,7 +49,15 @@ export const MessageBubble = ({
   const [mediaDownloadFailed, setMediaDownloadFailed] = useState<boolean>(false)
   const [mediaUrl, setMediaUrl] = useState<string | null>(null)
 
-  const messageDateCreated = message.dateCreated?.toLocaleString()
+  const messageDateCreated = message.dateCreated?.toLocaleString('en-US', {
+    weekday: 'short',
+    day: '2-digit',
+    month: '2-digit',
+    year: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  })
 
   useEffect(() => {
     const fetchType = async () => {
@@ -77,25 +85,9 @@ export const MessageBubble = ({
 
     fetchType()
     fetchMedia()
-
-    document.getElementById(message.sid)?.scrollIntoView({ behavior: 'smooth' })
   }, [])
 
-  // render = () => {
-  //   const { itemStyle, divStyle } =
-  //     this.props.direction === 'incoming'
-  //       ? {
-  //           itemStyle: styles.received_msg,
-  //           divStyle: styles.received_withd_msg
-  //         }
-  //       : { itemStyle: styles.outgoing_msg, divStyle: styles.sent_msg }
-  //   const m = this.props.message
-  //   const type = this.state.type
-  //   if (this.state.hasMedia) {
-  //     console.log('Message is media message')
-  //     // log media properties
-  //     console.log('Media properties', m.media)
-  //   }
+  document.getElementById(message.sid)?.scrollIntoView({ behavior: 'smooth' })
 
   return (
     <StyledLi id={message.sid}>
@@ -104,12 +96,16 @@ export const MessageBubble = ({
           <BubbleIconWrapper>
             {participantType && handleBubbleIcon(participantType)}
           </BubbleIconWrapper>
-          <BodyAuthorSpan>{` ${message.author}`}</BodyAuthorSpan>
+          <BubbleHeaderSpan>{` ${message.author}`}</BubbleHeaderSpan>
         </BubbleHeader>
-        <BodyAuthorSpan>{message.body}</BodyAuthorSpan>
-        <MediaWrapper>
-          {hasMedia && <Media hasFailed={mediaDownloadFailed} url={mediaUrl} />}
-        </MediaWrapper>
+        <BodySpan>{message.body}</BodySpan>
+        {hasMedia && (
+          <Media
+            hasFailed={mediaDownloadFailed}
+            url={mediaUrl}
+            message={message}
+          />
+        )}
         <DateSpan>{messageDateCreated}</DateSpan>
       </StyledDiv>
     </StyledLi>
