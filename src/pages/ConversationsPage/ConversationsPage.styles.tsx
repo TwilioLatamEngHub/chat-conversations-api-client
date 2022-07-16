@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 import { Layout, Typography } from 'antd'
-import { COLOR_WHITE } from '../../helpers'
 import { PoweroffOutlined } from '@ant-design/icons'
+
+import { COLOR_TWILIO_RED, COLOR_WHITE } from '../../helpers'
 
 const { Header } = Layout
 const { Text } = Typography
@@ -48,6 +49,14 @@ export const StyledPoweroffOutlined = styled(PoweroffOutlined)`
   color: ${COLOR_WHITE};
   font-size: 1.25rem;
   cursor: pointer;
+  -webkit-transition: color 0.5s ease-out !important;
+  -moz-transition: color 0.5s ease-out !important;
+  -o-transition: color 0.5s ease-out !important;
+  transition: color 0.5s ease-out !important;
+
+  &:hover {
+    color: ${COLOR_TWILIO_RED} !important;
+  }
 `
 
 export const SelectedConversation = styled.div`
