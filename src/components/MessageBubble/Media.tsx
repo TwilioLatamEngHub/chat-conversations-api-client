@@ -25,7 +25,6 @@ export const Media = ({ hasFailed, url, message }: MediaProps): JSX.Element => {
 
   return (
     <MediaWrapper
-      hasUrl={url}
       onClick={() => {
         Modal.info({
           centered: true,
@@ -51,7 +50,6 @@ export const Media = ({ hasFailed, url, message }: MediaProps): JSX.Element => {
         <PicturePreviewContainer>
           <StyledEyeOutlined />
           <p>Click here to see the media</p>
-          {/* <StyledImage src={url} alt={'an alternative'} /> */}
         </PicturePreviewContainer>
       )}
     </MediaWrapper>

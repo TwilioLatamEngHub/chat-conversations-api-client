@@ -3,17 +3,13 @@ import styled from 'styled-components'
 
 import { COLOR_TWILIO_RED } from '../../helpers'
 
-export const MediaWrapper = styled.div<{ hasUrl: string | null }>`
-  border-radius: 4px;
-  cursor: pointer;
-  margin: 4px;
+export const MediaWrapper = styled.div`
   display: flex;
-  width: 220px;
-  height: 220px;
   justify-content: center;
+  cursor: pointer;
   align-items: center;
-  background: ${({ hasUrl }) => (hasUrl ? '' : 'rgba(22, 46, 52, 0.58)')};
-  align-self: center;
+  min-height: 8rem;
+  margin-top: 1rem;
 `
 
 export const PictureContainer = styled.div`
@@ -33,25 +29,18 @@ export const WarningWrapper = styled.div`
 `
 
 export const StyledEyeOutlined = styled(EyeOutlined)`
-  color: ${COLOR_TWILIO_RED};
-  font-size: 5rem;
+  font-size: 3rem;
 `
 
 export const PicturePreviewContainer = styled.div`
-  margin: 4px;
-  position: relative;
-  border-radius: 4px;
-  top: 0;
-  overflow: hidden;
-  height: 220px;
-  width: 220px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  flex-basis: 220px;
+  flex-direction: column;
+  -webkit-transition: color 0.5s ease-out !important;
+  -moz-transition: color 0.5s ease-out !important;
+  -o-transition: color 0.5s ease-out !important;
+  transition: color 0.5s ease-out !important;
 
   &:hover {
-    filter: blur(0px);
+    color: ${COLOR_TWILIO_RED} !important;
   }
 `

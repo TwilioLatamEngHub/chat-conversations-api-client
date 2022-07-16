@@ -28,7 +28,7 @@ export const BubbleHeaderSpan = styled.span`
 export const BodySpan = styled.span`
   display: block;
   color: ${COLOR_WHITE};
-  font-size: 18px;
+  font-size: 14px;
 `
 
 export const DateSpan = styled.span`

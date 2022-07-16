@@ -85,9 +85,9 @@ export const MessageBubble = ({
 
     fetchType()
     fetchMedia()
-  }, [])
 
-  document.getElementById(message.sid)?.scrollIntoView({ behavior: 'smooth' })
+    document.getElementById(message.sid)?.scrollIntoView({ behavior: 'smooth' })
+  }, [])
 
   return (
     <StyledLi id={message.sid}>
