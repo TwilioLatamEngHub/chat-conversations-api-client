@@ -6,7 +6,7 @@ import { ConversationsContext } from '../../contexts'
 import { CreateNewConversationModal } from './CreateNewConversationModal'
 
 export const CreateNewConversation = (): JSX.Element => {
-  const { setShowModal, setIsLoading } = useContext(ConversationsContext)
+  const { setShowModal } = useContext(ConversationsContext)
 
   const handleOnClick = () => {
     setShowModal(true)
