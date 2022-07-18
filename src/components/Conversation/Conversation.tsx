@@ -44,7 +44,6 @@ export const Conversation = (): JSX.Element => {
   } = useContext(ConversationsContext)
   const { newMessage, setNewMessage, onMessageChanged } = useMessageChange()
   const [buttonIsLoading, setButtonIsLoading] = useState<boolean>(false)
-  const [defaultValue, setDefaultValue] = useState<string>('')
 
   const sendMessage = async () => {
     setButtonIsLoading(true)
@@ -105,7 +104,6 @@ export const Conversation = (): JSX.Element => {
 
   const handleSelectChange = (value: string) => {
     setNewMessage(value)
-    setDefaultValue('')
   }
 
   // TODO: Add feature to send Media
