@@ -14,7 +14,7 @@ export const StyledForm = styled(Form)`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 5rem;
+  height: 8rem;
   background-color: ${COLOR_TWILIO_RED};
 `
 

@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react'
-import { Button, Form, Modal } from 'antd'
+import { Button, Form, Modal, Select } from 'antd'
 import styled from 'styled-components'
 
 import { ConversationMessages } from '../ConversationMessages'
@@ -25,6 +25,12 @@ export const RemoveButton = styled(Button)`
 `
 
 const { confirm } = Modal
+const { Option } = Select
+
+const templateOne =
+  'Thank you for purchasing Stranger! We value your feedback and would like to learn more about your experience.'
+const templateTwo =
+  'Hi Stranger, were we able to solve the issue that you were facing?'
 
 export const Conversation = (): JSX.Element => {
   const {
@@ -38,6 +44,7 @@ export const Conversation = (): JSX.Element => {
   } = useContext(ConversationsContext)
   const { newMessage, setNewMessage, onMessageChanged } = useMessageChange()
   const [buttonIsLoading, setButtonIsLoading] = useState<boolean>(false)
+  const [defaultValue, setDefaultValue] = useState<string>('')
 
   const sendMessage = async () => {
     setButtonIsLoading(true)
@@ -96,6 +103,11 @@ export const Conversation = (): JSX.Element => {
     })
   }
 
+  const handleSelectChange = (value: string) => {
+    setNewMessage(value)
+    setDefaultValue('')
+  }
+
   // TODO: Add feature to send Media
 
   // const handleUpload = async () => {
@@ -134,6 +146,16 @@ export const Conversation = (): JSX.Element => {
             value={newMessage}
             disabled={buttonIsLoading}
           />
+          <Select
+            placeholder={'WhatsApp Templates'}
+            // defaultValue={'Choose a WhatsApp Template here'}
+            // value={defaultValue}
+            style={{ width: '40rem', fontSize: '14px', marginTop: '0.5rem' }}
+            onChange={handleSelectChange}
+          >
+            <Option value={templateOne}>{templateOne}</Option>
+            <Option value={templateTwo}>{templateTwo}</Option>
+          </Select>
         </Form.Item>
         <Form.Item>
           <Button
