@@ -22,4 +22,4 @@ You will need a backend service for this app to work.
 
 There you can find more details on how to set it up correctly.
 
-After setting up the backend, you just need to clone this repo, `npm install` and `npm start` to run it.
+After setting up the backend, you just need to clone this repo, add the functions URLs to a `.env` according to the `.env.example`, `npm install` and `npm start` to run it.
