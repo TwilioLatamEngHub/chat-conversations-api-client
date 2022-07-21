@@ -147,7 +147,15 @@ export const AddParticipantButton = ({
           <p style={{ marginTop: '1em' }}>
             <strong>IMPORTANT:</strong> After you submit your number, you need
             to send a WhatsApp message to +5511952130034 in order to participate
-            in the conversation.
+            in the conversation, otherwise your number will be only reachable
+            through WhatsApp Templates.{' '}
+            <a
+              href='https://www.twilio.com/docs/conversations/using-whatsapp-conversations'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              More info on how to use WhatsApp with Conversations here.
+            </a>
           </p>
         )}
       </Modal>
