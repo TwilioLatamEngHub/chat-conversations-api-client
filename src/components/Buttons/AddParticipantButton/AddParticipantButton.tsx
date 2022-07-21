@@ -13,8 +13,8 @@ import {
   SMS_BINDING,
   WA_BINDING
 } from './AddParticipantButton.types'
-import { ConversationsContext } from '../../contexts'
-import { COLOR_NAVY_BLUE } from '../../helpers'
+import { ConversationsContext } from '../../../contexts'
+import { COLOR_NAVY_BLUE } from '../../../helpers'
 
 const StyledButton = styled(Button)`
   color: ${COLOR_NAVY_BLUE} !important;
