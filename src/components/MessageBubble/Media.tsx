@@ -37,7 +37,6 @@ export const Media = ({
           centered: true,
           icon: null,
           okText: 'Close',
-          width: '60%',
           content: (
             <PictureContainer>
               {url && <StyledImage src={url} alt={'an alternative'} />}
