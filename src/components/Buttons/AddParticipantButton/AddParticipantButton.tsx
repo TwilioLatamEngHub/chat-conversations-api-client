@@ -93,6 +93,7 @@ export const AddParticipantButton = ({
       setIsLoading(false)
       setBadgeStatus('success')
       setBadgeText('Participant added')
+      setParticipant('')
     } catch (error) {
       console.log(error)
       setIsLoading(false)
