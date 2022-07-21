@@ -1,7 +1,7 @@
 import { List, Typography } from 'antd'
 import styled from 'styled-components'
 
-import { COLOR_TWILIO_RED, COLOR_NAVY_BLUE } from '../../helpers'
+import { COLOR_TWILIO_RED, COLOR_NAVY_BLUE, COLOR_WHITE } from '../../helpers'
 
 const { Text } = Typography
 
@@ -32,5 +32,5 @@ export const ConversationsListItem = styled(List.Item)<{
 `
 
 export const StyledText = styled(Text)`
-  color: #fff;
+  color: ${COLOR_WHITE};
 `

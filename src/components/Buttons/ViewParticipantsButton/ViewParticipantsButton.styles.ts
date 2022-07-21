@@ -1,7 +1,11 @@
 import { Button, Typography } from 'antd'
 import styled from 'styled-components'
 
-import { COLOR_NAVY_BLUE, COLOR_TWILIO_RED } from '../../../helpers'
+import {
+  COLOR_NAVY_BLUE,
+  COLOR_TWILIO_RED,
+  COLOR_WHITE
+} from '../../../helpers'
 
 const { Text } = Typography
 
@@ -15,7 +19,7 @@ export const ConvoHeaderContainer = styled.div`
 `
 
 export const FriendlyName = styled(Text)`
-  color: #fff;
+  color: ${COLOR_WHITE};
   font-weight: bold;
   font-size: 16px;
   margin-left: 1rem;
