@@ -7,7 +7,7 @@ export const ConversationContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex-basis: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
 `
 
 export const StyledForm = styled(Form)`
