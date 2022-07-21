@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Form, Input } from 'antd'
+import { Form, Input, Button } from 'antd'
 
 import { COLOR_TWILIO_RED, COLOR_NAVY_BLUE } from '../../helpers'
 
@@ -31,4 +31,8 @@ export const ButtonsContainer = styled.div`
   align-items: center;
   height: 5rem;
   background-color: ${COLOR_NAVY_BLUE};
+`
+
+export const RemoveButton = styled(Button)`
+  min-width: 5rem;
 `

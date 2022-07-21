@@ -1,10 +1,10 @@
 import { useContext, useState } from 'react'
 import { Button, Form, Modal, Select } from 'antd'
-import styled from 'styled-components'
 
 import { ConversationMessages } from '../ConversationMessages'
 import {
   AddParticipantButton,
+  ViewParticipantsButton,
   WA_BINDING,
   SMS_BINDING,
   CHAT_BINDING
@@ -12,6 +12,7 @@ import {
 import {
   ButtonsContainer,
   ConversationContainer,
+  RemoveButton,
   StyledForm,
   StyledInput
 } from './Conversation.styles'
@@ -19,10 +20,6 @@ import { ConversationsContext } from '../../contexts'
 import { useMessageChange } from '../../hooks'
 import { getConversations } from '../../services/functions'
 import { sortArray } from '../../helpers'
-
-export const RemoveButton = styled(Button)`
-  min-width: 5rem;
-`
 
 const { confirm } = Modal
 const { Option } = Select
@@ -44,6 +41,7 @@ export const Conversation = (): JSX.Element => {
   } = useContext(ConversationsContext)
   const { newMessage, setNewMessage, onMessageChanged } = useMessageChange()
   const [buttonIsLoading, setButtonIsLoading] = useState<boolean>(false)
+  // const [formData, setFormData] = useState<FormData | null>(null)
 
   const sendMessage = async () => {
     setButtonIsLoading(true)
@@ -106,7 +104,8 @@ export const Conversation = (): JSX.Element => {
     setNewMessage(value)
   }
 
-  // TODO: Add feature to send Media
+  // TODO: Add feat to send media. Currently antd's Upload is behaving awkwardly,
+  // further investigation needed.
 
   // const handleUpload = async () => {
   //   if (formData) {
@@ -120,13 +119,14 @@ export const Conversation = (): JSX.Element => {
   //   showUploadList: false,
   //   onChange(info) {
   //     const formData = new FormData()
-  //     formData.append('file', info.file.originFileObj)
+  //     formData.append('file', info.file.originFileObj as Blob)
   //     setFormData(formData)
   //   }
   // }
 
   return conversation ? (
     <ConversationContainer>
+      <ViewParticipantsButton />
       <ConversationMessages />
       <StyledForm size='large' layout='inline' onFinish={sendMessage}>
         <Form.Item>
@@ -146,8 +146,6 @@ export const Conversation = (): JSX.Element => {
           />
           <Select
             placeholder={'WhatsApp Templates'}
-            // defaultValue={'Choose a WhatsApp Template here'}
-            // value={defaultValue}
             style={{ width: '40rem', fontSize: '14px', marginTop: '0.5rem' }}
             onChange={handleSelectChange}
           >
