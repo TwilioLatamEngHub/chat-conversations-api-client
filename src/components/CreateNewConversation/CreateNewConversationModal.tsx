@@ -30,7 +30,6 @@ export const CreateNewConversationModal = (): JSX.Element => {
     try {
       if (client) {
         const newConversation = await client.createConversation({
-          attributes: { createdBy: identity },
           friendlyName: friendlyName
         })
         await newConversation.add(identity)
