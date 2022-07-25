@@ -15,13 +15,12 @@ import {
 } from './AddParticipantButton.types'
 import { ConversationsContext } from '../../../contexts'
 import { COLOR_NAVY_BLUE } from '../../../helpers'
+import { addParticipant } from '../../../services/functions'
 
 const StyledButton = styled(Button)`
   color: ${COLOR_NAVY_BLUE} !important;
   border-color: ${COLOR_NAVY_BLUE} !important;
 `
-
-const TWILIO_NUMBER = '+5511952130034'
 
 export const AddParticipantButton = ({
   binding,
@@ -76,19 +75,11 @@ export const AddParticipantButton = ({
     setIsVisible(false)
 
     try {
-      if (binding === CHAT_BINDING) {
-        await conversation.add(participant)
-      }
-      if (binding === WA_BINDING) {
-        const proxy = `whatsapp:${TWILIO_NUMBER}`
-        const address = `whatsapp:${participant}`
-        await conversation.addNonChatParticipant(proxy, address)
-      }
-      if (binding === SMS_BINDING) {
-        const proxy = TWILIO_NUMBER
-        const address = participant
-        await conversation.addNonChatParticipant(proxy, address)
-      }
+      await addParticipant({
+        participantType: binding,
+        conversationSid: conversation.sid,
+        identity: participant
+      })
 
       setIsLoading(false)
       setBadgeStatus('success')
