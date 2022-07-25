@@ -18,7 +18,6 @@ import {
 } from './Conversation.styles'
 import { ConversationsContext } from '../../contexts'
 import { useMessageChange } from '../../hooks'
-import { getConversations } from '../../services/functions'
 import { sortArray } from '../../helpers'
 
 const { confirm } = Modal
@@ -31,6 +30,7 @@ const templateTwo =
 
 export const Conversation = (): JSX.Element => {
   const {
+    client,
     conversation,
     setConversation,
     setIsLoading,
@@ -67,16 +67,19 @@ export const Conversation = (): JSX.Element => {
     try {
       if (conversation) {
         await conversation.delete()
-        const { conversations } = await getConversations()
 
-        setConversation(null)
-        setLocalSid('')
-        const sortedArr = sortArray(conversations)
-        setConversations(sortedArr)
+        if (client) {
+          const { items } = await client.getSubscribedConversations()
 
-        setBadgeStatus('success')
-        setBadgeText('Conversation removed')
-        setIsLoading(false)
+          setConversation(null)
+          setLocalSid('')
+          const sortedArr = sortArray(items)
+          setConversations(sortedArr)
+
+          setBadgeStatus('success')
+          setBadgeText('Conversation removed')
+          setIsLoading(false)
+        }
       }
     } catch (error) {
       console.log(error)
