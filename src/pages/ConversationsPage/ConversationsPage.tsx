@@ -21,7 +21,7 @@ import {
   SyledHeader,
   SyledText
 } from './ConversationsPage.styles'
-import { getConversations, getToken } from '../../services/functions'
+import { getToken } from '../../services/functions'
 import { sortArray } from '../../helpers'
 
 const { Content, Sider } = Layout
@@ -51,9 +51,9 @@ export const ConversationsPage = (): JSX.Element => {
         const client = new Client(accessToken)
         setClient(client)
 
-        const { conversations } = await getConversations()
-        if (conversations.length > 0) {
-          const sortedArr = sortArray(conversations)
+        const { items } = await client.getSubscribedConversations()
+        if (items.length > 0) {
+          const sortedArr = sortArray(items)
           setConversations(sortedArr)
         }
 
