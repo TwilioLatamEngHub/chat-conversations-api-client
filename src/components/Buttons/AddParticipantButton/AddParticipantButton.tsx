@@ -75,11 +75,19 @@ export const AddParticipantButton = ({
     setIsVisible(false)
 
     try {
-      await addParticipant({
-        participantType: binding,
-        conversationSid: conversation.sid,
-        identity: participant
-      })
+      if (binding === CHAT_BINDING) {
+        await addParticipant({
+          participantType: binding,
+          conversationSid: conversation.sid,
+          identity: participant
+        })
+      } else {
+        await addParticipant({
+          participantType: binding,
+          conversationSid: conversation.sid,
+          number: participant
+        })
+      }
 
       setIsLoading(false)
       setBadgeStatus('success')
