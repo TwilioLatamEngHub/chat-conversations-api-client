@@ -8,8 +8,13 @@ const handleFetches = async (url: string, queries?: string) => {
   const fetchUrl = queries ? `${url}${queries}` : url
   return await fetch(fetchUrl)
     .then(res => res.json())
-    .then(data => data)
-    .catch(err => err)
+    .then(data => {
+      if (data.error) {
+        throw new Error(data.error)
+      } else {
+        return data
+      }
+    })
 }
 
 interface AddParticipantParams {
