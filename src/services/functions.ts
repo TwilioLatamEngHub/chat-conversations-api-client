@@ -1,7 +1,6 @@
-import { Conversation, ParticipantType } from '@twilio/conversations'
+import { ParticipantType } from '@twilio/conversations'
 
 const URL_ADD_PARTICIPANT = process.env.REACT_APP_ADD_PARTICIPANT_URL
-const URL_GET_CONVERSATIONS = process.env.REACT_APP_GET_CONVERSATIONS_URL
 const URL_GET_TOKEN = process.env.REACT_APP_GET_TOKEN
 
 const handleFetches = async (url: string, queries?: string) => {
@@ -28,10 +27,6 @@ interface AddParticipantReturn {
   participantSid: string
 }
 
-interface GetConversationsReturn {
-  conversations: Conversation[]
-}
-
 interface GetTokenReturn {
   accessToken: string
 }
@@ -56,9 +51,6 @@ export const addParticipant = async ({
     URL_ADD_PARTICIPANT && (await handleFetches(URL_ADD_PARTICIPANT, queries))
   )
 }
-
-export const getConversations = async (): Promise<GetConversationsReturn> =>
-  URL_GET_CONVERSATIONS && (await handleFetches(URL_GET_CONVERSATIONS))
 
 export const getToken = async (identity: string): Promise<GetTokenReturn> => {
   const queries = `?identity=${identity}`
