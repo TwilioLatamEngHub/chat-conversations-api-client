@@ -23,8 +23,7 @@ import { sortArray } from '../../helpers'
 const { confirm } = Modal
 const { Option } = Select
 
-const templateOne =
-  'Thank you for purchasing Stranger! We value your feedback and would like to learn more about your experience.'
+const templateOne = 'HX773d03e435eafc2eca23549a3102f3fe'
 const templateTwo =
   'Hi Stranger, were we able to solve the issue that you were facing?'
 
@@ -48,7 +47,16 @@ export const Conversation = (): JSX.Element => {
 
     try {
       if (conversation) {
-        await conversation.sendMessage(newMessage)
+        if (newMessage.includes('HX')) {
+          await conversation
+            .prepareMessage()
+            .setBody('')
+            .setContentTemplate(newMessage)
+            .build()
+            .send()
+        } else {
+          await conversation.sendMessage(newMessage)
+        }
 
         setNewMessage('')
         setButtonIsLoading(false)
